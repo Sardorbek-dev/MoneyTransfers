@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+<title>{% block title %} Articles {% endblock title %}</title>
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h1>Articles</h1>
+        {% if user.is_authenticated %}
+            <buttun class="ui red button"><a href="{% url 'article_new' %}">Add posts</a></buttun>
+        {% endif %}
+        {% for article in object_list %}
+            <div class="ui centered card">
+                {% if article.photo %}
+                    <div class="image">
+                        <img src="{{ article.photo.url }}" alt="{{ article.title }}">
+                    </div>
+                {% endif %}
+                <div class="content">
+                    <a class="header">{{ article.title }}</a>
+                    <div class="description">
+                        {{ article.body | slice:":100"  }}
+                    </div>
+                    <div class="meta">
+                        <a>Author: {{ article.author | title }} - {{ article.date }}</a>
+                    </div>
+                </div>
+                <button class="ui red button">
+                    <a href="{% url 'article_detail' article.pk %}">learn more...</a>
+                </button>
+            </div>
+        <br/>
+        {% endfor %}
+    </div>
+      <div class="col-2"></div>
+  </div>
+</div>
+ {% endblock content %}

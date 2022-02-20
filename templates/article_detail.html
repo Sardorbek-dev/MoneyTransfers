@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="ui centered card">
+            {% if object.photo %}
+                <div class="image">
+                    <img src="{{ object.photo.url }}" alt="{{ object.title }}">
+                </div>
+            {% endif %}
+            <div class="content">
+                <a class="header">{{ object.title }}</a>
+                <div class="description">
+                    {{ object.body | safe }}
+                </div>
+                <div class="meta">
+                    <a>Author: {{ object.author | title }} - {{ object.date }}</a>
+                </div>
+            </div>
+            <button class="ui yellow button"><a class="item" href="{% url 'article_edit' article.pk %}">Edit</a></button>
+            <button class="ui red button"><a class="item" href="{% url 'article_delete' article.pk %}">Delete</a></button>
+            <button class="ui violet button"><a class="item" href="{% url 'article_list' %}">All articles</a></button>
+        </div>
+        <div class="ui cards">
+          <div class="card">
+            <div class="content">
+              <div class="header">Comments</div>
+                {% for comment in article.comments.all %}
+                    <div class="meta">{{ comment.author }}</div>
+                    <div class="description">
+                        {{ comment }}
+                    </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+        <br/>
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div>
+ {% endblock content %}
