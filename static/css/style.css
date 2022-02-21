@@ -1,3 +1,5 @@
-.asa{
-    color: 'green'
+.ui.inverted.segment,
+.ui.primary.inverted.segment {
+    background: #001021;
+    color: rgba(255, 255, 255, 0.9);
 }

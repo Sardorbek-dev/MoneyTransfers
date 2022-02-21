@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'articles',
+    'transfers',
 ]
 
 MIDDLEWARE = [

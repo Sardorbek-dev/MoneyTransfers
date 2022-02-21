@@ -13,31 +13,31 @@
       <div class="col-12 mb-5">
        <div class="ui segment border-0">
             {% if user.is_authenticated %}
-            <buttun class="ui red button"><a class="text-white" href="{% url 'article_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
+            <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
         {% endif %}
-        {% for article in object_list %}
+        {% for transfer in object_list %}
             <br/>
             <div class="ui divided items m-4">
               <div class="item">
-                  {% if article.photo %}
+                  {% if transfer.photo %}
                     <div class="image">
-                      <img src="{{ article.photo.url }}" alt="{{ article.title }}">
+                      <img src="{{ transfer.photo.url }}" alt="{{ transfer.title }}">
                     </div>
                   {% endif %}
                 <div class="content">
-                  <a class="header">{{ article.title }}</a>
+                  <a class="header">{{ transfer.title }}</a>
                   <div class="meta">
-                    <span class="cinema">Author: {{ article.author | title }} - {{ article.date }}</span>
+                    <span class="cinema">Author: {{ transfer.author | title }} - {{ transfer.date }}</span>
                   </div>
                   <div class="description">
-                    <p>{{ article.body | slice:":100"  }}</p>
+                    <p>{{ transfer.description | slice:":100"  }}</p>
                   </div>
                   <div class="extra">
                     <div class="ui right floated primary button">
-                        <a href="{% url 'article_detail' article.pk %}" style="color: white">learn more...</a>
+                        <a href="{% url 'transfer_detail' transfer.pk %}" style="color: white">Batafsil...</a>
                       <i class="right chevron icon"></i>
                     </div>
-                    <div class="ui label">Limited</div>
+                    <div class="ui label">{{ transfer.price }}</div>
                     <div class="ui label"><i class="globe icon"></i>Germany</div>
                   </div>
                 </div>
