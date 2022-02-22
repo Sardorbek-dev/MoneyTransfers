@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 <title>{% block title %} Homepage {% endblock title %}</title>
 
 {% block content %}
@@ -16,21 +16,21 @@
     <div class="ui center text container">
         <h1 class="ui inverted header">Money Transfer</h1>
         <h2>Trust is good, control is better.</h2>
-        <div class="ui huge primary button"><a href="{% url 'article_list' %}" class="text-white">Send money</a><i class="right arrow icon"></i></div>
+        <div class="ui huge primary button"><a href="{% url 'transfer_list' %}" class="text-white">Send money</a><i class="right arrow icon"></i></div>
     </div>
 </div>
 
-<div class="ui vertical stripe segment text-white">
+<div class="ui vertical stripe segment">
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
-          <h3 class="ui header text-white">We Help Companies and Companions</h3>
+          <h3 class="ui header">We Help Companies and Companions</h3>
           <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
-          <h3 class="ui header text-white">We Make Bananas That Can Dance</h3>
+          <h3 class="ui header">We Make Bananas That Can Dance</h3>
           <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
         </div>
         <div class="six wide right floated column">
-          <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
+          <img src="{% static '/assets/img/ger_uzb.png' %}" alt="My image" class="ui large bordered rounded image">
         </div>
       </div>
       <div class="row">
@@ -41,20 +41,42 @@
     </div>
   </div>
 
+<div class="ui vertical stripe segment">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+         <div class="six wide left floated column">
+          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="My image" class="ui large bordered rounded image">
+        </div>
+        <div class="eight wide column">
+          <h3 class="ui header">We Help Companies and Companions</h3>
+          <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
+          <h3 class="ui header">We Make Bananas That Can Dance</h3>
+          <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="center aligned column">
+          <a class="ui huge button">Check Them Out</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="ui vertical stripe quote segment text-white">
     <div class="ui equal width stackable internally celled grid">
-      <div class="center aligned row">
+      <div class="row">
+        <div class="eight wide column">
+          <h3>"I shouldn't have gone with their competitor."</h3>
+          <div class="six wide left floated column">
+            <img src="{% static '/assets/img/ger_uzb.png' %}" alt="My image"> <b>Nan</b> Chief Fun Officer Acme Toys
+          </div>
+        </div>
         <div class="column">
           <h3>"What a Company"</h3>
           <p>That is what they all say about us</p>
         </div>
-        <div class="column">
-          <h3>"I shouldn't have gone with their competitor."</h3>
-          <p>
-            <img src="assets/images/avatar/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun Officer Acme Toys
-          </p>
-        </div>
+
       </div>
     </div>
   </div>

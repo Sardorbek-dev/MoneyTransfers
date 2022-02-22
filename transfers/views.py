@@ -4,16 +4,22 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 
 from .models import Transfer
+from .filters import TransferFilter
 
 # Create your views here.
 class TransferListView(ListView):
     model = Transfer
     template_name = 'transfer_list.html'
 
-class TransferCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+class TransferCreateView(LoginRequiredMixin, CreateView):
     model = Transfer
     template_name = 'transfer_new.html'
-    fields = ('title', 'description', 'price', 'photo', 'author',)
+    fields = ('title', 'description','pul_yuboriladigan_davlatni_tanlang', 'transfer_pul_birligini_tanlang', 'transfer_turi', 'qaysi_shahar_yoki_viloyat_yubormoqchisiz', 'price',)
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -28,7 +34,7 @@ class TransferDetailView(DetailView):
 
 class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transfer
-    fields = ['title', 'description', 'price', 'photo', 'author',]
+    fields = ['title', 'description', 'pul_yuboriladigan_davlatni_tanlang', 'transfer_pul_birligini_tanlang', 'transfer_turi', 'qaysi_shahar_yoki_viloyat_yubormoqchisiz', 'price',]
     template_name = 'transfer_edit.html'
 
     def test_func(self):

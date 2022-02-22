@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 <title>{% block title %} Transfer Pool {% endblock title %}</title>
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container">
@@ -13,16 +14,27 @@
       <div class="col-12 mb-5">
        <div class="ui segment border-0">
             {% if user.is_authenticated %}
-            <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
-        {% endif %}
-        {% for transfer in object_list %}
+                <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
+            {% endif %}
+
+           <form method="get"class="my-3">{% csrf_token %}
+                {{ form.media }}
+                {{ filter.form|crispy }}
+               <input class="ui green button my-3" type="submit" value="Qidirish...">
+           </form>
+
+        {% for transfer in filter.qs %}
             <br/>
-            <div class="ui divided items m-4">
+            <div class="ui divided items p-4 border">
               <div class="item">
-                  {% if transfer.photo %}
-                    <div class="image">
-                      <img src="{{ transfer.photo.url }}" alt="{{ transfer.title }}">
-                    </div>
+                  {% if transfer.pul_yuboriladigan_davlatni_tanlang != 'GER' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }">
+                      </div>
+                  {% else %}
+                      <div class="image">
+                          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }">
+                      </div>
                   {% endif %}
                 <div class="content">
                   <a class="header">{{ transfer.title }}</a>
@@ -30,7 +42,8 @@
                     <span class="cinema">Author: {{ transfer.author | title }} - {{ transfer.date }}</span>
                   </div>
                   <div class="description">
-                    <p>{{ transfer.description | slice:":100"  }}</p>
+                    <p>{{ transfer.description | slice:":100" | safe  }}</p>
+                      <div class="ui label text-danger">{{ transfer.transfer_turi }}</div>
                   </div>
                   <div class="extra">
                     <div class="ui right floated primary button">
@@ -38,7 +51,47 @@
                       <i class="right chevron icon"></i>
                     </div>
                     <div class="ui label">{{ transfer.price }}</div>
-                    <div class="ui label"><i class="globe icon"></i>Germany</div>
+                      {% if transfer.pul_yuboriladigan_davlatni_tanlang != 'GER' %}
+                          <div class="ui label"><i class="globe icon"></i>
+                             <i class="uz flag"></i>
+                          </div>
+                      {% else %}
+                      <div class="ui label"><i class="globe icon"></i>
+                             <i class="de flag"></i>
+                      </div>
+                     {% endif %}
+
+                      {% if transfer.transfer_pul_birligini_tanlang == 'dollar' %}
+                          <div class="ui label">
+                             <i class="dollar sign icon"></i>
+                              Dollar
+                          </div>
+                      {% elif transfer.transfer_pul_birligini_tanlang == 'euro' %}
+                          <div class="ui label">
+                             <i class="euro sign icon"></i>
+                              Euro
+                          </div>
+                      {% elif transfer.transfer_pul_birligini_tanlang == 'som' %}
+                          <div class="ui label">
+                             <i class="money bill alternate icon"></i>
+                              So'm
+                          </div>
+                      {% elif transfer.transfer_pul_birligini_tanlang == 'euroordollar' %}
+                          <div class="ui label">
+                             <i class="euro sign icon"></i>Euro yoki Dollar <i class="dollar sign icon"></i>
+                          </div>
+                      {% elif transfer.transfer_pul_birligini_tanlang == 'euroorsom' %}
+                          <div class="ui label">
+                              <i class="euro sign icon"></i>Euro yoki So'm <i class="money bill alternate icon"></i>
+                          </div>
+                      {% else %}
+                          <div class="ui label">
+                             <i class="money bill alternate icon"></i>So'm yoki Dollar <i class="dollar sign icon"></i>
+                          </div>
+                     {% endif %}
+
+                      <span><i class="map pin icon"></i> LOCATION: </span>
+                    {{ transfer.pul_yuboriladigan_davlatni_tanlang }} ({{ transfer.qaysi_shahar_yoki_viloyat_yubormoqchisiz }})
                   </div>
                 </div>
               </div>

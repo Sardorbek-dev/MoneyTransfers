@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'ckeditor',
     'ckeditor_uploader',
+    'django_filters',
+    'multiselectfield',
     # my apps
     'accounts',
     'pages',
@@ -155,7 +157,7 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-CRISPY_ALLOWED_TEMPLATE_PACKS = ('semantic-ui', 'uni_form',)
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('semantic-ui', 'uni_form', 'bootstrap4',)
 
 # MEDIA
 MEDIA_URL = '/media/'
@@ -171,3 +173,11 @@ CKEDITOR_CONFIGS = {
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_RESTRICT_BY_USER = True
 
+# REST_FRAMEWORKS
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        ...
+    ),
+}

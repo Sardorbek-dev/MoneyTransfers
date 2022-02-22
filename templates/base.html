@@ -158,7 +158,7 @@
                 </a>
                 <a class="item" href="{% url 'home' %}">Home</a>
                 <a class="item" href="{% url 'article_list' %}">Transfer pool</a>
-                <a class="item">Company</a>
+                <a class="item" href="{% url 'transfer_list' %}">Transfers</a>
                 <a class="item">Careers</a>
                 <div class="right item">
                     {% if user.is_authenticated %}
