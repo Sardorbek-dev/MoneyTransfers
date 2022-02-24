@@ -90,14 +90,15 @@
             </div>
           </div>
         </div>
-
-        <div class="row text-center pb-3">
-            <div class="col-12">
-                <button class="ui yellow button"><a class="item" href="{% url 'transfer_edit' transfer.pk %}">Tahrirlash</a></button>
-                <button class="ui red button"><a class="item" href="{% url 'transfer_delete' transfer.pk %}">O'chirish</a></button>
-                <button class="ui green button"><a class="item text-white" href="{% url 'transfer_list' %}">Barcha Transferlar</a></button>
+        {% if user.id == transfer.author.id %}
+            <div class="row text-center pb-3">
+                <div class="col-12">
+                    <button class="ui yellow button"><a class="item" href="{% url 'transfer_edit' transfer.pk %}">Tahrirlash</a></button>
+                    <button class="ui red button"><a class="item" href="{% url 'transfer_delete' transfer.pk %}">O'chirish</a></button>
+                    <button class="ui green button"><a class="item text-white" href="{% url 'transfer_list' %}">Barcha Transferlar</a></button>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <br/>
     </div>
   </div>

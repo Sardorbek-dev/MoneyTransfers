@@ -7,17 +7,23 @@
 <div class="container">
   <div class="row">
       <h1 class="text-center my-5">Transfer Pool</h1>
-      <div class="col-12">
-
+      <div class="col-3">
+        <div class="ui vertical menu">
+          {% for category in cat_menu %}
+            <a class="item" href="{% url 'category' category|slugify %}">
+                {{category.name}}
+          </a>
+            {% endfor %}
+        </div>
       </div>
-      <div class="col-12 mb-5">
+      <div class="col-9 mb-5">
        <div class="ui segment border-0">
             {% if user.is_authenticated %}
             <buttun class="ui red button"><a class="text-white" href="{% url 'article_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
         {% endif %}
         {% for article in object_list %}
             <br/>
-            <div class="ui divided items m-4">
+            <div class="ui divided items m-4 global-like-button">
               <div class="item">
                   {% if article.photo %}
                     <div class="image">
@@ -25,7 +31,7 @@
                     </div>
                   {% endif %}
                 <div class="content">
-                  <a class="header">{{ article.title }}</a>
+                  <a class="header">{{ article.title }} - Category: {{ article.category}}</a>
                   <div class="meta">
                     <span class="cinema">Author: {{ article.author | title }} - {{ article.date }}</span>
                   </div>
@@ -39,15 +45,60 @@
                     </div>
                     <div class="ui label">Limited</div>
                     <div class="ui label"><i class="globe icon"></i>Germany</div>
+                      <form action="{% url 'like_post' article.pk %}" method="post" class="form-like-button">
+                          {% csrf_token %}
+                          {% if user.is_authenticated %}
+                              {% if liked %}
+                                  <button type="submit" name="article_id" value="{{ article.id }}" id="likeButton" class="ui red button likeButton">
+                                    Unlike {{ liked }}
+                                  </button>
+                              {% else %}
+                                  <button type="submit" name="article_id" value="{{ article.id }}" class="ui green button likeButton">
+                                    Like {{ article.liked }}
+                                  </button>
+                              {% endif %}
+                          {% else %}
+                            <a href="{% url 'login' %}">Login</a> to like
+                          {% endif %}
+
+                          <span>
+                              Liked: {{ article.total_likes  }}
+                          </span>
+                      </form>
                   </div>
                 </div>
               </div>
             </div>
+           {{ article.liked }}
 
         {% endfor %}
 
        </div>
+
     </div>
+      <script>
+
+<!--                let likeButton = document.querySelector('.likeButton_test')-->
+<!--                let global_like_button = document.querySelector('.global-like-button')-->
+<!--                liked_article_id ={{ article.id }}-->
+<!--                global_like_button_new = global_like_button.children[0].nextSibling.previousSibling.children[0].nextSibling.previousSibling.children[3].nextSibling.previousSibling.children[3][2].dataset-->
+<!--&lt;!&ndash;                console.log(global_like_button.children[0].nextSibling.previousSibling.children[0].nextSibling.previousSibling.children[3].nextSibling.previousSibling.children[3][2].dataset)&ndash;&gt;-->
+
+
+<!--                likeButton.addEventListener('click', function() {-->
+<!--                    if (likeButton.classList.contains('green') && liked_article_id == global_like_button_new ) {-->
+<!--                        console.log(global_like_button_new)-->
+<!--                        likeButton.classList.remove('remove');-->
+<!--                        likeButton.classList.add('red');-->
+<!--                    }-->
+<!--                    else {-->
+<!--                        console.log(likeButton)-->
+<!--                        likeButton.classList.add('green');-->
+<!--                    }-->
+<!--                });-->
+
+          </script>
   </div>
 </div>
+
  {% endblock content %}

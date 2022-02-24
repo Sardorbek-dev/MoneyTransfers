@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+<title>{% block title %} Categories {% endblock title %}</title>
+
+
+{% block content %}
+{% if category_posts %}
+    <div class="container">
+      <div class="row">
+          <h1 class="text-center my-5"> {{cats}} Category</h1>
+          <div class="col-12">
+
+          </div>
+          <div class="col-12 mb-5">
+           <div class="ui segment border-0">
+               {% for category in category_posts %}
+                    <div class="ui divided items m-4">
+                  <div class="item">
+                      {% if category.photo %}
+                        <div class="image">
+                          <img src="{{ category.photo.url }}" alt="{{ category.title }}">
+                        </div>
+                      {% endif %}
+                      <div class="content">
+                          <a class="header">{{ category.title }} - Category: {{ category.category}}</a>
+                          <div class="meta">
+                        <span class="cinema">Author: {{ category.author | title }} - {{ category.date }}</span>
+                      </div>
+                      <div class="description">
+                        <p>{{ category.body | slice:":100"  }}</p>
+                          <p>{{ category.category }}</p>
+                      </div>
+                      <div class="extra">
+                        <div class="ui label">Limited</div>
+                        <div class="ui label"><i class="globe icon"></i>Germany</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+               {% endfor %}
+           </div>
+        </div>
+      </div>
+    </div>
+{% else %}
+    <h2>noting to show</h2>
+{% endif %}
+{% endblock content %}

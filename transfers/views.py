@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 from .models import Transfer
 from .filters import TransferFilter
@@ -10,6 +11,8 @@ from .filters import TransferFilter
 class TransferListView(ListView):
     model = Transfer
     template_name = 'transfer_list.html'
+    # sorting by ID
+    ordering = ['-id']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,6 +43,12 @@ class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
+
+    # def get_success_url(self):
+    #     messages.success(
+    #         self.request, 'Your post has been updated successfully.')
+    #     return reverse_lazy('transfer_list')
+
 
 class TransferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Transfer

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
   <h1 class="text-center my-5">Transfer bo'yicha batafsil ma'lumot</h1>
@@ -23,6 +23,25 @@
                     <a>Author: {{ object.author | title }} - {{ object.date }}</a>
                 </div>
               <div class="extra">
+                  <form action="{% url 'like_post' object.pk %}" method="post">{% csrf_token %}
+                      {% if user.is_authenticated %}
+                          {% if liked %}
+                              <button type="submit" name="article_id" value="{{ object.id }}" class="ui red button likeButton">
+                                  <i class="thumbs down outline icon"></i>
+                              </button>
+                          {% else %}
+                              <button type="submit" name="article_id" value="{{ article.id }}" class="ui green button">
+                                  <p class="item">
+                                      <i class="thumbs up outline icon"></i>
+                                  </p>
+                              </button>
+                          {% endif %}
+                      {% else %}
+                        Login to like
+                      {% endif %}
+
+                      <span>Liked: {{ object.total_likes  }}</span>
+                  </form>
                 <div class="ui right floated button">
                   Bog'lanish
                 </div>
@@ -40,16 +59,117 @@
         </div>
         <div class="ui items">
             <h1 class="text-center mt-5">Izohlar</h1>
-          <div class="item">
-            <div class="middle aligned content">
-                {% for comment in article.comments.all %}
-                    <div class="meta">{{ comment.author }}</div>
-                    <div class="description">
-                        {{ comment }}
+
+
+            <div class="container-fluid my-5">
+
+ ...
+
+        List of comments
+        {% if not object.comments.all %}
+            NO comments yet..
+        {% else %}
+            <div class="row mt-5">
+                <div class="col-lg-6 offset-lg-3">
+                    Comment
+                    <span class="badge badge-dark ml-2">{{ comments.count }}</span>
+                </div>
+            {% for comment in object.comments.all %}
+            <div class="col-lg-6 offset-lg-3 mt-2">
+                <div class="card p-2">
+                    <div class="row">
+                      <div class="col-12">
+                        <img class="rounded-circle mr-2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Avatar">
+                        <strong>{{ comment.author }}</strong> said
+                      </div>
+                      <div class="col-12">
+                        <p class="m-1 mt-3">{{ comment.comment }}</p>
+                        <p class="text-right text-muted"><small>{{ comment.date }}</small></p>
+                      </div>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+          <!-- Form to leave comment -->
+<!--          <div class="row mt-5">-->
+<!--            <div class="col-lg-6 offset-lg-3">-->
+<!--              <h3>Leave a comment</h3>-->
+<!--              <form method='POST'>-->
+<!--                {% csrf_token %}-->
+<!--                <div class="form-group">-->
+<!--                  <span class="ml-2"></span>{{ form.comment.label_tag }}-->
+<!--                  <textarea class="form-control {% if form.content.errors %}is-invalid{% endif %}" id="id_content"-->
+<!--                    name="content" rows="4">{{ form.comment.value|default:'' }}</textarea>-->
+<!--                </div>-->
+<!--                <button class="btn btn-primary ml-2" type="submit">Reply</button>-->
+<!--              </form>-->
+<!--            </div>-->
+<!--          </div>-->
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+<!--            <div class="section ">-->
+<!--                <div class="container ">-->
+<!--                    <h2>Comments</h2>-->
+<!--                    <div class="row ">-->
+<!--                        <div class="col-lg-8 mx-auto ">-->
+<!--                            &lt;!&ndash;display coment&ndash;&gt;-->
+
+<!--                            <div class="media-list">-->
+<!--                                {% for comment in article.comments.all %}-->
+<!--                                <div>-->
+<!--                                    <img class="avatar avatar-sm mr-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">-->
+
+<!--                                    <div class="media-body">-->
+<!--                                        <div class="small-1">-->
+<!--                                            <b> {{ comment.author }}</b>-->
+<!--                                            <time class="ml-4 opaciy-70 small-3"> {{ comment.date }} 12.20.2050</time>-->
+<!--                                        </div>-->
+<!--                                        <p>{{ comment }}</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+
+<!--                            &lt;!&ndash;display the form&ndash;&gt;-->
+<!--                            <form method="post">-->
+<!--                                {% csrf_token %}-->
+<!--                                <div class="form-group">-->
+<!--                                    {{ comment.form }}-->
+<!--                                </div>-->
+<!--                                <button class="btn btn-primary btn-block " type="submit">Comment</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+
+<!--          <div class="item">-->
+<!--            <div class="middle aligned content">-->
+<!--                {% for comment in article.comments.all %}-->
+<!--                    <div class="meta">{{ comment.author }}</div>-->
+<!--                    <div class="description">-->
+<!--                        {{ comment }}-->
+<!--                    </div>-->
+<!--                {% endfor %}-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
         <br/>
     </div>

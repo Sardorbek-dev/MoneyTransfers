@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>  Article Categories</h2>
+{% for category in cat_menu_list %}
+    <a class="item" href="{% url 'category' category.name  %}">
+        <h2>{{category.name}}</h2>
+        <br>
+    </a>
+{% endfor %}
+
+{% endblock content %}
