@@ -19,7 +19,7 @@ class TransferListView(ListView):
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-class TransferCreateView(LoginRequiredMixin, CreateView):
+class TransferCreateView(CreateView):
     model = Transfer
     template_name = 'transfer_new.html'
     fields = ('title', 'description','pul_yuboriladigan_davlatni_tanlang', 'transfer_pul_birligini_tanlang', 'transfer_turi', 'qaysi_shahar_yoki_viloyat_yubormoqchisiz', 'price',)

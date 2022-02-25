@@ -13,9 +13,8 @@
       </div>
       <div class="col-12 mb-5">
        <div class="ui segment border-0">
-            {% if user.is_authenticated %}
+
                 <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish <i class="plus square outline icon"></i></a></buttun>
-            {% endif %}
 
            <form method="get"class="my-3">{% csrf_token %}
                 {{ form.media }}
