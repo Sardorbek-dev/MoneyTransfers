@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage
 from articles.models import Profile
 
 # Create your views here.
@@ -37,12 +37,12 @@ class EditProfilePageView(UpdateView):
     model = Profile
     template_name = 'registration/edit_profile_page.html'
     success_url = reverse_lazy('article_list')
-    fields = ('bio', 'telegram_url', 'instagram_url', 'facebook_url')
+    form_class = EditProfilePage
 
 class CreateProfilePageView(CreateView):
     model = Profile
+    form_class = ProfilePageForm
     template_name = 'registration/create_user_profile_page.html'
-    fields = '__all__'
 
     def form_valid(self, form):
         form.instance.user = self.request.user

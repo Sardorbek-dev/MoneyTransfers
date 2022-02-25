@@ -10,13 +10,22 @@
     <div class="col-2"></div>
     <div class="col-8">
         <h1>your profile</h1>
-
+        <p>BIO PageUser EDIT:</p>
          {{ page_user.bio }}
+
+         <p>First Name:</p>
          {{ page_user.user.first_name }}
+         
+         <p>Last Name:</p>
          {{ page_user.user.last_name }}
+         
+         <p>Email:</p>
          {{ page_user.user.email }}
-         {{ page_user.user.bio }}
-         Instagram: {{ page_user.instagram_url }}
+         {% comment %} <p>BIO UserPage:</p>
+         {{ page_user.user.bio }} {% endcomment %}
+         
+         <p>Instagram:</p>
+         {{ page_user.instagram_url }}
 <!--         {{ user.profile.last_name }}-->
 <!--         {{ user.profile.bio }}-->
         {% if page_user.user_image %}
