@@ -22,7 +22,7 @@
                 <h4>{{ object.body | safe }}</h4>
               </div>
                 <div class="meta">
-                    <a>Author: {{ object.author | title }} - {{ object.date }}</a>
+                    <a href="{% url 'user_profile' article.author.id  %}">Author: {{ object.author | title }} - {{ object.date }}</a>
                 </div>
               <div class="extra">
                   <form action="{% url 'like_post' object.pk %}" method="post">{% csrf_token %}

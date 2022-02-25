@@ -51,6 +51,6 @@
         </div>
         </div>}
 {% else %}
-    You are not allowed here! (...and you know it)
+    Please, <a href="{% url 'login' %}">Login</a> to see the profile page of this user!
 {% endif %}
  {% endblock content %}

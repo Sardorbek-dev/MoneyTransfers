@@ -31,9 +31,10 @@
                     </div>
                   {% endif %}
                 <div class="content">
-                  <a class="header">{{ article.title }} - Category: {{ article.category}}</a>
+                  <a class="header">{{ article.title }} ID:{{ article.author.id }} - Category: {{ article.category}}</a>
                   <div class="meta">
-                    <span class="cinema">Author: {{ article.author | title }} - {{ article.date }}</span>
+                    <span class="cinema">
+                        <a href="{% url 'user_profile' article.author.id  %}">Author: {{ article.author | title }}</a> - {{ article.date }}</span>
                   </div>
                   <div class="description">
                     <p>{{ article.body | slice:":100"  }}</p>
