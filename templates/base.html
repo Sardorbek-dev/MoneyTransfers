@@ -173,7 +173,7 @@
                                     <a class="ui inverted" href="{% url 'user_profile' user.id %}">Profile</a>
                                 </div>
                                 <div class="item">
-                                    <a class="ui inverted" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile 2</a>
+                                    <a class="ui inverted" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
                                 </div>
                                 <div class="item">
                                     <a class="ui inverted" href="{% url 'category_new' %}">New Category</a>
@@ -186,19 +186,23 @@
                                     <a class="ui inverted" href="{% url 'create_profile_page' %}">Create Profile 2</a>
                                 </div>
                             {% endif %}
-
+                            
                             <div class="item">
-                                <a class="ui inverted" href="{% url 'article_new' %}">Create new article</a>
+                              <a class="ui inverted" href="{% url 'account_page' user.id %}">Account</a>
+                            </div>
+                            <div class="item">
+                                <a class="ui inverted" href="{% url 'edit_account' %}">Edit your Account</a>
                             </div>
                             <div class="item">
                                 <a class="ui inverted" href="{% url 'password_change' %}">Password change</a>
                             </div>
                             <div class="item">
-                                <a class="ui inverted" href="{% url 'edit_profile' %}">Edit your Account</a>
-                            </div>
-                            <div class="item">
                                 <a class="ui inverted" href="{% url 'logout' %}">Log Out</a>
                             </div>
+                            <div class="item">
+                              <a class="ui inverted" href="{% url 'article_new' %}">Create new article</a>
+                            </div>
+
                         </div>
                     </div>
                     {% else %}

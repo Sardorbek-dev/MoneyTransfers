@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage
 from articles.models import Profile
+from .models import CustomUser
 
 # Create your views here.
 class SignUpView(CreateView):
@@ -10,11 +11,15 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-# Create your views here.
+
+class AccountShowView(ListView):
+    model = CustomUser
+    template_name = 'registration/account_page.html'
+
 class UserEditForm(UpdateView):
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('article_list')
-    template_name = 'registration/edit_profile.html'
+    template_name = 'registration/edit_account.html'
 
     def get_object(self):
         return self.request.user

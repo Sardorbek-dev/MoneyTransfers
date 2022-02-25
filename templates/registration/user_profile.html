@@ -2,51 +2,55 @@
 
 {% load crispy_forms_tags %}
 {% load static %}
-<title>{% block title %} Edit Profile {% endblock title %}</title>
+<title>{% block title %} Your Profile {% endblock title %}</title>
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <h1>your profile</h1>
-        <p>BIO PageUser EDIT:</p>
-         {{ page_user.bio }}
+{% if user.is_authenticated %}
+        <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h1>Your profile</h1>
+                <p>BIO PageUser EDIT:</p>
+                {{ page_user.bio }}
 
-         <p>First Name:</p>
-         {{ page_user.user.first_name }}
-         
-         <p>Last Name:</p>
-         {{ page_user.user.last_name }}
-         
-         <p>Email:</p>
-         {{ page_user.user.email }}
-         {% comment %} <p>BIO UserPage:</p>
-         {{ page_user.user.bio }} {% endcomment %}
-         
-         <p>Instagram:</p>
-         {{ page_user.instagram_url }}
-<!--         {{ user.profile.last_name }}-->
-<!--         {{ user.profile.bio }}-->
-        {% if page_user.user_image %}
-            <img src="{{ page_user.user_image.url }}" alt="">
-        {% else %}
-            <img src="{% static '/images/profile_foto.png' %}" alt="">
-        {% endif %}
+                <p>First Name:</p>
+                {{ page_user.user.first_name }}
+                
+                <p>Last Name:</p>
+                {{ page_user.user.last_name }}
+                
+                <p>Email:</p>
+                {{ page_user.user.email }}
+                {% comment %} <p>BIO UserPage:</p>
+                {{ page_user.user.bio }} {% endcomment %}
+                
+                <p>Instagram:</p>
+                {{ page_user.instagram_url }}
+        <!--         {{ user.profile.last_name }}-->
+        <!--         {{ user.profile.bio }}-->
+                {% if page_user.user_image %}
+                    <img src="{{ page_user.user_image.url }}" alt="">
+                {% else %}
+                    <img src="{% static '/images/profile_foto.png' %}" alt="">
+                {% endif %}
 
-        {% if page_user.telegram_url %}
-            <a href="{{ page_user.telegram_url}}"> Telegram</a>
-        {% endif %}
+                {% if page_user.telegram_url %}
+                    <a href="{{ page_user.telegram_url}}"> Telegram</a>
+                {% endif %}
 
-        {% if page_user.instagram_url %}
-            <a href="{{ page_user.instagram_url}}">Instagram</a>
-        {% endif %}
+                {% if page_user.instagram_url %}
+                    <a href="{{ page_user.instagram_url}}">Instagram</a>
+                {% endif %}
 
-        {% if page_user.facebook_url %}
-            <a href="{{ page_user.facebook_url}}">Facebook</a>
-        {% endif %}
-    </div>
-    <div class="col-2"></div>
-  </div>
-</div>
+                {% if page_user.facebook_url %}
+                    <a href="{{ page_user.facebook_url}}">Facebook</a>
+                {% endif %}
+            </div>
+            <div class="col-2"></div>
+        </div>
+        </div>}
+{% else %}
+    You are not allowed here! (...and you know it)
+{% endif %}
  {% endblock content %}

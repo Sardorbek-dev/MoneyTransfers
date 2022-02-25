@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+<title>{% block title %} Edit your Account {% endblock title %}</title>
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="container">
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <h1>Edit your Account</h1>
+            <form method="post">{% csrf_token %}
+              {{ form|crispy }}
+              <button class="positive ui button" type="submit">Edit</button>
+            </form>
+            {{ user.last_name }}
+    <!--        {{ user.profile.bio }} differently bio's -->
+            {{ user.bio }}
+            {% if user.profile.user_image %}
+                <img src="{{ user.profile.user_image.url }}" alt="">
+            {% else %}
+                <img src="{% static '/images/profile_foto.png' %}" alt="">
+            {% endif %}
+
+            {% if user.profile.telegram_url %}
+                <a href="{{ user.profile.telegram_url}}"> Telegram</a>
+            {% endif %}
+
+            {% if user.profile.instagram_url %}
+                <a href="{{ user.profile.instagram_url}}">Instagram</a>
+            {% endif %}
+
+            {% if user.profile.facebook_url %}
+                <a href="{{ user.profile.facebook_url}}">Facebook</a>
+            {% endif %}
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+{% else %}
+    You are not allowed here! (...and you know it)
+{% endif %}
+
+{% endblock content %}
