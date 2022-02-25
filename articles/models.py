@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from datetime import datetime, date
+from django.conf import settings
 
 # Create your models here.
 class Category(models.Model):
@@ -14,12 +15,23 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('category_new')
 
+class Profile(models.Model):
+    user = models.OneToOneField(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
+    bio = models.TextField()
+    user_image = models.ImageField(upload_to='images/profile/', blank=True, null=True)
+    telegram_url = models.CharField(max_length=255, blank=True, null=True)
+    instagram_url = models.CharField(max_length=255, blank=True, null=True)
+    facebook_url = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.user)
+
 class Article(models.Model):
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=200, blank=True)
     category = models.CharField(max_length=200, default='coding')
     body = RichTextField()
-    photo = models.ImageField(upload_to='images/', blank=True)
+    photo = models.ImageField(upload_to='images/', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         get_user_model(),

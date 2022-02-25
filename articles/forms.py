@@ -25,18 +25,18 @@ for item in choices_category:
 #     ('education', 'Education'),
 # ]
 
-class AddArticleForm(forms.ModelForm):
-    class Meta:
-        model = Article
-        fields = ('title', 'summary', 'category', 'body',)
-        widgets = {
-            'title': forms.TextInput(attrs={'class': "form-control mb-3", 'placeholder': 'Title'}),
-            'summary': forms.TextInput(attrs={'class': "form-control mb-3"}),
-            'category': forms.Select(choices=choices_category_list, attrs={'class': "form-control mb-3"}),
-            'body': forms.Textarea(attrs={'class': "form-control mb-3"}),
-        }
+# class AddArticleForm(forms.ModelForm):
+#     class Meta:
+#         model = Article
+#         fields = ('title', 'summary', 'category', 'body',)
+#         widgets = {
+#             'title': forms.TextInput(attrs={'class': "form-control mb-3", 'placeholder': 'Title'}),
+#             'summary': forms.TextInput(attrs={'class': "form-control mb-3"}),
+#             'category': forms.Select(choices=choices_category_list, attrs={'class': "form-control mb-3"}),
+#             'body': forms.Textarea(attrs={'class': "form-control mb-3"}),
+#         }
 
-class AddArticleForm2(forms.ModelForm):
+class AddArticleForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ('title', 'summary', 'category', 'body', 'photo',)
@@ -45,6 +45,5 @@ class AddArticleForm2(forms.ModelForm):
             'summary': forms.TextInput(attrs={'class': "form-control mb-3"}),
             'category': forms.Select(choices=choices_category_list, attrs={'class': "form-control mb-3"}),
             'body': forms.Textarea(attrs={'class': "form-control mb-3"}),
-            'photo': forms.ImageField(),
         }
 

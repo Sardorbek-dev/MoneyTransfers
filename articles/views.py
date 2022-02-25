@@ -7,7 +7,7 @@ from .forms import AddArticleForm
 from django.http import HttpResponseRedirect
 
 from .models import Article, Comment, Category
-from .forms import CommentForm, AddArticleForm2
+from .forms import CommentForm
 
 # Create your views here.
 

@@ -6,9 +6,11 @@
   <div class="row">
     <div class="col-12">
         <div class="ui items">
-          <div class="item">
-            {% if object.photo %}
-                <div class=" ui small image">
+<!--        <img src="{{article.author.profile.user_image.url}}" alt="">-->
+
+            <div class="item">
+              {% if object.photo %}
+              <div class=" ui small image">
                     <img src="{{ object.photo.url }}" alt="{{ object.title }}">
                 </div>
             {% endif %}

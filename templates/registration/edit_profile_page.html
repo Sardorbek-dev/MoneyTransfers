@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.id == profile.user.id %}
+        <div class="container">
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h1>Edit Profile</h1>
+                <div class="form-group">
+        <!--            multipart/form-data for images-->
+                    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                        {{ form }}
+                        <button class="ui green button" type="submit">edit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+    {% else %}
+        You are not the correct User to edit this page ...
+    {% endif %}
+{% else %}
+    You are not allowed here! (...and you know it)
+{% endif %}
+{% endblock content %}

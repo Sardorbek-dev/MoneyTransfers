@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <h1 class="text-center m-4">Create Profile</h1>
+        <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
+            {{ form.media }}
+            {{ form|crispy }}
+            <button class="ui green button mt-3" type="submit">post</button> <small>(Your email address will not be published)</small>
+        </form>
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div>
+ {% endblock content %}

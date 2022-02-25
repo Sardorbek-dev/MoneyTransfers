@@ -7,6 +7,7 @@
     <div class="col-8">
         <h1>New Post</h1>
         <div class="form-group">
+<!--            multipart/form-data for images-->
             <form method="post" enctype="multipart/form-data"> {% csrf_token %}
                 {{ form.media }}
                 {{ form }}
