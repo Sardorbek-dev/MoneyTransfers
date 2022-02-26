@@ -2,15 +2,14 @@ from django import forms
 from .models import Comment, Article, Category
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'md-textarea form-control',
-        'placeholder': 'comment here ...',
-        'rows': '4',
-    }))
-
+    comment = forms.CharField(label="", widget=forms.Textarea(attrs={'class': 'form-control', 'pleaceholder': 'Write text'}))
     class Meta:
         model = Comment
         fields = ('comment', )
+        widgets = {
+            'comment': forms.TextInput(attrs={'class': "form-control mb-3", 'placeholder': 'comment'}),
+        }
+
 
 choices_category = Category.objects.all().values_list('name', 'name') #name is same name with name in Category (name = models.CharField(max_length=200))
 

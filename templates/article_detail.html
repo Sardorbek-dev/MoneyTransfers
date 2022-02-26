@@ -65,113 +65,105 @@
 
             <div class="container-fluid my-5">
 
- ...
-
         List of comments
         {% if not object.comments.all %}
-            NO comments yet..
+            NO comments yet.. <a href="#">Add one </a>
         {% else %}
             <div class="row mt-5">
                 <div class="col-lg-6 offset-lg-3">
                     Comment
                     <span class="badge badge-dark ml-2">{{ comments.count }}</span>
                 </div>
+            <!--show all comments beginn -->
             {% for comment in object.comments.all %}
-            <div class="col-lg-6 offset-lg-3 mt-2">
-                <div class="card p-2">
-                    <div class="row">
-                      <div class="col-12">
-                        <img class="rounded-circle mr-2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Avatar">
-                        <strong>{{ comment.author }}</strong> said
-                      </div>
-                      <div class="col-12">
-                        <p class="m-1 mt-3">{{ comment.comment }}</p>
-                        <p class="text-right text-muted"><small>{{ comment.date }}</small></p>
-                      </div>
+                {% if comment.reply.id %}
+                {% else %}
+                <div class="col-lg-6 offset-lg-3 mt-2">
+                    <div class="card p-2">
+                        <div class="row">
+                          <div class="col-12">
+                            <img class="rounded-circle mr-2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Avatar">
+                            <strong>{{ comment.author }}</strong> said
+                          </div>
+                          <div class="col-12">
+                            <p class="m-1 mt-3">{{ comment.comment }}</p>
+                            <p class="text-right text-muted"><small>{{ comment.date }}</small></p>
+                          </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {% endif %}
+
+            <!--show all comments end -->
+
+                <div class="container">
+                    {% for reply in comment.replies.all %}
+                    <!--show all replies beginn -->
+                       <div class="col-lg-3 offset-lg-2 mt-2">
+                            <div class="card p-2">
+                                <div class="row">
+                                  <div class="col-12">
+                                    <img class="rounded-circle mr-2" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Avatar">
+                                    <strong>{{ reply.author }}</strong> said
+                                  </div>
+                                  <div class="col-12">
+                                    <p class="m-1 mt-3">{{ reply.comment }}</p>
+                                    <p class="text-right text-muted"><small>{{ reply.date }}</small></p>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--show all replies end -->
+                    {% endfor %}
+                    <!--add replies beginn -->
+                   {% if comment.reply.id %}
+                    {% else %}
+                        <h1>Replies</h1>
+                         <div class="col-lg-6 offset-lg-3 mt-2">
+                             <form method="post" action="{% url 'article_detail_comment' object.pk %}" class="crispy form-horizontal"> {% csrf_token %}
+                                 <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                {{ form|crispy }}
+                                <input type="submit" value="Submit" name="comment_reply" class="ui green button mt-3">
+                            </form>
+                        </div>
+                   {% endif %}
+                    <!--add replies end -->
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+
         {% endif %}
 
-          <!-- Form to leave comment -->
-<!--          <div class="row mt-5">-->
-<!--            <div class="col-lg-6 offset-lg-3">-->
-<!--              <h3>Leave a comment</h3>-->
-<!--              <form method='POST'>-->
-<!--                {% csrf_token %}-->
-<!--                <div class="form-group">-->
-<!--                  <span class="ml-2"></span>{{ form.comment.label_tag }}-->
-<!--                  <textarea class="form-control {% if form.content.errors %}is-invalid{% endif %}" id="id_content"-->
-<!--                    name="content" rows="4">{{ form.comment.value|default:'' }}</textarea>-->
-<!--                </div>-->
-<!--                <button class="btn btn-primary ml-2" type="submit">Reply</button>-->
-<!--              </form>-->
-<!--            </div>-->
-<!--          </div>-->
+                Leave Comments
+
+        {% if user.is_authenticated %}
+            {% if user.profile.id %}
+        <!--add comments beginn -->
+                <div class="container">
+                  <div class="row">
+                    <div class="col-8">
+                        <form method="post" action="{% url 'article_detail_comment' object.pk %}" class="crispy form-horizontal"> {% csrf_token %}
+                            {{ form|crispy }}
+                            <button name="comment_add" value="{{ object.id }}"  class="ui green button mt-3" type="submit">Add comment</button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            {% else %}
+                <h1>Please, create a profile page to add some commenst </h1>
+                <div class="item">
+                    <a class="ui inverted" href="{% url 'create_profile_page' %}">Create Profile</a>
+                </div>
+            {% endif %}
+        <!--add comments end -->
+    {% else %}
+        Please, Sign up and create a profile to add a comment
+            <div class="item">
+                <a class="ui inverted" href="{% url 'signup' %}">Signup</a>
+            </div>
+    {% endif %}
 
         </div>
-
-
-
-
-
-
-
-
-
-
-
-<!--            <div class="section ">-->
-<!--                <div class="container ">-->
-<!--                    <h2>Comments</h2>-->
-<!--                    <div class="row ">-->
-<!--                        <div class="col-lg-8 mx-auto ">-->
-<!--                            &lt;!&ndash;display coment&ndash;&gt;-->
-
-<!--                            <div class="media-list">-->
-<!--                                {% for comment in article.comments.all %}-->
-<!--                                <div>-->
-<!--                                    <img class="avatar avatar-sm mr-4" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png">-->
-
-<!--                                    <div class="media-body">-->
-<!--                                        <div class="small-1">-->
-<!--                                            <b> {{ comment.author }}</b>-->
-<!--                                            <time class="ml-4 opaciy-70 small-3"> {{ comment.date }} 12.20.2050</time>-->
-<!--                                        </div>-->
-<!--                                        <p>{{ comment }}</p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                {% endfor %}-->
-<!--                            </div>-->
-
-
-<!--                            &lt;!&ndash;display the form&ndash;&gt;-->
-<!--                            <form method="post">-->
-<!--                                {% csrf_token %}-->
-<!--                                <div class="form-group">-->
-<!--                                    {{ comment.form }}-->
-<!--                                </div>-->
-<!--                                <button class="btn btn-primary btn-block " type="submit">Comment</button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-
-
-<!--          <div class="item">-->
-<!--            <div class="middle aligned content">-->
-<!--                {% for comment in article.comments.all %}-->
-<!--                    <div class="meta">{{ comment.author }}</div>-->
-<!--                    <div class="description">-->
-<!--                        {{ comment }}-->
-<!--                    </div>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
         <br/>
     </div>

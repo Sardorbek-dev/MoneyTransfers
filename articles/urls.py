@@ -9,6 +9,7 @@ from .views import (
     CategoryView,
     CategoryListView,
     LikeView,
+    article_detail_comment,
 )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     path('category/<str:cats>/', CategoryView, name='category'),
     path('category-list/', CategoryListView, name='category_list'),
     path('like/<int:pk>', LikeView, name='like_post'),
+    path('comment/<int:pk>', article_detail_comment, name='article_detail_comment'),
 ]

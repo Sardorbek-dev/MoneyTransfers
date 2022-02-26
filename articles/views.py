@@ -20,7 +20,42 @@ def LikeView(request, pk):
     else:
         article.likes.add(request.user)
         liked = True
-    return HttpResponseRedirect(reverse('article_list')) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+    return HttpResponseRedirect(article.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+
+
+def article_detail_comment(request, pk):
+
+    article = Article.objects.get(id=pk)
+    comments = Comment.objects.filter(article=article, reply=None).order_by('-id')
+
+    # Comment posted
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            comment = request.POST.get('comment')
+            reply_id = request.POST.get('comment_id') #Form ==> id=request.POST.get('comment_id') FROTNEND--> comment_id = name="comment_id"
+            comment_qs = None
+            if reply_id:
+                comment_qs = Comment.objects.get(id=reply_id)
+                new_comment = Comment.objects.create(article=article, author=request.user, comment=comment, reply=comment_qs)
+            else:
+                new_comment = Comment.objects.create(article=article, author=request.user, comment=comment, reply=comment_qs)
+
+            new_comment.save()
+
+            return HttpResponseRedirect(article.get_absolute_url()) #redirect to article detail page
+
+    else:
+        comment_form = CommentForm()
+
+    context = {
+        'article': article,
+        'comment_form': comment_form,
+        'comments': comments,
+    }
+
+    return render(request, 'article_detail.html', context)
+
 
 class ArticleListView(ListView):
     model = Article
@@ -76,7 +111,7 @@ class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        return super().form_valid(form) # to know which user create a category
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -84,13 +119,12 @@ class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'article_detail.html'
-    form_class = CommentForm
-    fields = ('comment',)
+    form = CommentForm()
 
     def get_context_data(self, *args, **kwargs):
         context = super(ArticleDetailView, self).get_context_data(*args, **kwargs)
         # Total likes
-        stuff = get_object_or_404(Article, id=self.kwargs['pk'])  # for loop alle Article with pk key, if doesnt exit, get 404
+        stuff = get_object_or_404(Article, id=self.kwargs['pk'])  # for loop all Articles with pk key, if doesnt exit, get 404
         total_likes = stuff.total_likes()  # from model 'total_likes' function
         #print('stuff:', stuff)
 
@@ -100,80 +134,9 @@ class ArticleDetailView(DetailView):
 
         context['total_likes'] = total_likes
         context['liked'] = liked
+        context['form'] = self.form
         return context
 
-
-#
-# #
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         pk = self.kwargs["pk"]
-#
-#         form = CommentForm()
-#         article = get_object_or_404(Article, pk=pk,)
-#         comments = article.comments.all()
-#
-#         context['post'] = article
-#         context['comments'] = comments
-#         context['form'] = form
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         form = CommentForm(request.POST)
-#         self.object = self.get_object()
-#         context = super().get_context_data(**kwargs)
-#
-#         article = Article.objects.filter(id=self.kwargs['pk'])[0]
-#         comments = article.comments.all()
-#
-#         context['post'] = article
-#         context['comments'] = comments
-#         context['form'] = form
-#
-#         if form.is_valid():
-#             comment = form.cleaned_data['content']
-#
-#             comment = Comment.objects.create(
-#                 comment=comment, article=article
-#             )
-#             print(comment)
-#
-#             form = CommentForm()
-#             context['form'] = form
-#             return self.render_to_response(context=context)
-#
-#         return self.render_to_response(context=context)
-#
-#
-# #
-#
-# def post(self, request, *args, **kwargs):
-#     form = CommentForm(request.POST)
-#     if form.is_valid():
-#         post = self.get_object()
-#         form.instance.user = request.user
-#         form.instance.post = post
-#         form.save()
-#
-#         return redirect(reverse("article_detail", kwargs={
-#             'slug': post.slug
-#         }))
-#
-#
-# def get_context_data(self, **kwargs):
-#     similar_posts = self.object.tags.similar_objects()[:3]
-#     post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
-#     post_comments = Comment.objects.all().filter(post=self.object.id)
-#     context = super().get_context_data(**kwargs)
-#     context.update({
-#         "similar_posts": similar_posts,
-#         'form': self.form,
-#         'post_comments': post_comments,
-#         'post_comments_count': post_comments_count,
-#     })
-#
-#     return context
-#
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Article

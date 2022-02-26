@@ -57,16 +57,16 @@ class Article(models.Model):
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     date = models.DateField(auto_now_add=True)
-    comment = models.CharField(max_length=150)
+    reply = models.ForeignKey('Comment', null=True, default=None, related_name="replies", on_delete=models.CASCADE)
+    comment = models.TextField(max_length=150, default='',)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
     )
-    class Meta:
-        ordering = ('-date',)
 
     def __str__(self):
-        return self.comment
+        return '%s - %s' % (self.article.title, self.comment)
 
     def get_absolute_url(self):
-        return reverse('article_list')
+        return reverse('article_list', args=[str(self.id)])
+
