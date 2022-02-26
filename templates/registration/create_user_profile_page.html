@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -11,6 +11,20 @@
         <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
             {{ form.media }}
             {{ form|crispy }}
+            {% if user.gender == 'female' %}
+                <div class="ui tiny images">
+                  <img class="ui image" src="{% static '/images/1_girl.jpg' %}">
+                  <img class="ui image" src="{% static '/images/2_girl.jpg' %}">
+                  <img class="ui image" src="{% static '/images/3_girl.jpg' %}">
+                </div>
+
+            {% else %}
+                <div class="ui tiny images">
+                  <img class="ui image" src="{% static '/images/1.jpg' %}">
+                  <img class="ui image" src="{% static '/images/2.jpg' %}">
+                  <img class="ui image" src="{% static '/images/3.jpg' %}">
+                </div>
+            {% endif %}
             <button class="ui green button mt-3" type="submit">post</button> <small>(Your email address will not be published)</small>
         </form>
     </div>

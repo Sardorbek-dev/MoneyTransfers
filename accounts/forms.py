@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 from django import forms
+from django.forms import fields
 from articles.models import Profile
 
 class CustomUserCreationForm(UserCreationForm):
@@ -11,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'age',) # Bio was deleted, because user can create a bio, after creating a profile
+        fields = ('username', 'first_name', 'last_name', 'email', 'age','gender',) # Bio was deleted, because user can create a bio, after creating a profile
         widgets = {
             'age': forms.TextInput(attrs={'class': "form-control mb-3", 'placeholder': 'firstname'}),
         }

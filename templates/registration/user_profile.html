@@ -24,16 +24,21 @@
                 {{ page_user.user.email }}
                 {% comment %} <p>BIO UserPage:</p>
                 {{ page_user.user.bio }} {% endcomment %}
-                
+
+                <p>Gender:</p>
+                {{ page_user.user.gender }}
+
                 <p>Instagram:</p>
                 {{ page_user.instagram_url }}
         <!--         {{ user.profile.last_name }}-->
         <!--         {{ user.profile.bio }}-->
-                {% if page_user.user_image %}
-                    <img src="{{ page_user.user_image.url }}" alt="">
+
+                {% if page_user.user.gender == 'female' %}
+                    <img src="{% static '/images/2_girl.jpg' %}" alt="">
                 {% else %}
-                    <img src="{% static '/images/profile_foto.png' %}" alt="">
+                    <img src="{% static '/images/1.jpg' %}" alt="">
                 {% endif %}
+
 
                 {% if page_user.telegram_url %}
                     <a href="{{ page_user.telegram_url}}"> Telegram</a>
