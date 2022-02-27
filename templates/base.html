@@ -170,7 +170,7 @@
                         <div class="menu">
                               {% if user.profile.id %}
                                 <div class="item">
-                                    <a class="ui inverted" href="{% url 'user_profile' user.id %}">Profile</a>
+                                    <a class="ui inverted" href="{% url 'user_profile' user.profile.id %}">Profile</a>
                                 </div>
                                 <div class="item">
                                     <a class="ui inverted" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>
@@ -281,8 +281,93 @@
             .dropdown()
           ;
 
+        // Create profile page profile image hover
+          $('.special.cards .image').dimmer({
+           on: 'hover'
+            
+          });
+
         })
         ;
+
+
+
+        function selectImageButton(objButton) {
+
+          let imageId = document.getElementById("id_user_image")
+          let ImageFieldId = document.getElementById("ImageFieldId")
+
+          {% if user.gender == 'female' %}
+
+            arrray_girls = ['1_girl', '2_girl', '3_girl', '4_girl']
+
+            arrray_girls.forEach(function(item){
+              console.log(item, objButton.id)
+              
+              if (item == objButton.id) {
+                console.log(item, objButton.id)
+                imageId.value = objButton.id
+                
+                objButton.classList.remove('red')
+                objButton.classList.add('green')
+                objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
+                
+              }
+              if (item !== objButton.id) {
+                index = arrray_girls.indexOf(item)
+                card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
+                if (card.classList.contains('green')){
+                  card.classList.remove('green')
+                  card.classList.add('red')
+                  card.innerHTML = 'select'
+                }
+  
+               
+              } 
+              
+              
+            });
+          
+            {% else %}
+              arrray_boys = ['1_man', '2_man', '3_man', '4_man'] 
+              arrray_boys.forEach(function(item){
+            
+                if (item == objButton.id) {
+                  imageId.value = objButton.id
+                  objButton.classList.remove('red')
+                  objButton.classList.add('green')
+                  objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
+                  
+                }
+                if (item !== objButton.id) {
+                  index = arrray_boys.indexOf(item)
+                  card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
+                  if (card.classList.contains('green')){
+                    card.classList.remove('green')
+                    card.classList.add('red')
+                    card.innerHTML = 'select'
+                  }
+    
+                  console.log(card.classList)
+    
+    
+                 
+                } 
+                
+                
+              });
+            {% endif %}
+        
+        }
+
+        // dynamic Image profile page 
+        document.getElementById('profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
+
+
+
+
+
+        
     </script>
 
 </body>

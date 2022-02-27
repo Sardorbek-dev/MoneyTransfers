@@ -3,32 +3,141 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <h1 class="text-center m-4">Create Profile</h1>
-        <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
-            {{ form.media }}
-            {{ form|crispy }}
-            {% if user.gender == 'female' %}
-                <div class="ui tiny images">
-                  <img class="ui image" src="{% static '/images/1_girl.jpg' %}">
-                  <img class="ui image" src="{% static '/images/2_girl.jpg' %}">
-                  <img class="ui image" src="{% static '/images/3_girl.jpg' %}">
-                </div>
+<div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+         <div class="ui center text container my-4">
+            <h1 class="ui inverted header">Create Profile</h1>
+         </div>
+        <div>
+            <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+               
+                      <div class="ui six doubling cards special" id="ImageFieldId">
+                        {% if user.gender == 'female' %}
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='1_girl'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="0">
+                              <img src="{% static '/images/1_girl.jpg' %}">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='2_girl'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="1">
+                              <img src="{% static '/images/2_girl.jpg' %}">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)"id='3_girl'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="2">
+                              <img src="{% static '/images/3_girl.jpg' %}">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='4_girl'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="2">
+                              <img src="{% static '/images/4_girl.jpg' %}">
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="card">
+                          <div class="blurring dimmable image">
+                            <div class="ui dimmer">
+                              <div class="content">
+                                <div class="center">
+                                  
+                                  <div class="ui inverted button red" onclick="selectImageButton(this)" id='1_man'>Select</div>
+                                </div>
+                              </div>
+                            </div>
+                            <input type="hidden" value="0">
+                            <img src="{% static '/images/1_man.jpg' %}">
+                          </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
 
-            {% else %}
-                <div class="ui tiny images">
-                  <img class="ui image" src="{% static '/images/1.jpg' %}">
-                  <img class="ui image" src="{% static '/images/2.jpg' %}">
-                  <img class="ui image" src="{% static '/images/3.jpg' %}">
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='2_man'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="1">
+                              <img src="{% static '/images/2_man.jpg' %}">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+                                    
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='3_man'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="2">
+                              <img src="{% static '/images/3_man.jpg' %}">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="blurring dimmable image">
+                              <div class="ui dimmer">
+                                <div class="content">
+                                  <div class="center">
+
+                                    <div class="ui inverted button red" onclick="selectImageButton(this)" id='4_man'>Select</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" value="2">
+                              <img src="{% static '/images/4_man.jpg' %}">
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+                    </div>
+               
+                <div class="container">
+                  <div class="row">
+                    <div class="col">
+                      <button class="ui green button mt-3" type="submit">post</button> <small>(Your email address will not be published)</small>
+                    </div>
+                  </div>
                 </div>
-            {% endif %}
-            <button class="ui green button mt-3" type="submit">post</button> <small>(Your email address will not be published)</small>
-        </form>
+            </form>
+        </div>
     </div>
-    <div class="col-2"></div>
-  </div>
 </div>
+
  {% endblock content %}

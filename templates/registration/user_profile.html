@@ -30,14 +30,15 @@
 
                 <p>Instagram:</p>
                 {{ page_user.instagram_url }}
+                <p>Image</p>
+                {{page_user.user_image}}
         <!--         {{ user.profile.last_name }}-->
         <!--         {{ user.profile.bio }}-->
 
-                {% if page_user.user.gender == 'female' %}
-                    <img src="{% static '/images/2_girl.jpg' %}" alt="">
-                {% else %}
-                    <img src="{% static '/images/1.jpg' %}" alt="">
-                {% endif %}
+                
+
+                <img src="{% static '' %}" alt="{{page_user.username}}" id="profileImagehandle">
+
 
 
                 {% if page_user.telegram_url %}

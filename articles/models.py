@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django import forms
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from datetime import datetime, date
@@ -18,7 +19,7 @@ class Category(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     bio = models.TextField()
-    user_image = models.ImageField(upload_to='images/profile/', blank=True, null=True)
+    user_image = models.CharField(max_length=50) #selected image through id
     telegram_url = models.CharField(max_length=255, blank=True, null=True)
     instagram_url = models.CharField(max_length=255, blank=True, null=True)
     facebook_url = models.CharField(max_length=255, blank=True, null=True)

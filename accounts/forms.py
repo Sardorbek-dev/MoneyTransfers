@@ -36,12 +36,13 @@ class EditProfilePage(forms.ModelForm):
 
 
 class ProfilePageForm(forms.ModelForm):
+
     class Meta:
         model = Profile
         fields = ('bio', 'user_image', 'telegram_url', 'instagram_url', 'facebook_url', )
         widgets = {
             'bio': forms.Textarea(attrs={'class': "form-control mb-3", 'placeholder': 'Bio'}),
-            # 'user_image': forms.ImageField(),
+            'user_image': forms.HiddenInput(),
             'telegram_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
             'instagram_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
             'facebook_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
