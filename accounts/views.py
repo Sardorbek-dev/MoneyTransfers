@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage
 from articles.models import Profile
 from .models import CustomUser
+from transfers.models import TransferComment
 
 # Create your views here.
 class SignUpView(CreateView):
@@ -32,9 +33,12 @@ class ShowProfilePageView(DetailView):
         # users = Profile.objects.all()  # fetch all categoris from backend
         context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
         page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
+        page_user_comment = TransferComment.objects.all
+        print('Here:', page_user_comment)
 
 
         context['page_user'] = page_user
+        context['page_user_comment'] = page_user_comment
 
         return context
 

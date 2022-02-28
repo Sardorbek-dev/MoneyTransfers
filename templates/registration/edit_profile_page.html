@@ -3,26 +3,52 @@
 {% block content %}
 {% if user.is_authenticated %}
     {% if user.id == profile.user.id %}
-        <div class="container">
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <h1>Edit Profile</h1>
+        <div class="ui inverted vertical masthead aligned segment">
+            <div class="ui center text container">
+                <div class="ui center text container my-4">
+                    <h1 class="ui inverted header">Edit Profile</h1>
+                </div>
                 <div class="form-group">
-        <!--            multipart/form-data for images-->
                     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
                         {{ form }}
-                        <button class="ui green button" type="submit">edit</button>
+                        <button class="ui green button" type="submit">Edit</button>
                     </form>
                 </div>
+                  <div class="ui center text container my-4">
+                      <h1 class="ui inverted header"></h1>
+                  </div>
             </div>
-            <div class="col-2"></div>
-          </div>
         </div>
     {% else %}
-        You are not the correct User to edit this page ...
+        <div class="ui inverted vertical masthead aligned segment">
+            <div class="ui center text container">
+                <div class="ui center text container my-4">
+                    <h1 class="ui inverted header">OOOPS.... <i class="user secret icon"></i></h1>
+                </div>
+                <h2>
+                    You are not the correct User to edit this page !
+                </h2>
+                <div class="ui center text container my-4">
+                    <h1 class="ui inverted header"></h1>
+                </div>
+            </div>
+        </div>
     {% endif %}
 {% else %}
-    You are not allowed here! (...and you know it)
+ <div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">OOOPS.... <i class="user secret icon"></i></h1>
+        </div>
+        <h2>
+           You are not allowed here! (...and you know it)
+        </h2>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
+    </div>
+</div>
+
+
 {% endif %}
 {% endblock content %}

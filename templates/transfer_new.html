@@ -20,16 +20,43 @@
           </div>
         </div>
     {% else %}
-        <h1>Please, create a profile page to add some transfer </h1>
-        <div class="item">
-            <a class="ui inverted" href="{% url 'create_profile_page' %}">Create Profile</a>
+
+     <div class="ui inverted vertical masthead aligned segment">
+        <div class="ui center text container">
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header"> OOOP .... <i class="user secret icon"></i></h1>
+            </div>
+            <div class="item">
+                <h2 class="my-4">Please, create a profile page to add some transfer</h2>
+            </div>
+            <div class="item">
+                <h2><a class="ui inverted red button" href="{% url 'create_profile_page' %}">Create Profile</a></h2>
+            </div>
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header"></h1>
+            </div>
         </div>
+    </div>
+
     {% endif %}
 
 {% else %}
-    Please, Sign up and create a profile to add a transfer
-        <div class="item">
-            <a class="ui inverted" href="{% url 'signup' %}">Signup</a>
+<div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">OOOP .... <i class="user secret icon"></i> </h1>
         </div>
+        <div class="item">
+            <h2> Please, Sign up and create a profile to add a transfer </h2>
+        </div>
+        <div class="item">
+            <a class="ui inverted red button" href="{% url 'signup' %}">Sign up</a>
+        </div>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
+    </div>
+</div>
+
 {% endif %}
 {% endblock content %}

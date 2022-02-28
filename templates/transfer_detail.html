@@ -165,20 +165,17 @@
 
                                 {% else %}
                                     {% if user.profile.id %}
-                                        <div class="action">
-                                            <a class="reply">Reply <i class="reply icon"></i></a>
+                                        <div class="action ui accordion" style="text-align: right;">
+                                            <a class="reply title">Reply <i class="reply icon"></i></a>
                                             <div class="content">
                                                 <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                                <div class="field">
-                                                    {{ form|crispy }}
-                                                </div>
-                                                <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
-                                                <!--                <div class="ui blue labeled submit icon button">-->
-                                                <!--                  <i class="icon edit"></i> Add Reply-->
-                                                <!--                </div>-->
-                                            </form>
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                    <div class="field">
+                                                        {{ form|crispy }}
+                                                    </div>
+                                                    <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
+                                                </form>
                                             </div>
                                         </div>
                                     {% else %}
@@ -257,18 +254,5 @@
 
 
 </script>
-
-
-
-
-<div class="ui accordion">
-    <div class="title">
-      <i class="dropdown icon"></i>
-      What is a dog?
-    </div>
-    <div class="content">
-      <p class="transition hidden">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-    </div>
-</div>
 
  {% endblock content %}

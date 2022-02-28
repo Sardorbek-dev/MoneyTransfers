@@ -6,60 +6,94 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-        <div class="container">
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <h1>Your profile</h1>
-                <p>BIO PageUser EDIT:</p>
-                {{ page_user.bio }}
 
-                <p>First Name:</p>
-                {{ page_user.user.first_name }}
-                
-                <p>Last Name:</p>
-                {{ page_user.user.last_name }}
-                
-                <p>Email:</p>
-                {{ page_user.user.email }}
-                {% comment %} <p>BIO UserPage:</p>
-                {{ page_user.user.bio }} {% endcomment %}
+<div class="ui inverted vertical masthead aligned segment background-specific">
+    <div class="ui center text container">
+        <div class="ui center text container">
+            <h1 class="ui inverted header">Profile</h1>
+        </div>
+        <div class="ui divided items">
+          <div class="item">
+            <div class="image">
+              <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImagehandle">
+            </div>
+            <div class="content">
+              <a class="header">Username: {{ page_user.user.username }}</a>
+              <div class="meta">
+                <span class="cinema">Firstname: {{ page_user.user.first_name }}</span>
+              </div>
+                <div class="meta">
+                <span class="cinema">Lastname: {{ page_user.user.last_name }} </span>
+              </div>
 
-                <p>Gender:</p>
-                {{ page_user.user.gender }}
-
-                <p>Instagram:</p>
-                {{ page_user.instagram_url }}
-                <p>Image</p>
-                {{page_user.user_image}}
-        <!--         {{ user.profile.last_name }}-->
-        <!--         {{ user.profile.bio }}-->
-
-                
-
-                <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImagehandle">
-
-
-
+              <div class="description">
+                <p> bio: {{ page_user.bio }}</p>
+              </div>
+              <div class="extra">
+                <div class="ui label">IMAX</div>
+                <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
                 {% if page_user.telegram_url %}
-                    <a href="{{ page_user.telegram_url}}"> Telegram</a>
+                    <div class="ui label"><a href="{{ page_user.telegram_url}}"> Telegram</a></div>
                 {% endif %}
 
                 {% if page_user.instagram_url %}
-                    <a href="{{ page_user.instagram_url}}">Instagram</a>
+                  <div class="ui label"><a href="{{ page_user.instagram_url}}"> Instagram</a></div>
                 {% endif %}
 
                 {% if page_user.facebook_url %}
-                    <a href="{{ page_user.facebook_url}}">Facebook</a>
+                  <div class="ui label"><a href="{{ page_user.facebook_url}}"> Facebook</a></div>
                 {% endif %}
+              </div>
             </div>
-            <div class="col-2"></div>
+          </div>
         </div>
-        </div>}
-{% else %}
-    Please, <a href="{% url 'login' %}">Login</a> to see the profile page of this user!
-{% endif %}
 
+        <div class="ui minimal comments">
+
+            <h3 class="ui dividing header">Comments()</h3>
+             {% for comment in page_user_comment.all %}
+                 {% if profile.user.id == comment.author.id %}
+                      <div class="comment my-4">
+                          <div class="mb-2">
+                            <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
+                          </div>
+                        <a class="avatar" style="height: 3rem">
+                          <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
+                        </a>
+
+                        <div class="content">
+                          <a class="author">{{comment.author}}</a>
+                          <div class="metadata">
+                            <span class="date">{{comment.date}}</span>
+                          </div>
+                          <div class="text">
+                              {{comment.transfer_comment}}
+                          </div>
+                        </div>
+                      </div>
+                 {% endif %}
+             {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+<div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">OOOPS... <i class="user secret icon"></i></h1>
+        </div>
+        <h2>
+            Please, <a href="{% url 'login' %}">Login</a> to see the profile page of this user!
+        </h2>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <script>
     
@@ -68,5 +102,16 @@
     asss = document.querySelector('.profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
     console.log(asss)
 
+  // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShow')
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+    })
+
 </script>
  {% endblock content %}
+
+
+
+
