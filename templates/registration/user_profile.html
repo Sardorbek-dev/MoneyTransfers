@@ -59,4 +59,14 @@
 {% else %}
     Please, <a href="{% url 'login' %}">Login</a> to see the profile page of this user!
 {% endif %}
+
+
+<script>
+    
+    // dynamic Image profile page
+
+    asss = document.querySelector('.profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
+    console.log(asss)
+
+</script>
  {% endblock content %}

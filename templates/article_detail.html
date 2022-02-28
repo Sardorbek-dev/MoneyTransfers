@@ -60,10 +60,6 @@
                 <button class="ui violet button"><a class="item" href="{% url 'article_list' %}">Barcha Transferlar</a></button>
             </div>
         </div>
-        <div class="ui items">
-            <h1 class="text-center mt-5">Izohlar</h1>
-
-        </div>
         </div>
       </div>
 
@@ -79,7 +75,7 @@
                 {% else %}
                 <div class="comment">
                       <a class="avatar" style="height: 3rem">
-                        <img src="{% static '/images/2_man.jpg' %}" alt="{{page_user.username}}" id="profileImagehandle2">
+                        <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
                       </a>
                     <div class="content">
                         <a class="author">{{ comment.author }}</a>
@@ -106,43 +102,55 @@
                         {% for reply in comment.replies.all %}
                             <div class="comment">
                                   <a class="avatar" style="height: 3rem">
-                                    <img src="{% static '/images/1_man.jpg' %}">
+                                    <img src="{% static '' %}" class="profileImageShowReply" id="{{reply.author.profile.user_image}}">
                                   </a>
                                 <div class="content">
-                                    <a class="author">{{ reply.author }}</a>
+                                    <a class="author">{{ reply.author }} {{ reply.author.profile.user_image }}</a>
                                     <div class="metadata">
                                         <span class="date">{{ reply.date }}</span>
                                     </div>
                                     <div class="text">
                                         {{ reply.comment }}
                                     </div>
-                                    <div class="actions">
-                                        <a class="reply">Reply</a>
-                                    </div>
+                                      <!--add replies beginn -->
+                                    {% if comment.reply.id %}
+                                    {% else %}
+                                        {% if user.profile.id %}
+                                            <div class="actions ui accordion ">
+                                                <a class="reply title">Reply <i class="reply icon"></i></a>
+                                                <div class="content">
+                                                    <form class="ui reply form" method="post" action="{% url 'article_detail_comment' object.pk %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                    <div class="field">
+                                                        {{ form|crispy }}
+                                                    </div>
+                                                    <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
+                                                    <!--                <div class="ui blue labeled submit icon button">-->
+                                                    <!--                  <i class="icon edit"></i> Add Reply-->
+                                                    <!--                </div>-->
+                                                </form>
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <p>Please, create a profile to add some comments</p>
+                                            <div class="item">
+                                                <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                      <!--add replies end -->
                                 </div>
                             </div>
+
                         {% endfor %}
-                            {% if comment.reply.id %}
-                            {% else %}
-                            <form class="ui reply form" method="post" action="{% url 'article_detail_comment' object.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                <div class="field">
-                                    {{ form|crispy }}
-                                </div>
-                                <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
-                                <!--                <div class="ui blue labeled submit icon button">-->
-                                <!--                  <i class="icon edit"></i> Add Reply-->
-                                <!--                </div>-->
-                            </form>
-                            {% endif %}
-                        <!--add replies end -->
+
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
         <!-- comment -->
-        Leave Comments
+        Leave Comments ()
 
         {% if user.is_authenticated %}
             {% if user.profile.id %}
@@ -157,24 +165,54 @@
 <!--                        </div>-->
                     </form>
             {% else %}
-            <h1>Please, create a profile page to add some commenst </h1>
+            <h1>Please, create a profile page to add some comments </h1>
             <div class="item">
-                <a class="ui inverted" href="{% url 'create_profile_page' %}">Create Profile</a>
+                <a class="ui inverted secondary button" href="{% url 'create_profile_page' %}">Create Profile</a>
             </div>
             {% endif %}
 
         <!--add comments end -->
 
         {% else %}
-        Please, Sign up and create a profile to add a comment
+        <br>
+        <p class="mt-2">
+            Please, Sign up and create a profile to add a comment or login
+        </p>
         <div class="item">
-            <a class="ui inverted" href="{% url 'signup' %}">Signup</a>
+            <a class="ui inverted green button mb-4" href="{% url 'login' %}">Login</a>
+            <a class="ui inverted red button mb-4" href="{% url 'signup' %}">Signup</a>
         </div>
+        <div class="item">
+                    </div>
         {% endif %}
+        <h1 class="ui inverted header"></h1>
     </div>
 
 </div>
+</di>
+</di>
+</di>
+</di>
+</di>
 
+<script>
+
+    // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShow')
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+    })
+
+    // Identify images of the author to which comments have replied
+    profileImageShowReply = document.querySelectorAll('.profileImageShowReply')
+    profileImageShowReply.forEach(function(item){
+        each_profileImageReply_id = item.id
+        each_profileImageReply = item.src = "/static/images/" + each_profileImageReply_id + ".jpg"; 
+
+    })
+
+</script>  
 
 
  {% endblock content %}

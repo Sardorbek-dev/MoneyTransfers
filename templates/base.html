@@ -287,6 +287,11 @@
             
           });
 
+          // accordion to hide comment reply field
+          $('.ui.accordion')
+            .accordion()
+          ;
+
         })
         ;
 
@@ -359,12 +364,6 @@
             {% endif %}
         
         }
-
-        // dynamic Image profile page
-
-        asss = document.querySelector('.profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
-        console.log(asss)
-
 
         
     </script>
