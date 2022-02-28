@@ -5,6 +5,7 @@ from .views import (
     TransferDeleteView,
     TransferDetailView,
     TransferCreateView,
+    transfer_detail_comment,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path('<int:pk>/delete/', TransferDeleteView.as_view(), name='transfer_delete'),
     path('new/', TransferCreateView.as_view(), name='transfer_new'),
     path('', TransferListView.as_view(), name='transfer_list'),
+    path('comment/<int:pk>', transfer_detail_comment, name='transfer_detail_comment'),
 ]

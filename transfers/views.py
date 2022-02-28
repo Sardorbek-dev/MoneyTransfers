@@ -1,11 +1,14 @@
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
-from .models import Transfer
+from .models import Transfer, TransferComment
 from .filters import TransferFilter
+from .forms import TransferCommentForm
 
 # Create your views here.
 class TransferListView(ListView):
@@ -18,6 +21,42 @@ class TransferListView(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset())
         return context
+
+
+def transfer_detail_comment(request, pk):
+
+    transfer = Transfer.objects.get(id=pk)
+    transfer_comments = TransferComment.objects.filter(transfer=transfer, reply=None).order_by('-id')
+
+    # Comment posted
+    if request.method == 'POST':
+        transfer_comment_form = TransferCommentForm(request.POST or None)
+        if transfer_comment_form.is_valid():
+            transfer_comment = request.POST.get('transfer_comment')
+            reply_id = request.POST.get('comment_id') #Form ==> id=request.POST.get('comment_id') FROTNEND--> comment_id = name="comment_id"
+            comment_qs = None
+            if reply_id:
+                comment_qs = TransferComment.objects.get(id=reply_id)
+                new_transfer_comment = TransferComment.objects.create(transfer=transfer, author=request.user, transfer_comment=transfer_comment, reply=comment_qs)
+            else:
+                new_transfer_comment = TransferComment.objects.create(transfer=transfer, author=request.user, transfer_comment=transfer_comment, reply=comment_qs)
+
+            new_transfer_comment.save()
+
+            return HttpResponseRedirect(transfer.get_absolute_url()) #redirect to article detail page
+
+    else:
+        transfer_comment_form = TransferCommentForm()
+
+    context = {
+        'transfer': transfer,
+        'transfer_comment_form': transfer_comment_form,
+        'transfer_comments': transfer_comments,
+    }
+
+    return render(request, 'transfer_detail.html', context)
+
+
 
 class TransferCreateView(CreateView):
     model = Transfer
@@ -34,6 +73,15 @@ class TransferCreateView(CreateView):
 class TransferDetailView(DetailView):
     model = Transfer
     template_name = 'transfer_detail.html'
+    form = TransferCommentForm()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TransferDetailView, self).get_context_data(*args, **kwargs)
+        stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])
+
+        context['form'] = self.form
+        return context
+
 
 class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transfer

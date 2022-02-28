@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
@@ -11,11 +12,11 @@
           <div class="item">
              {% if transfer.pul_yuboriladigan_davlatni_tanlang != 'GER' %}
                   <div class="image">
-                     <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }">
+                     <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
                   </div>
               {% else %}
                   <div class="image">
-                      <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }">
+                      <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
                   </div>
               {% endif %}
             <div class="middle aligned content">
@@ -102,5 +103,172 @@
         <br/>
     </div>
   </div>
+
+<!--    comments section begin-->
+
+    <div class="ui threaded comments">
+        <h3 class="ui dividing header">Comments</h3>
+        {% if not object.transfer_comments.all %}
+            NO comments yet.. <a href="#">Add one </a>
+        {% else %}
+        <!--comments-->
+
+            {% for comment in object.transfer_comments.all %}
+                {% if comment.reply.id %}
+                {% else %}
+                    <div class="comment">
+                        <a class="avatar" style="height: 3rem">
+                            <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
+                        </a>
+                        <div class="content">
+                            <a class="author">{{ comment.author }}</a>
+                            <div class="metadata">
+                                <span class="date">{{ comment.date }}</span>
+                            </div>
+                            <div class="text">
+                                {{ comment.transfer_comment }}
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!--show all comments end -->
+                <!--transfer_comment-->
+                    {% if comment.reply.id %}
+                    {% else%}
+                        <div class="comment">
+
+                            <!--comment with replies-->
+
+                            <!--replies-->
+                            <div class="comments">
+                                {% for reply in comment.transfer_replies.all %}
+                                    <div class="comment">
+                                        <a class="avatar" style="height: 3rem">
+                                            <img src="{% static '' %}" class="profileImageShowReply" id="{{reply.author.profile.user_image}}">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">{{ reply.author }} {{ reply.author.profile.user_image }}</a>
+                                            <div class="metadata">
+                                                <span class="date">{{ reply.date }}</span>
+                                            </div>
+                                            <div class="text">
+                                                {{ reply.transfer_comment }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <!--add replies beginn -->
+                                {% if transfer_comment.reply.id %}
+
+                                {% else %}
+                                    {% if user.profile.id %}
+                                        <div class="action">
+                                            <a class="reply">Reply <i class="reply icon"></i></a>
+                                            <div class="content">
+                                                <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                <div class="field">
+                                                    {{ form|crispy }}
+                                                </div>
+                                                <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
+                                                <!--                <div class="ui blue labeled submit icon button">-->
+                                                <!--                  <i class="icon edit"></i> Add Reply-->
+                                                <!--                </div>-->
+                                            </form>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p>Please, create a profile to add some comments</p>
+                                        <div class="item">
+                                            <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                <!--add replies end -->
+                            </div>
+                        </div>
+                    {% endif %}
+            {% endfor %}
+        {% endif %}
+        <!-- comment end -->
+        Leave Comments ()
+
+        {% if user.is_authenticated %}
+            {% if user.profile.id %}
+                  <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            {{ form|crispy }}
+                        </div>
+                        <button name="comment_add" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send comment</button>
+                    </form>
+            {% else %}
+                <h1>Please, create a profile page to add some comments </h1>
+                <div class="item">
+                    <a class="ui inverted secondary button" href="{% url 'create_profile_page' %}">Create Profile</a>
+                </div>
+            {% endif %}
+
+        <!--add comments end -->
+
+        {% else %}
+            <br>
+            <p class="mt-2">
+                Please, Sign up and create a profile to add a comment or login
+            </p>
+            <div class="item">
+                <a class="ui inverted green button mb-4" href="{% url 'login' %}">Login</a>
+                <a class="ui inverted red button mb-4" href="{% url 'signup' %}">Signup</a>
+            </div>
+        {% endif %}
+        <h1 class="ui inverted header"></h1>
+    </div>
+
+<!--    comments section end-->
 </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+
+
+    // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShow')
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+    })
+
+    // Identify images of the author to which comments have replied
+    profileImageShowReply = document.querySelectorAll('.profileImageShowReply')
+    profileImageShowReply.forEach(function(item){
+        each_profileImageReply_id = item.id
+        each_profileImageReply = item.src = "/static/images/" + each_profileImageReply_id + ".jpg";
+
+    })
+
+
+</script>
+
+
+
+
+<div class="ui accordion">
+    <div class="title">
+      <i class="dropdown icon"></i>
+      What is a dog?
+    </div>
+    <div class="content">
+      <p class="transition hidden">A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+    </div>
+</div>
+
  {% endblock content %}

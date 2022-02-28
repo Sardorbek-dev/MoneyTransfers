@@ -6,11 +6,11 @@ class CommentInLine(admin.TabularInline):
     model = Comment
     extra = 0
 
-class ArticleAdmin(admin.ModelAdmin):
+class TransferAdmin(admin.ModelAdmin):
     inlines = [CommentInLine]
 
 # Register your models here.
-admin.site.register(Article, ArticleAdmin)
+admin.site.register(Article, TransferAdmin)
 admin.site.register(Comment)
 admin.site.register(Category)
 admin.site.register(Profile)

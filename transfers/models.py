@@ -92,3 +92,22 @@ class Transfer(models.Model):
     #         return Transfer.objects.filter(price=price_id)
     #     else:
     #         return Transfer.get_all_transfers()
+
+
+
+class TransferComment(models.Model):
+    transfer = models.ForeignKey(Transfer, on_delete=models.CASCADE, related_name='transfer_comments')
+    date = models.DateField(auto_now_add=True)
+    reply = models.ForeignKey('TransferComment', null=True, default=None, related_name="transfer_replies", on_delete=models.CASCADE)
+    transfer_comment = models.TextField(max_length=150, default='',)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return '%s - %s' % (self.transfer.title, self.transfer_comment)
+
+    def get_absolute_url(self):
+        return reverse('transfer_list', args=[str(self.id)])
+
