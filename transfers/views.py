@@ -3,15 +3,35 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from django.contrib import messages
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 from django.http import HttpResponseRedirect
+
 
 from .models import Transfer, TransferComment
 from .filters import TransferFilter
 from .forms import TransferCommentForm
 
+
 # Create your views here.
+
+def LikeView(request, pk):
+    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
+    liked = False
+    if transfer.likes.filter(id=request.user.id).exists():
+        transfer.likes.remove(request.user)
+        liked = False
+    else:
+        transfer.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(transfer.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+
+
+
+
 class TransferListView(ListView):
+    paginate_by = 5
     model = Transfer
     template_name = 'transfer_list.html'
     # sorting by ID
@@ -20,13 +40,28 @@ class TransferListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+        filtered_transfers = context['filter']
+        paginator = Paginator(filtered_transfers.qs, self.paginate_by)
 
+        page = self.request.GET.get('page')
+
+        try:
+            filtered_transfers = paginator.page(page)
+        except PageNotAnInteger:
+            filtered_transfers = paginator.page(1)
+        except EmptyPage:
+            filtered_transfers = paginator.page(paginator.num_pages)
+        context['filtered_transfers'] = filtered_transfers
+        return context
 
 def transfer_detail_comment(request, pk):
 
     transfer = Transfer.objects.get(id=pk)
-    transfer_comments = TransferComment.objects.filter(transfer=transfer, reply=None).order_by('-id')
+    transfer_comments = TransferComment.objects.filter(transfer=transfer, reply=None)
+    transferComment = TransferComment.objects.all()
+    p = Paginator(transferComment, 5)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
 
     # Comment posted
     if request.method == 'POST':
@@ -51,7 +86,7 @@ def transfer_detail_comment(request, pk):
     context = {
         'transfer': transfer,
         'transfer_comment_form': transfer_comment_form,
-        'transfer_comments': transfer_comments,
+        'page_obj': page_obj,
     }
 
     return render(request, 'transfer_detail.html', context)
@@ -77,8 +112,16 @@ class TransferDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TransferDetailView, self).get_context_data(*args, **kwargs)
-        stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])
+        stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])  # for loop all Articles with pk key, if doesnt exit, get 404
+        total_likes = stuff.total_likes()  # from model 'total_likes' function
+        # print('stuff:', stuff)
 
+        liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        context['total_likes'] = total_likes
+        context['liked'] = liked
         context['form'] = self.form
         return context
 

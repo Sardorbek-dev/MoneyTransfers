@@ -20,7 +20,7 @@
                <input class="ui green button my-3" type="submit" value="Qidirish...">
            </form>
 
-        {% for transfer in filter.qs %}
+        {% for transfer in filtered_transfers %}
             <br/>
             <div class="ui divided items p-4 border">
               <div class="item">
@@ -95,10 +95,76 @@
             </div>
 
         {% endfor %}
+           <!--Pagination-->
+        <div class="container my-5">
+            <div class="row text-center">
+                 <div class="ui small horizontal divided list">
+                     {% if page_obj.has_previous %}
+                         <div class="item">
+                           <div class="content">
+                               <a href="?page=1" class="header">&laquo; first</a>
+                           </div>
+                         </div>
+                         <div class="item">
+                           <div class="content">
+                               <a href="?page={{ page_obj.previous_page_number }}" class="header">previous</a>
+                           </div>
+                         </div>
+                     {% endif %}
+
+                    <div class="item">
+                       <div class="content">
+                           <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
+                       </div>
+                    </div>
+                     {% if page_obj.has_next %}
+                        <div class="item">
+                           <div class="content">
+                                <a href="?page={{ page_obj.next_page_number }}" class="header">next</a>
+                           </div>
+                        </div>
+                         <div class="item">
+                            <div class="content">
+                                <a href="?page={{ page_obj.paginator.num_pages }}" class="header">last &raquo;</a>
+                           </div>
+                         </div>
+                     {% endif %}
+                    </div>
+                 </div>
+            </div>
+
+<!--           <nav aria-label="Page navigation example">-->
+<!--              <ul class="pagination">-->
+<!--                {% if page_obj.has_previous %}-->
+<!--                    <li class="page-item">-->
+<!--                        <a class="page-link" href="#">-->
+<!--                            <a href="?page=1">&laquo; first</a>-->
+<!--                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                {% endif %}-->
+
+<!--                <li class="page-item">-->
+<!--                    <a class="page-link" href="#">-->
+<!--                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                {% if page_obj.has_next %}-->
+<!--                    <li class="page-item">-->
+<!--                        <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+<!--                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
+<!--                    </li>-->
+<!--                {% endif %}-->
+<!--              </ul>-->
+<!--            </nav>-->
+
 
        </div>
     </div>
   </div>
     </div>
 </div>
+
+
+
  {% endblock content %}

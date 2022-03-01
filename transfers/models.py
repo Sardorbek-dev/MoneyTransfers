@@ -71,10 +71,17 @@ class Transfer(models.Model):
     price = models.IntegerField()
     photo = models.ImageField(upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(get_user_model(), related_name='transfers_like', blank=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
     )
+
+    def get_likes(self):
+        return self
+
+    def total_likes(self):
+        return self.likes.count() # just count all likes
 
     def __str__(self):
         return self.title
@@ -108,6 +115,6 @@ class TransferComment(models.Model):
     def __str__(self):
         return '%s - %s' % (self.transfer.title, self.transfer_comment)
 
-    def get_absolute_url(self):
-        return reverse('transfer_list', args=[str(self.id)])
-
+    # def get_absolute_url(self):
+    #     return reverse('transfer_list', args=[str(self.id)])
+    #

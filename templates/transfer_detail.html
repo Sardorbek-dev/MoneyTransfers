@@ -75,6 +75,26 @@
                   </span>
                     {{ transfer.pul_yuboriladigan_davlatni_tanlang }}
 
+                   <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                        {% if user.is_authenticated %}
+                            {% if liked %}
+                                <button type="submit" name="transfer_id" value="{{ object.id }}" class="ui red button likeButton">
+                                    <i class="thumbs down outline icon"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                    <p class="item">
+                                        <i class="thumbs up outline icon"></i>
+                                    </p>
+                                </button>
+                            {% endif %}
+                        {% else %}
+                          Login to like
+                        {% endif %}
+
+                        <span>Liked: {{ object.total_likes  }}</span>
+                    </form>
+
                   {% if user.is_authenticated %}
                       <div class="ui right floated button">
                           Bog'lanish
@@ -107,7 +127,7 @@
 <!--    comments section begin-->
 
     <div class="ui threaded comments">
-        <h3 class="ui dividing header">Comments</h3>
+        <h3 class="ui dividing header">Comments {{ transfer.page_obj }}</h3>
         {% if not object.transfer_comments.all %}
             NO comments yet.. <a href="#">Add one </a>
         {% else %}
@@ -230,8 +250,48 @@
                 <a class="ui inverted red button mb-4" href="{% url 'signup' %}">Signup</a>
             </div>
         {% endif %}
+
+               <!--Pagination-->
+<!--        <div class="container my-5">-->
+<!--            <div class="row text-center">-->
+<!--                 <div class="ui large horizontal divided list">-->
+<!--                     {% if page_obj.has_previous %}-->
+<!--                         <div class="item">-->
+<!--                           <div class="content">-->
+<!--                               <a href="?page=1" class="header">&laquo; first</a>-->
+<!--                           </div>-->
+<!--                         </div>-->
+<!--                         <div class="item">-->
+<!--                           <div class="content">-->
+<!--                               <a href="?page={{ page_obj.previous_page_number }}" class="header">previous</a>-->
+<!--                           </div>-->
+<!--                         </div>-->
+<!--                     {% endif %}-->
+
+<!--                    <div class="item">-->
+<!--                       <div class="content">-->
+<!--                           <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>-->
+<!--                       </div>-->
+<!--                    </div>-->
+<!--                     {% if page_obj.has_next %}-->
+<!--                        <div class="item">-->
+<!--                           <div class="content">-->
+<!--                                <a href="?page={{ page_obj.next_page_number }}" class="header">next</a>-->
+<!--                           </div>-->
+<!--                        </div>-->
+<!--                         <div class="item">-->
+<!--                            <div class="content">-->
+<!--                                <a href="?page={{ page_obj.paginator.num_pages }}" class="header">last &raquo;</a>-->
+<!--                           </div>-->
+<!--                         </div>-->
+<!--                     {% endif %}-->
+<!--                    </div>-->
+<!--                 </div>-->
+<!--            </div>-->
         <h1 class="ui inverted header"></h1>
     </div>
+
+
 
 <!--    comments section end-->
 </div>
