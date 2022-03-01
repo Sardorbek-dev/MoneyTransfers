@@ -72,6 +72,7 @@ class Transfer(models.Model):
     photo = models.ImageField(upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='transfers_like', blank=True)
+    reputations = models.ManyToManyField(get_user_model(), related_name='reputations_like', blank=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -80,8 +81,14 @@ class Transfer(models.Model):
     def get_likes(self):
         return self
 
+    def get_reputations(self):
+        return self
+
     def total_likes(self):
         return self.likes.count() # just count all likes
+
+    def total_reputations(self):
+        return self.reputations.count() # just count all reputations
 
     def __str__(self):
         return self.title

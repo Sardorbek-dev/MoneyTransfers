@@ -92,7 +92,26 @@
                           Login to like
                         {% endif %}
 
-                        <span>Liked: {{ object.total_likes  }}</span>
+                        <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
+                    </form>
+                   <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                        {% if user.is_authenticated %}
+                            {% if reputation %}
+                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
+                                    <i class="thumbs down outline icon"></i>
+                                </button>
+                            {% else %}
+                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                    <p class="item">
+                                        <i class="thumbs up outline icon"></i>
+                                    </p>
+                                </button>
+                            {% endif %}
+                        {% else %}
+                          Login to give reputation
+                        {% endif %}
+
+                        <span> Reputation: {{ object.total_reputations }}</span>
                     </form>
 
                   {% if user.is_authenticated %}
