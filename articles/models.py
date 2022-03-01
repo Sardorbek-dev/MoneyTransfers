@@ -4,6 +4,7 @@ from django import forms
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from datetime import datetime, date
+from django.utils import timezone
 from django.conf import settings
 
 # Create your models here.
@@ -19,6 +20,7 @@ class Category(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
     bio = models.TextField()
+    date = models.DateField(auto_now_add=True) # How can my django model DateField add 30 days to the provided value? models.DateTimeField(default=datetime.now()+timedelta(days=30))
     user_image = models.CharField(max_length=50) #selected image through id
     telegram_url = models.CharField(max_length=255, blank=True, null=True)
     instagram_url = models.CharField(max_length=255, blank=True, null=True)

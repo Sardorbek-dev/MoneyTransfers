@@ -12,7 +12,7 @@
             <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
                 {{ form.media }}
                 {{ form|crispy }}
-               
+               <p>Please, choose a profile photo* </p>
                       <div class="ui six doubling cards special" id="ImageFieldId">
                         {% if user.gender == 'female' %}
                         <div class="card">

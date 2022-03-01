@@ -5,20 +5,22 @@
 {% block content %}
 {% if user.is_authenticated %}
     {% if user.profile.id %}
-        <div class="container">
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-                <h1 class="text-center m-4">New Transfer</h1>
-                <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
-                    {{ form.media }}
-                    {{ form|crispy }}
-                    <button class="ui green button mt-3" type="submit">post</button> <small>(Your email address will not be published)</small>
-                </form>
+     <div class="ui inverted vertical masthead aligned segment">
+        <div class="ui center text container">
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header">New Transfer <i class="sync icon"></i></h1>
             </div>
-            <div class="col-2"></div>
-          </div>
+            <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                <button class="ui green button mt-3" type="submit">Submit</button> <small>(Please, check all informations, before creating a new transfer)</small>
+            </form>
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header"></h1>
+            </div>
         </div>
+    </div>
+
     {% else %}
 
      <div class="ui inverted vertical masthead aligned segment">
@@ -47,9 +49,10 @@
             <h1 class="ui inverted header">OOOP .... <i class="user secret icon"></i> </h1>
         </div>
         <div class="item">
-            <h2> Please, Sign up and create a profile to add a transfer </h2>
+            <h2> Please, Login or Sign up to add a new transfer </h2>
         </div>
-        <div class="item">
+        <div class="item my-3">
+            <a class="ui inverted green button" href="{% url 'login' %}">Login</a>
             <a class="ui inverted red button" href="{% url 'signup' %}">Sign up</a>
         </div>
         <div class="ui center text container my-4">

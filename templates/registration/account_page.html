@@ -6,54 +6,49 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <div class="container">
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <h1>Your Account</h1>
-            
-            <p>First Name:</p>
-            {{ user.first_name }}
-            
-            <p>Last Name:</p>
-            {{ user.last_name }}
-            
-            <p>Age:</p>
-            {{ user.age }}
 
-            <p>Email:</p>
-            {{ user.email }}
-
-
-            {% comment %} <p>Instagram:</p>
-            {{ user.profile.instagram_url }} {% endcomment %}
-    <!--         {{ user.profile.last_name }}-->
-    <!--         {{ user.profile.bio }}-->
-
-            {% if user.profile.id %}
-                {% if user.profile.user_image %}
-                    <img src="{{ page_user.user_image.url }}" alt="">
-                {% else %}
-                    <img src="{% static '/images/profile_foto.png' %}" alt="">
-                {% endif %}
-
-                {% if user.profile.telegram_url %}
-                    <a href="{{ user.profile.telegram_url}}"> Telegram |</a>
-                {% endif %}
-                {% if user.profile.instagram_url %}
-                    <a href="{{ user.profile.instagram_url}}">Instagram |</a>
-                {% endif %}
-
-                {% if user.profile.facebook_url %}
-                    <a href="{{ user.profile.facebook_url}}">Facebook</a>
-                {% endif %}
-            {% endif %}
+<div class="ui inverted vertical masthead aligned segment background-specific">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">Account settings<i class="user secret icon"></i></h1>
         </div>
-        <div class="col-2"></div>
+        <div class="ui items">
+          <div class="item">
+            <div class="ui small image">
+              <img src="{% static '' %}" alt="{{user.profile.}}" class="profileImagehandle">
+            </div>
+            <div class="content">
+              <div class="header">Username: {{ user.username }}</div>
+              <div class="meta">
+                <p>Account created: {{ user.date_joined }} </p>
+              </div>
+              <div class="description">
+                    <p class="price">Firstname: {{ user.first_name }}</p>
+                    <p class="stay">Lastname: {{ user.last_name }} </p>
+                    <p class="stay">Email: {{ user.email }} </p>
+                    <p class="stay">Gender: {{ user.gender }} </p>
+                    <p class="stay">Age: {{ user.age }} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
     </div>
-    </div>
+</div>
+
 {% else %}
     Please Login to see the profile page of this user! (...and you know it)
 {% endif %}
 
+<script>
+
+    // dynamic Image profile page
+    asss = document.querySelector('.profileImagehandle').src="/static/images/" + '{{user.profile.user_image}}' + ".jpg";
+
+</script>
+
  {% endblock content %}
+
+

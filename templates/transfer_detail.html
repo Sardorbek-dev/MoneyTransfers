@@ -121,7 +121,7 @@
                             <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
                         </a>
                         <div class="content">
-                            <a class="author">{{ comment.author }}</a>
+                            <a class="author" href="{% url 'user_profile' comment.author.profile.pk %}">{{ comment.author }}</a>
                             <div class="metadata">
                                 <span class="date">{{ comment.date }}</span>
                             </div>
@@ -150,7 +150,7 @@
                                             <img src="{% static '' %}" class="profileImageShowReply" id="{{reply.author.profile.user_image}}">
                                         </a>
                                         <div class="content">
-                                            <a class="author">{{ reply.author }} {{ reply.author.profile.user_image }}</a>
+                                            <a class="author" href="{% url 'user_profile' reply.author.profile.pk %}">{{ reply.author }}</a>
                                             <div class="metadata">
                                                 <span class="date">{{ reply.date }}</span>
                                             </div>
@@ -160,28 +160,36 @@
                                         </div>
                                     </div>
                                 {% endfor %}
+
                                 <!--add replies beginn -->
                                 {% if transfer_comment.reply.id %}
 
                                 {% else %}
-                                    {% if user.profile.id %}
-                                        <div class="action ui accordion" style="text-align: right;">
-                                            <a class="reply title">Reply <i class="reply icon"></i></a>
-                                            <div class="content">
-                                                <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                                    <div class="field">
-                                                        {{ form|crispy }}
-                                                    </div>
-                                                    <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
-                                                </form>
+                                    {% if user.is_authenticated %}
+                                        {% if user.profile.id %}
+                                            <div class="action ui accordion" style="text-align: right;">
+                                                <a class="reply title">Reply <i class="reply icon"></i></a>
+                                                <div class="content">
+                                                    <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                        <div class="field">
+                                                            {{ form|crispy }}
+                                                        </div>
+                                                        <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% else %}
+                                            <p>Please, create a profile to add some comments</p>
+                                            <div class="item">
+                                                <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                            </div>
+                                        {% endif %}
                                     {% else %}
-                                        <p>Please, create a profile to add some comments</p>
+                                        <p>Please, Login to add some comments</p>
                                         <div class="item">
-                                            <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                            <a class="ui inverted primary button" href="{% url 'login' %}">Login</a>
                                         </div>
                                     {% endif %}
                                 {% endif %}
