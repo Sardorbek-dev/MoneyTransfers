@@ -8,8 +8,8 @@
 {% if user.is_authenticated %}
 
 <div class="ui inverted vertical masthead aligned segment background-specific">
-    <div class="ui center text container">
-        <div class="ui center text container">
+    <div class="ui text container">
+        <div class="ui text container">
             <h1 class="ui inverted header">Profile</h1>
         </div>
         <div class="ui divided items">
@@ -50,37 +50,171 @@
             </div>
           </div>
         </div>
-
-        <div class="ui minimal comments">
-
-            <h3 class="ui dividing header">Comments()</h3>
-             {% for comment in page_user_comment.all %}
-                 {% if profile.user.id == comment.author.id %}
-                      <div class="comment my-4">
-                          <div class="mb-2">
-                            <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
-                          </div>
-                        <a class="avatar" style="height: 3rem">
-                          <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
-                        </a>
-
+    </div>
+    <div class="container text-center my-5">
+        <div class="ui special cards justify-content-center flex-lg-nowrap">
+            <div class="card">
+            <div class="blurring dimmable image">
+              <div class="ui dimmer">
+                <div class="content">
+                  <div class="center">
+                    <div class="ui inverted button"><h2>Transfers 20050</h2></div>
+                  </div>
+                </div>
+              </div>
+              <img src="{% static '/assets/img/transfers.png' %}" >
+            </div>
+          </div>
+            <div class="card">
+            <div class="blurring dimmable image">
+              <div class="ui dimmer">
+                <div class="content">
+                  <div class="center">
+                    <div class="ui inverted button">Reputations</div>
+                  </div>
+                </div>
+              </div>
+              <img src="{% static '/assets/img/reputations.png' %}">
+            </div>
+          </div>
+            <div class="card">
+            <div class="blurring dimmable image">
+              <div class="ui dimmer">
+                <div class="content">
+                  <div class="center">
+                    <div class="ui inverted button">Likes</div>
+                  </div>
+                </div>
+              </div>
+              <img src="{% static '/assets/img/likes.png' %}">
+            </div>
+          </div>
+            <div class="card">
+            <div class="blurring dimmable image">
+              <div class="ui dimmer">
+                <div class="content">
+                  <div class="center">
+                    <div class="ui inverted button">Transfers</div>
+                  </div>
+                </div>
+              </div>
+              <img src="{% static '/assets/img/comments.png' %}" >
+            </div>
+          </div>
+        </div>
+    </div>
+<!--    <div class="ui text container">-->
+<!--        <h1 class="ui inverted header"></h1>-->
+<!--    </div>-->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-2 col-xl-2"></div>
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <!--transfers-->
+                <div class="ui minimal comments">
+                    <div class="ui accordion">
+                        <div class="title ">
+                            <div>
+                                <div class="ui items">
+                                  <div class="item">
+                                    <a class="ui tiny image">
+                                      <img src="{% static '/assets/img/transfers_mini.png' %}">
+                                    </a>
+                                    <div class="middle aligned content">
+                                      <div class="header">
+                                        <i class="history icon"></i>
+                                        History of all transfers
+                                      </div>
+                                        <div class="description">
+                                            <p>Click to show!</p>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="content">
-                          <a class="author">{{comment.author}}</a>
-                          <div class="metadata">
-                            <span class="date">{{comment.date}}</span>
-                          </div>
-                          <div class="text">
-                              {{comment.transfer_comment}}
+                             {% for transfer in page_user_transfer.all %}
+                                 {% if profile.user.id == transfer.author.id %}
+                                      <div class="comment my-4">
+                                          <div class="mb-2">
+                                            <p class="reply"><a href="{% url 'transfer_detail' transfer.pk %}" >{{transfer.title}}</a> at {{transfer.date}}</p>
+                                          </div>
+                                        <a class="avatar" style="height: 3rem">
+                                          <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
+                                        </a>
+
+                                        <div class="content">
+                                          <a class="author">{{transfer.author}}</a>
+                                          <div class="metadata">
+                                            <span class="date">{{transfer.date}}</span>
+                                          </div>
+                                          <div class="text">
+                                              {{transfer.description|safe}}
+                                          </div>
+                                        </div>
+                                      </div>
+                                 {% endif %}
+                             {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <!--comments-->
+                <div class="ui minimal comments">
+                   <div class="ui accordion">
+                      <div class="title">
+                       <div class="ui items">
+                          <div class="item">
+                            <a class="ui tiny image">
+                              <img src="{% static '/assets/img/comments_mini.png' %}">
+                            </a>
+                            <div class="middle aligned content">
+                              <div class="header">
+                                <i class="history icon"></i>
+                                History of all comments
+                              </div>
+                                <div class="description">
+                                    <p>Click to show!</p>
+                                </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                 {% endif %}
-             {% endfor %}
+                      <div class="content">
+                            {% for comment in page_user_comment.all %}
+                             {% if profile.user.id == comment.author.id %}
+                                  <div class="comment my-4">
+                                      <div class="mb-2">
+                                        <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
+                                      </div>
+                                    <a class="avatar" style="height: 3rem">
+                                      <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
+                                    </a>
 
+                                    <div class="content">
+                                      <a class="author">{{comment.author}}</a>
+                                      <div class="metadata">
+                                        <span class="date">{{comment.date}}</span>
+                                      </div>
+                                      <div class="text">
+                                          {{comment.transfer_comment}}
+                                      </div>
+                                    </div>
+                                  </div>
+                             {% endif %}
+                         {% endfor %}
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-xl-2"></div>
         </div>
-        <div class="ui center text container">
-            <h1 class="ui inverted header"></h1>
-        </div>
+    </div>
+    <div class="ui center text container">
+        <h1 class="ui inverted header"></h1>
     </div>
 </div>
 
@@ -115,7 +249,3 @@
 
 </script>
  {% endblock content %}
-
-
-
-

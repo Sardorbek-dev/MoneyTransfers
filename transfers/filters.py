@@ -31,7 +31,7 @@ class TransferFilter(django_filters.FilterSet):
         model = Transfer
         fields = {
             'title': ['icontains'],
-            'pul_yuboriladigan_davlatni_tanlang': ['icontains'],
+            'location': ['icontains'],
             'price': ['icontains'],
         }
         labels = {
@@ -45,10 +45,10 @@ class TransferFilter(django_filters.FilterSet):
     def filter_location(self, queryset, name, value):
         if value == 'GER':
             expression_location = 'GER'
-            return queryset.filter(pul_yuboriladigan_davlatni_tanlang=expression_location)
+            return queryset.filter(location=expression_location)
         else:
             expression_location = 'UZB'
-            return queryset.filter(pul_yuboriladigan_davlatni_tanlang=expression_location)
+            return queryset.filter(location=expression_location)
 
     # def filter_transfer_art(self, queryset, name, value):
     #

@@ -10,7 +10,7 @@
     <div class="col-12">
         <div class="ui items">
           <div class="item">
-             {% if transfer.pul_yuboriladigan_davlatni_tanlang != 'GER' %}
+             {% if transfer.location != 'GER' %}
                   <div class="image">
                      <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
                   </div>
@@ -31,7 +31,7 @@
                 </div>
               <div class="extra">
                   <div class="ui label">{{ transfer.price }}</div>
-                  {% if transfer.pul_yuboriladigan_davlatni_tanlang != 'GER' %}
+                  {% if transfer.location != 'GER' %}
                       <div class="ui label"><i class="globe icon"></i>
                          <i class="uz flag"></i>
                       </div>
@@ -41,24 +41,24 @@
                   </div>
                  {% endif %}
 
-                  {% if transfer.transfer_pul_birligini_tanlang == 'dollar' %}
+                  {% if transfer.moneyCurrency == 'dollar' %}
                       <div class="ui label">
                          <i class="dollar sign icon"></i>
                       </div>
-                  {% elif transfer.transfer_pul_birligini_tanlang == 'euro' %}
+                  {% elif transfer.moneyCurrency == 'euro' %}
                       <div class="ui label">
                          <i class="euro sign icon"></i>
                       </div>
-                  {% elif transfer.transfer_pul_birligini_tanlang == 'som' %}
+                  {% elif transfer.moneyCurrency == 'som' %}
                       <div class="ui label">
                          <i class="money bill alternate icon"></i>
                       </div>
-                  {% elif transfer.transfer_pul_birligini_tanlang == 'euroordollar' %}
+                  {% elif transfer.moneyCurrency == 'euroordollar' %}
                       <div class="ui label">
                          <i class="euro sign icon"></i>
                          <i class="dollar sign icon"></i>
                       </div>
-                  {% elif transfer.transfer_pul_birligini_tanlang == 'euroorsom' %}
+                  {% elif transfer.moneyCurrency == 'euroorsom' %}
                       <div class="ui label">
                          <i class="euro sign icon"></i>
                          <i class="money bill alternate icon"></i>
@@ -73,7 +73,7 @@
                   <span>
                       <i class="map pin icon"></i> LOCATION:
                   </span>
-                    {{ transfer.pul_yuboriladigan_davlatni_tanlang }}
+                    {{ transfer.location }}
 
                    <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
                         {% if user.is_authenticated %}

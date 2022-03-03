@@ -6,13 +6,15 @@ from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Transfer(models.Model):
-    title = models.CharField(max_length=255)
-    description = RichTextField()
+    title = models.CharField(max_length=255, verbose_name="Transfer nomi",)
+    description = RichTextField(verbose_name="Transfer bo'yicha batafsil ma'lomot")
     os_choice = (
         ('UZB', 'O\'zbekistondan Germaniyaga'),
         ('GER', 'Germaniyadan O\'zbekistonga'),
+        ('UZBUSA', 'O\'zbekistondan Amerikaga'),
+        ('USAUZB', 'Amerikadan O\'zbekistonga'),
     )
-    pul_yuboriladigan_davlatni_tanlang = models.CharField(max_length=100, choices=os_choice)
+    location = models.CharField(max_length=100, choices=os_choice, verbose_name='Pul yuboriladigan davlatni tanlang')
     os_choice2 = (
         ('dollar', 'faqat dollarda kerak'),
         ('som', 'faqat sömda kerak'),
@@ -22,7 +24,7 @@ class Transfer(models.Model):
         ('somordollar', 'dollar yoki sömda kerak'),
         ('irrelevant', 'farqi yo\'q'),
     )
-    transfer_pul_birligini_tanlang = models.CharField(max_length=50, choices=os_choice2)
+    moneyCurrency = models.CharField(max_length=50, choices=os_choice2, verbose_name="Transfer pul birligini tanlang")
     os_choice3 = (
         ('fasttransfer', 'Echtzeit Überweisung'),
         ('plastik', 'Plastik karta'),
@@ -31,7 +33,7 @@ class Transfer(models.Model):
         ('normaltransfer', 'Bank hisob raqamidan (2-3 ish kuni davom etadi)'),
         ('irrelevant', 'farqi yo\'q'),
     )
-    transfer_turi = MultiSelectField(choices=os_choice3)
+    transferArt = MultiSelectField(choices=os_choice3, verbose_name="Transfer turi")
     os_choice4 = (
         ('toshkent', 'Toshkent'),
         ('tashkent_city', 'Toshkent shahri'),
@@ -67,8 +69,8 @@ class Transfer(models.Model):
         ('saarland', 'Saarland'),
         ('bremen', 'Bremen'),
     )
-    qaysi_shahar_yoki_viloyat_yubormoqchisiz = models.CharField(max_length=50, choices=os_choice4)
-    price = models.IntegerField()
+    whichLocation = models.CharField(max_length=50, choices=os_choice4, verbose_name="Qaysi shahar yoki viloyat/Bundesland ga yubormoqchisiz?")
+    price = models.IntegerField(verbose_name="Transfer qilinadigan pul miqdori")
     photo = models.ImageField(upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='transfers_like', blank=True)

@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 
 from .models import Transfer, TransferComment
 from .filters import TransferFilter
-from .forms import TransferCommentForm
+from .forms import TransferCommentForm, TransferForm
 
 
 # Create your views here.
@@ -105,9 +105,8 @@ def transfer_detail_comment(request, pk):
 
 
 class TransferCreateView(CreateView):
-    model = Transfer
+    form_class = TransferForm
     template_name = 'transfer_new.html'
-    fields = ('title', 'description','pul_yuboriladigan_davlatni_tanlang', 'transfer_pul_birligini_tanlang', 'transfer_turi', 'qaysi_shahar_yoki_viloyat_yubormoqchisiz', 'price',)
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -146,7 +145,7 @@ class TransferDetailView(DetailView):
 
 class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transfer
-    fields = ['title', 'description', 'pul_yuboriladigan_davlatni_tanlang', 'transfer_pul_birligini_tanlang', 'transfer_turi', 'qaysi_shahar_yoki_viloyat_yubormoqchisiz', 'price',]
+    fields = ['title', 'description', 'location', 'moneyCurrency', 'transferArt', 'whichLocation', 'price',]
     template_name = 'transfer_edit.html'
 
     def test_func(self):
