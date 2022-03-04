@@ -33,10 +33,37 @@ class ShowProfilePageView(DetailView):
         # users = Profile.objects.all()  # fetch all categoris from backend
         context = super(ShowProfilePageView, self).get_context_data(*args, **kwargs)
         page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
-        page_user_transfer = Transfer.objects.all
-        page_user_comment = TransferComment.objects.all
+        page_user_comment = TransferComment.objects.filter(author_id=page_user.id)
+        page_user_transfer = Transfer.objects.filter(author_id=page_user.id)
 
 
+        # count all likes
+        likes_array = []
+        for eachtransfer in page_user_transfer:
+            if eachtransfer.total_likes:
+                print('True')
+                likes_array.append(eachtransfer.total_likes())
+                total_likes = 0
+                for i in range(0, len(likes_array)):
+                    total_likes = total_likes + likes_array[i];
+                    total_likes
+                context['total_likes'] = total_likes
+            else:
+                context['total_likes'] = 0
+                print('False')
+
+        # count all reputation
+        reputations_array = []
+        for eachtransfer in page_user_transfer:
+            if eachtransfer.total_reputations:
+                reputations_array.append(eachtransfer.total_reputations())
+                total_reputations = 0
+                for i in range(0, len(reputations_array)):
+                    total_reputations = total_reputations + reputations_array[i];
+                    total_reputations
+                context['total_reputations'] = total_reputations
+            else:
+                context['total_reputations'] = 0
 
         context['page_user'] = page_user
         context['page_user_comment'] = page_user_comment

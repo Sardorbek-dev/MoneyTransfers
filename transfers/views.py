@@ -122,7 +122,8 @@ class TransferDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TransferDetailView, self).get_context_data(*args, **kwargs)
-        stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])  # for loop all Articles with pk key, if doesnt exit, get 404
+        stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])
+        print('stuffT:', stuff)# for loop all Articles with pk key, if doesnt exit, get 404
         total_likes = stuff.total_likes()  # from model 'total_likes' function
         total_reputations = stuff.total_reputations()
         # print('stuff:', stuff)

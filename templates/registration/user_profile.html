@@ -52,13 +52,14 @@
         </div>
     </div>
     <div class="container text-center my-5">
+        <h1 class="my-4">User activities</h1>
         <div class="ui special cards justify-content-center flex-lg-nowrap">
             <div class="card">
             <div class="blurring dimmable image">
               <div class="ui dimmer">
                 <div class="content">
                   <div class="center">
-                    <div class="ui inverted button"><h2>Transfers 20050</h2></div>
+                    <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>
                   </div>
                 </div>
               </div>
@@ -70,7 +71,13 @@
               <div class="ui dimmer">
                 <div class="content">
                   <div class="center">
-                    <div class="ui inverted button">Reputations</div>
+                    <div class="ui inverted button">
+                        {% if total_reputations > 0%}
+                            <h1>{{total_reputations}}</h1>
+                        {% else %}
+                            <h1>0</h1>
+                        {% endif %}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -78,29 +85,35 @@
             </div>
           </div>
             <div class="card">
-            <div class="blurring dimmable image">
-              <div class="ui dimmer">
-                <div class="content">
-                  <div class="center">
-                    <div class="ui inverted button">Likes</div>
+                <div class="blurring dimmable image">
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <div class="center">
+                        <div class="ui inverted button">
+                            {% if total_likes > 0%}
+                                <h1>{{total_likes}}</h1>
+                            {% else %}
+                                <h1>0</h1>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  <img src="{% static '/assets/img/likes.png' %}">
                 </div>
-              </div>
-              <img src="{% static '/assets/img/likes.png' %}">
             </div>
-          </div>
             <div class="card">
-            <div class="blurring dimmable image">
-              <div class="ui dimmer">
-                <div class="content">
-                  <div class="center">
-                    <div class="ui inverted button">Transfers</div>
+                <div class="blurring dimmable image">
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <div class="center">
+                        <div class="ui inverted button"><h1>{{ page_user_comment.count }}</h1></div>
+                      </div>
+                    </div>
                   </div>
+                  <img src="{% static '/assets/img/comments.png' %}" >
                 </div>
-              </div>
-              <img src="{% static '/assets/img/comments.png' %}" >
             </div>
-          </div>
         </div>
     </div>
 <!--    <div class="ui text container">-->
@@ -134,28 +147,32 @@
                             </div>
                         </div>
                         <div class="content">
-                             {% for transfer in page_user_transfer.all %}
-                                 {% if profile.user.id == transfer.author.id %}
-                                      <div class="comment my-4">
-                                          <div class="mb-2">
-                                            <p class="reply"><a href="{% url 'transfer_detail' transfer.pk %}" >{{transfer.title}}</a> at {{transfer.date}}</p>
-                                          </div>
-                                        <a class="avatar" style="height: 3rem">
-                                          <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
-                                        </a>
+                            {% if page_user_transfer.count > 0 %}
+                                 {% for transfer in page_user_transfer.all %}
+                                     {% if profile.user.id == transfer.author.id %}
+                                          <div class="comment my-4">
+                                              <div class="mb-2">
+                                                <p class="reply"><a href="{% url 'transfer_detail' transfer.pk %}" >{{transfer.title}}</a> at {{transfer.date}}</p>
+                                              </div>
+                                            <a class="avatar" style="height: 3rem">
+                                              <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
+                                            </a>
 
-                                        <div class="content">
-                                          <a class="author">{{transfer.author}}</a>
-                                          <div class="metadata">
-                                            <span class="date">{{transfer.date}}</span>
+                                            <div class="content">
+                                              <a class="author">{{transfer.author}}</a>
+                                              <div class="metadata">
+                                                <span class="date">{{transfer.date}}</span>
+                                              </div>
+                                              <div class="text">
+                                                  {{transfer.description|safe}}
+                                              </div>
+                                            </div>
                                           </div>
-                                          <div class="text">
-                                              {{transfer.description|safe}}
-                                          </div>
-                                        </div>
-                                      </div>
-                                 {% endif %}
-                             {% endfor %}
+                                     {% endif %}
+                                 {% endfor %}
+                             {% else %}
+                                <h3 class="text-center">no transfers yet...</h3>
+                             {% endif %}
                         </div>
                     </div>
                 </div>
@@ -184,8 +201,9 @@
                         </div>
                       </div>
                       <div class="content">
+                          {% if page_user_comment.count > 0 %}
                             {% for comment in page_user_comment.all %}
-                             {% if profile.user.id == comment.author.id %}
+                                {% if profile.user.id == comment.author.id %}
                                   <div class="comment my-4">
                                       <div class="mb-2">
                                         <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
@@ -204,8 +222,12 @@
                                       </div>
                                     </div>
                                   </div>
-                             {% endif %}
-                         {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                          {% else %}
+                            <h3 class="text-center">No comments yet...</h3>
+                          {% endif %}
+
                       </div>
                     </div>
                 </div>
