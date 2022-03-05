@@ -10,9 +10,17 @@
     <div class="col-12">
         <div class="ui items">
           <div class="item">
-             {% if transfer.location != 'GER' %}
+             {% if transfer.location == 'GER' %}
                   <div class="image">
                      <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                  </div>
+             {% elif transfer.location == 'UZBUSA' %}
+                  <div class="image">
+                     <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
+                  </div>
+              {% elif transfer.location == 'USAUZB' %}
+                  <div class="image">
+                     <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
                   </div>
               {% else %}
                   <div class="image">
@@ -23,6 +31,9 @@
               <div class="header">
                 {{ transfer.title }}
               </div>
+                <div class="meta my-3">
+                    <span><i class="eye icon"></i> Views: {{ object.total_views }}</span>
+                </div>
               <div class="description">
                 <h4>{{ object.description | safe }}</h4>
               </div>
@@ -94,25 +105,27 @@
 
                         <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
                     </form>
-                   <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                        {% if user.is_authenticated %}
-                            {% if reputation %}
-                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
-                                    <i class="thumbs down outline icon"></i>
-                                </button>
+                  {% if user.id == transfer.author.profile.id %}
+                  {% else %}
+                       <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                                {% if reputation %}
+                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
+                                         <i class="arrow down icon"></i>
+                                    </button>
+                                {% else %}
+                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                        <p class="item">
+                                             <i class="arrow up icon"></i>
+                                        </p>
+                                    </button>
+                                {% endif %}
                             {% else %}
-                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                    <p class="item">
-                                        <i class="thumbs up outline icon"></i>
-                                    </p>
-                                </button>
+                              Login to give reputation
                             {% endif %}
-                        {% else %}
-                          Login to give reputation
-                        {% endif %}
-
-                        <span> Reputation: {{ object.total_reputations }}</span>
-                    </form>
+                            <span> Reputation: {{ object.total_reputations }}</span>
+                        </form>
+                   {% endif %}
 
                   {% if user.is_authenticated %}
                       <div class="ui right floated button">
@@ -313,12 +326,6 @@
 
 
 <!--    comments section end-->
-</div>
-
-</div>
-</div>
-</div>
-</div>
 </div>
 
 <script>

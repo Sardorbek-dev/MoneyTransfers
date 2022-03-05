@@ -13,6 +13,12 @@ class Transfer(models.Model):
         ('GER', 'Germaniyadan O\'zbekistonga'),
         ('UZBUSA', 'O\'zbekistondan Amerikaga'),
         ('USAUZB', 'Amerikadan O\'zbekistonga'),
+        ('JPYUZB', 'Yaponiyadan O\'zbekistonga'),
+        ('UZBJPY', 'O\'zbekistondan Yaponiyaga'),
+        ('KORUZB', 'Koreyadan O\'zbekistondan'),
+        ('UZBKOR', 'O\'zbekistondan Koreyaga'),
+        ('TURUZB', 'Turkiyadan O\'zbekistonga'),
+        ('UZBTUR', 'O\'zbekistondan Turkiyaga'),
     )
     location = models.CharField(max_length=100, choices=os_choice, verbose_name='Pul yuboriladigan davlatni tanlang')
     os_choice2 = (
@@ -33,7 +39,7 @@ class Transfer(models.Model):
         ('normaltransfer', 'Bank hisob raqamidan (2-3 ish kuni davom etadi)'),
         ('irrelevant', 'farqi yo\'q'),
     )
-    transferArt = MultiSelectField(choices=os_choice3, verbose_name="Transfer turi")
+    transferArt = MultiSelectField(choices=os_choice3, default="fasttransfer", verbose_name="Transfer turi")
     os_choice4 = (
         ('toshkent', 'Toshkent'),
         ('tashkent_city', 'Toshkent shahri'),
@@ -75,6 +81,7 @@ class Transfer(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='transfers_like', blank=True)
     reputations = models.ManyToManyField(get_user_model(), related_name='reputations_like', blank=True)
+    views = models.ManyToManyField(get_user_model(), related_name='transfer_views', blank=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -91,6 +98,9 @@ class Transfer(models.Model):
 
     def total_reputations(self):
         return self.reputations.count() # just count all reputations
+
+    def total_views(self):
+        return self.views.count()  # just count all views
 
     def __str__(self):
         return self.title

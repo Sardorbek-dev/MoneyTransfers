@@ -8,6 +8,7 @@ from .views import (
     transfer_detail_comment,
     LikeView,
     ReputationView,
+    TransferViewView,
 )
 
 urlpatterns = [
@@ -18,5 +19,6 @@ urlpatterns = [
     path('', TransferListView.as_view(), name='transfer_list'),
     path('like/<int:pk>', LikeView, name='like_transfer'),
     path('reputation/<int:pk>', ReputationView, name='reputation_transfer'),
+    path('view/<int:pk>', TransferViewView, name='view_transfer'),
     path('comment/<int:pk>', transfer_detail_comment, name='transfer_detail_comment'),
 ]

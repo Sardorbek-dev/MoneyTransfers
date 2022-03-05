@@ -41,6 +41,18 @@ def ReputationView(request, pk):
         reputation = True
     return HttpResponseRedirect(reverse('transfer_list')) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
 
+def TransferViewView(request, pk):
+    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
+    transfer_view = False
+
+    if transfer.views.filter(id=request.user.id).exists():
+        transfer.views.add(request.user)
+    else:
+        transfer.views.add(request.user)
+        transfer_view = True
+
+    return HttpResponseRedirect(transfer.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+
 class TransferListView(ListView):
     paginate_by = 5
     model = Transfer
@@ -126,20 +138,28 @@ class TransferDetailView(DetailView):
         print('stuffT:', stuff)# for loop all Articles with pk key, if doesnt exit, get 404
         total_likes = stuff.total_likes()  # from model 'total_likes' function
         total_reputations = stuff.total_reputations()
+        total_views = stuff.total_views()
         # print('stuff:', stuff)
 
         liked = False
         reputation = False
+        view = False
+
         if stuff.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         if stuff.reputations.filter(id=self.request.user.id).exists():
             reputation = True
 
+        if stuff.views.filter(id=self.request.user.id).exists():
+            view = True
+
         context['total_likes'] = total_likes
         context['total_reputations'] = total_reputations
+        context['total_views'] = total_views
         context['liked'] = liked
         context['reputation'] = reputation
+        context['view'] = view
         context['form'] = self.form
         return context
 

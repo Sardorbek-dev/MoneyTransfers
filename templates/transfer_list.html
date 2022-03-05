@@ -27,13 +27,21 @@
             <br/>
             <div class="ui divided items p-4 border">
               <div class="item" data-aos="zoom-in">
-                  {% if transfer.location != 'GER' %}
+                   {% if transfer.location == 'UZB' %}
                       <div class="image">
-                         <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }">
+                         <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                      </div>
+                 {% elif transfer.location == 'UZBUSA' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
+                      </div>
+                  {% elif transfer.location == 'USAUZB' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
                       </div>
                   {% else %}
                       <div class="image">
-                          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }">
+                          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
                       </div>
                   {% endif %}
                 <div class="content">
@@ -42,20 +50,38 @@
                     <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - {{ transfer.date }}</a>
                   </div>
                     <div class="extra">
-                        <div class="ui right floated primary button">
-                            <a href="{% url 'transfer_detail' transfer.pk %}" style="color: white">Batafsil...</a>
-                            <i class="right chevron icon"></i>
-                        </div>
+                        <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                             <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
+<!--                             if debugs,then change the logic-->
+<!--                                <a href="{% url 'transfer_detail' transfer.pk %}" type="submit" name="transfer_id" value="{{ transfer.id }}" style="color: white">Batafsil...</a>-->
+                                    batafsil...
+                                 <i class="right chevron icon"></i>
+                            </button>
+<!--                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">-->
+<!--                                <p class="item">-->
+<!--                                    <i class="arrow up icon"></i>-->
+<!--                                </p>-->
+<!--                            </button>-->
+                        </form>
+
                         <div class="ui label">{{ transfer.price }}</div>
-                        {% if transfer.location != 'GER' %}
-                        <div class="ui label"><i class="globe icon"></i>
-                            <i class="uz flag"></i>
-                        </div>
-                        {% else %}
-                        <div class="ui label"><i class="globe icon"></i>
-                            <i class="de flag"></i>
-                        </div>
-                        {% endif %}
+<!--                        {% if transfer.location == 'GER' %}-->
+<!--                            <div class="ui label">-->
+<!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+<!--                            </div>-->
+<!--                        {% elif transfer.location == 'UZBUSA' %}-->
+<!--                            <div class="ui label">-->
+<!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+<!--                            </div>-->
+<!--                        {% elif transfer.location == 'USAUZB' %}-->
+<!--                            <div class="ui label">-->
+<!--                                <i class="globe icon"></i> LOCATION: <i class="us flag"></i>-->
+<!--                            </div>-->
+<!--                        {% else %}-->
+<!--                            <div class="ui label">-->
+<!--                                <i class="globe icon"></i>LOCATION:<i class="de flag" style="margin-left:5px"></i>-->
+<!--                            </div>-->
+<!--                        {% endif %}-->
 
                         {% if transfer.moneyCurrency == 'dollar' %}
                         <div class="ui label">
@@ -86,35 +112,56 @@
                         </div>
                         {% endif %}
 
-                        <span><i class="map pin icon"></i> LOCATION: </span>
-                        <p>
-                            {{ transfer.location }} ({{ transfer.get_whichLocation_display }})
-                        </p>
-                        <span>Liked: {{ transfer.total_likes }} {{ author.liked }}  </span>
-                        <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                            {% if user.is_authenticated %}
-                                {% if reputation %}
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
-                                        <i class="thumbs down outline icon"></i>
-                                    </button>
+                        <div class="meta my-3">
+                            <span><i class="globe icon"></i> LOCATION: </span>
+                            <span>
+                                {% if transfer.location == 'GER' %}
+                                    O'bekiston
+                                {% elif transfer.location == "USAUZB" %}
+                                    Amerika
+                                {% elif transfer.location == "UZBUSA" %}
+                                    O'bekiston
                                 {% else %}
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                        <p class="item">
-                                            <i class="arrow up icon"></i>
-                                        </p>
-                                    </button>
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                        <p class="item">
-                                            <i class="arrow down icon"></i>
-                                        </p>
-                                    </button>
+                                    Germaniya
                                 {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="meta my-3">
+                            <span><i class="flag icon black"></i> TARGER: </span>
+                            <span>
+                                {% if transfer.location == "GER" %}
+                                    O'bekiston: ({{ transfer.get_whichLocation_display }})
+                                {% elif transfer.location == "UZBUSA" %}
+                                    Amerika: ({{ transfer.get_whichLocation_display }})
+                                {% elif transfer.location == "USAUZB" %}
+                                    O'bekiston: ({{ transfer.get_whichLocation_display }})
+                                {% else %}
+                                    Germaniya: ({{ transfer.get_whichLocation_display }})
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="meta my-3">
+                            <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.total_likes }} {{ author.liked }}  </span>
+                            <span> | </span>
+                            <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
+                        </div>
+                        {% if user.id == transfer.author.profile.id %}
+                        {% else %}
+                            <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                    <p class="item">
+                                        <i class="arrow up icon"></i>
+                                    </p>
+                                </button>
                             {% else %}
                               Login to give reputation
                             {% endif %}
 
-                            <span> Reputation: {{ transfer.total_reputations }}</span>
+                            <span> Reputations: {{ transfer.total_reputations }}</span>
                         </form>
+                        {% endif %}
 
                     </div>
                     <div class="description">

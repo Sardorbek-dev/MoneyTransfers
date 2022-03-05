@@ -1,8 +1,12 @@
 import django_filters
 from .models import Transfer
+from django.db import models
+from django import forms
 
 class TransferFilter(django_filters.FilterSet):
-
+    title = django_filters.CharFilter(label='Transfer nomi', widget=forms.TextInput(attrs={'class': 'form-control'}), lookup_expr='icontains')
+    price = django_filters.CharFilter(label='Transfer miqdori', lookup_expr='icontains')
+    location = django_filters.CharFilter(label='davlat qisqartmasi(UZB/GER/USA)', lookup_expr='icontains')
     CHOICES = (
         ('ascending', 'Ösish tartibida'),
         ('descending', 'Kamayish tartibida')
@@ -30,13 +34,9 @@ class TransferFilter(django_filters.FilterSet):
     class Meta:
         model = Transfer
         fields = {
-            'title': ['icontains'],
             'location': ['icontains'],
-            'price': ['icontains'],
         }
-        labels = {
-            'title': 'What is your name',
-        }
+
 
     def filter_by_order(self, queryset, name, value):
         expression = 'price' if value == 'ascending' else '-price'
