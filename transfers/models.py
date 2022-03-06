@@ -19,6 +19,21 @@ class Transfer(models.Model):
         ('UZBKOR', 'O\'zbekistondan Koreyaga'),
         ('TURUZB', 'Turkiyadan O\'zbekistonga'),
         ('UZBTUR', 'O\'zbekistondan Turkiyaga'),
+        ('FRAUZB', 'Fransiyadan O\'zbekistonga'),
+        ('UZBFRA', 'O\'zbekistondan Fransiyaga'),
+        ('SHWUZB', 'Shvetsariyadan O\'zbekistonga'),
+        ('UZBSHW', 'O\'zbekistondan Shvetsariyaga'),
+        ('UZBITA', 'O\'zbekistondan Italiyaga'),
+        ('POLUZB', 'Polshadan O\'zbekistonga'),
+        ('UZBPOL', 'O\'zbekistondan Polshaga'),
+        ('CHEXUZB', 'Chexiyadan O\'zbekistonga'),
+        ('UZBCHEX', 'O\'zbekistondan Chexiyaga'),
+        ('CANUZB', 'Canadadan O\'zbekistonga'),
+        ('UZBCAN', 'O\'zbekistondan Canadaga'),
+        ('AUSTUZB', 'Australiyadan O\'zbekistonga'),
+        ('UZBAUST', 'O\'zbekistondan Australiyaga'),
+        ('AUSUZB', 'Avstriyadan O\'zbekistonga'),
+        ('UZBAUS', 'O\'zbekistondan Avstriyaga'),
     )
     location = models.CharField(max_length=100, choices=os_choice, verbose_name='Pul yuboriladigan davlatni tanlang')
     os_choice2 = (
@@ -75,7 +90,12 @@ class Transfer(models.Model):
         ('saarland', 'Saarland'),
         ('bremen', 'Bremen'),
     )
-    whichLocation = models.CharField(max_length=50, choices=os_choice4, verbose_name="Qaysi shahar yoki viloyat/Bundesland ga yubormoqchisiz?")
+    whichLocation = models.CharField(max_length=50, default='iltimos davlatni tanlang', choices=os_choice4, verbose_name="Qaysi shahar yoki viloyat/Bundesland ga yubormoqchisiz?")
+    os_choice5 = (
+        ('google', 'Google kurs'),
+        ('investing', 'Investing.com kurs')
+    )
+    exchangeRate = models.CharField(max_length=50, choices=os_choice5, verbose_name="Transfer qaysi kursda amalga oshiriladi?")
     price = models.IntegerField(verbose_name="Transfer qilinadigan pul miqdori")
     photo = models.ImageField(upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
@@ -107,18 +127,6 @@ class Transfer(models.Model):
 
     def get_absolute_url(self):
         return reverse('transfer_detail', args=[str(self.id)])
-
-    # @staticmethod
-    # def get_all_transfers(self):
-    #     return Transfer.objects.all()
-    #
-    # @staticmethod
-    # def get_all_transfers_by_id(price_id):
-    #     if price_id:
-    #         return Transfer.objects.filter(price=price_id)
-    #     else:
-    #         return Transfer.get_all_transfers()
-
 
 
 class TransferComment(models.Model):

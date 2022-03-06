@@ -11,7 +11,7 @@
       <h1 class="text-center my-5">Transfer Pool</h1>
       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4" data-aos="fade-right">
            <h4 class="ui text"><i class="filter icon"></i> Filter</h4>
-           <form method="get"class="my-3">{% csrf_token %}
+           <form method="get" class="my-3">{% csrf_token %}
                 {{ form.media }}
                 {{ filter.form|crispy }}
                <input class="ui green button my-3" type="submit" value="Qidirish...">
@@ -44,11 +44,18 @@
                           <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
                       </div>
                   {% endif %}
-                <div class="content">
-                  <p class="header">{{ transfer.title }}</p>
+                  <div class="content">
+                     <p class="header">{{ transfer.title }}</p>
                   <div class="meta">
-                    <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - {{ transfer.date }}</a>
+                     <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - Sana: {{ transfer.date }}</a>
                   </div>
+                   <div class="meta">
+                    <p class="cinema">Transfer kursi: {{ transfer.get_exchangeRate_display }}</p>
+                  </div>
+                  <div class="description">
+                      <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
+                  </div>
+
                     <div class="extra">
                         <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
                              <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
@@ -164,9 +171,6 @@
                         {% endif %}
 
                     </div>
-                    <div class="description">
-                      <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -197,7 +201,7 @@
                      {% if page_obj.has_next %}
                         <div class="item">
                            <div class="content">
-                                <a href="?page={{ page_obj.next_page_number }}" class="header">next</a>
+                                <a href="?page={{ page_obj.next_page_number }}&ordering_price=ascending" class="header">next</a>
                            </div>
                         </div>
                          <div class="item">
