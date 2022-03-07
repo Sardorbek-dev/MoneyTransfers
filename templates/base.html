@@ -269,6 +269,7 @@
         });
     </script>
     <script>
+
         $(document)
         .ready(function() {
 
@@ -376,6 +377,38 @@
             {% endif %}
         
         }
+
+        selectedValue = document.getElementById('id_ordering_price')
+        selectedlocationValue = document.getElementById('id_selected_location')
+        nextButtonPagination = document.getElementById('nextButtonPagination').href
+        console.log(nextButtonPagination)
+        
+        function selectHrefButton(objButton) {
+          result = nextButtonPagination + selectedValue.value + '&selected_location=' + selectedlocationValue.value
+          console.log(objButton)
+          
+        }
+        
+        
+        {% comment %} array_word = []
+        for(let i=0; i <nextButtonPagination.length; i++){
+          array_word.push(nextButtonPagination[i])
+        }
+        
+        for (let i= 0; i < array_word.length; i++){
+          if (array_word[i] == "o"){
+            spliced_array = array_word.splice(0, i)
+
+          }
+
+        }
+
+        console.log(array_word) {% endcomment %}
+        
+
+
+        
+
 
         
     </script>

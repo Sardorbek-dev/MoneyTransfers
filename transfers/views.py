@@ -3,9 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.http import HttpResponseRedirect
 
 
@@ -62,7 +60,7 @@ class TransferListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset())
+        context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
         filtered_transfers = context['filter']
         paginator = Paginator(filtered_transfers.qs, self.paginate_by)
 
