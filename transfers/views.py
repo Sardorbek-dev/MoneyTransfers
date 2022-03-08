@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 
 from .models import Transfer, TransferComment
@@ -13,31 +13,69 @@ from .forms import TransferCommentForm, TransferForm
 
 
 # Create your views here.
+def like(request, pk):
+    if request.POST.get('action') == 'post':
+        result = ''
+        id = int(request.POST.get('postid'))
+        transfer = get_object_or_404(Transfer, id=id)
+        if transfer.likes.filter(id=request.user.id).exists():
+            transfer.likes.remove(request.user)
+            transfer.like_count -= 1
+            result = transfer.like_count
+            transfer.save()
+        else:
+            transfer.likes.add(request.user)
+            transfer.like_count += 1
+            result = transfer.like_count
+            transfer.save()
 
-def LikeView(request, pk):
-    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
-    liked = False
-    if transfer.likes.filter(id=request.user.id).exists():
-        transfer.likes.remove(request.user)
-        liked = False
-    else:
-        transfer.likes.add(request.user)
-        liked = True
+        return JsonResponse({'result': result, })
+    return HttpResponseRedirect(transfer.get_absolute_url())    
 
-    return HttpResponseRedirect(transfer.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+# def LikeView(request, pk):
+#     transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
+#     liked = False
+#     if transfer.likes.filter(id=request.user.id).exists():
+#         transfer.likes.remove(request.user)
+#         liked = False
+#     else:
+#         transfer.likes.add(request.user)
+#         liked = True
+
+#     return HttpResponseRedirect(transfer.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+
+# def ReputationView(request, pk):
+#     transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
+#     reputation = False
+
+#     if transfer.reputations.filter(id=request.user.id).exists():
+#         transfer.reputations.remove(request.user)
+#         reputation = False
+
+#     else:
+#         transfer.reputations.add(request.user)
+#         reputation = True
+#     return HttpResponseRedirect(reverse('transfer_list')) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
 
 def ReputationView(request, pk):
-    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
-    reputation = False
+    if request.POST.get('action') == 'post':
+        result = ''
+        id = int(request.POST.get('postid'))
+        transfer = get_object_or_404(Transfer, id=id)
+        if transfer.reputations.filter(id=request.user.id).exists():
+            transfer.reputations.remove(request.user)
+            transfer.reputation_count -= 1
+            result = transfer.reputation_count
+            transfer.save()
+        else:
+            transfer.reputations.add(request.user)
+            transfer.reputation_count += 1
+            result = transfer.reputation_count
+            transfer.save()
 
-    if transfer.reputations.filter(id=request.user.id).exists():
-        transfer.reputations.remove(request.user)
-        reputation = False
+        return JsonResponse({'result': result, })
+    return HttpResponseRedirect(transfer.get_absolute_url())  
 
-    else:
-        transfer.reputations.add(request.user)
-        reputation = True
-    return HttpResponseRedirect(reverse('transfer_list')) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
 
 def TransferViewView(request, pk):
     transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"

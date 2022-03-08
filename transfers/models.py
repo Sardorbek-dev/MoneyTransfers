@@ -100,7 +100,9 @@ class Transfer(models.Model):
     photo = models.ImageField(upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(get_user_model(), related_name='transfers_like', blank=True)
+    like_count = models.BigIntegerField(default='0')
     reputations = models.ManyToManyField(get_user_model(), related_name='reputations_like', blank=True)
+    reputation_count = models.BigIntegerField(default='0')
     views = models.ManyToManyField(get_user_model(), related_name='transfer_views', blank=True)
     author = models.ForeignKey(
         get_user_model(),

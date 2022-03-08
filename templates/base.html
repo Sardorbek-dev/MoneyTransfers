@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha256-9mbkOfVho3ZPXfM7W8sV2SndrGDuh7wuyLjtsWeTI1Q=" crossorigin="anonymous" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'vendors/aos.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
 <style type="text/css">
     .hidden.menu {
       display: none;
@@ -259,7 +262,7 @@
     </div>
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
 <!--    <script src="/assets/application.js" ></script>-->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -270,7 +273,7 @@
     </script>
     <script>
 
-        $(document)
+      $(document)
         .ready(function() {
 
           // fix menu when passed
@@ -305,8 +308,28 @@
             .accordion()
           ;
 
-        })
-        ;
+      });
+
+
+
+      {% comment %} $(document).on('click', '#like-button', function (e) {
+        e.preventDefault();
+        $.ajax({
+          type: 'POST',
+          url: '{% url "like_transfer" transfer.pk %}',
+          data: {
+            postid: $('#like-button').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+          },
+          success: function (json) {
+            document.getElementById("like_count").innerHTML = json['result']
+          },
+          error: function (xhr, errmsg, err) {
+    
+          }
+        });
+      }) {% endcomment %}
 
 
 
@@ -377,38 +400,6 @@
             {% endif %}
         
         }
-
-        selectedValue = document.getElementById('id_ordering_price')
-        selectedlocationValue = document.getElementById('id_selected_location')
-        nextButtonPagination = document.getElementById('nextButtonPagination').href
-        console.log(nextButtonPagination)
-        
-        function selectHrefButton(objButton) {
-          result = nextButtonPagination + selectedValue.value + '&selected_location=' + selectedlocationValue.value
-          console.log(objButton)
-          
-        }
-        
-        
-        {% comment %} array_word = []
-        for(let i=0; i <nextButtonPagination.length; i++){
-          array_word.push(nextButtonPagination[i])
-        }
-        
-        for (let i= 0; i < array_word.length; i++){
-          if (array_word[i] == "o"){
-            spliced_array = array_word.splice(0, i)
-
-          }
-
-        }
-
-        console.log(array_word) {% endcomment %}
-        
-
-
-        
-
 
         
     </script>
