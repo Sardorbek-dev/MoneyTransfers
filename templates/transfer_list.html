@@ -152,13 +152,23 @@
                             </span>
                         </div>
                         <div class="meta my-3">
-                            <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.total_likes }} {{ author.liked }}  </span>
+                            <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.like_count }} {{ author.liked }}  </span>
                             <span> | </span>
                             <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
                         </div>
                         {% if user.id == transfer.author.profile.id %}
                         {% else %}
-                            <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                                <div class="meta">
+                                    <button class="btn text-dark reputation_count" onclick="myFunction(this)" value="{{transfer.id}}" id="{{transfer.id}}">
+                                        <i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i> Reputations: {{transfer.reputation_count }}
+                                    </button>
+                                </div>
+                            {% else %}
+                                Login to give reputation
+                            {% endif %}
+
+                            {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
                             {% if user.is_authenticated %}
                                 <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
                                     <p class="item">
@@ -170,7 +180,7 @@
                             {% endif %}
 
                             <span> Reputations: {{ transfer.total_reputations }}</span>
-                        </form>
+                        </form> {% endcomment %}
                         {% endif %}
 
                     </div>
@@ -250,4 +260,51 @@
 </div>
 
 
+<script>
+
+
+        function myFunction(obj){
+           superId = document.getElementById(obj.id).children[0]
+           
+            transfer_id = obj.value;
+            
+            $.ajax({
+                type: 'POST',
+                url: '{% url "reputation_transfer" 10 %}'.replace('10', transfer_id),
+                data: {
+                postId: transfer_id,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+                
+                },
+                success: function (json) {
+                    obj.innerHTML = '<i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i>' + ' Reputations:' + ' ' + json['result']
+
+                   
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(err)
+
+                }
+            });
+
+
+
+        }
+
+        //Reputations
+        $(document).on('click', '.new-reputation-button', function (e) {
+            
+        })
+
+</script>  
+
+
  {% endblock content %}
+
+   {% comment %} reputation_button = document.querySelector(".reputation-button-icon")
+                        if (reputation_button.classList.contains('green')) {
+                            reputation_button.classList.remove('green')
+                        } else {
+                            reputation_button.classList.add('green')
+                        } {% endcomment %}

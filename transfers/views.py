@@ -60,7 +60,8 @@ def like(request, pk):
 def ReputationView(request, pk):
     if request.POST.get('action') == 'post':
         result = ''
-        id = int(request.POST.get('postid'))
+        id = int(request.POST.get('postId'))
+        print('currentId:', id) 
         transfer = get_object_or_404(Transfer, id=id)
         if transfer.reputations.filter(id=request.user.id).exists():
             transfer.reputations.remove(request.user)
