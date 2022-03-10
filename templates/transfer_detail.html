@@ -7,8 +7,8 @@
 <div class="container">
   <h1 class="text-center my-5">Transfer bo'yicha batafsil ma'lumot</h1>
   <div class="row">
-    <div class="col-12">
-        <div class="ui items">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+        <div class="ui items p-4 border">
           <div class="item">
              {% if transfer.location == 'GER' %}
                   <div class="image">
@@ -107,8 +107,8 @@
                     </form> {% endcomment %}
 
                   {% comment %} like {% endcomment %}
-                  
-                    <div class="meta">  
+
+                    <div class="meta">
                       <button class="btn text-dark p-0 btn-outline-light" id="like-button" value="{{object.id}}">
                         {% if liked %}
                             <i class="heart icon big red like-button-icon"></i>
@@ -121,9 +121,9 @@
 
                   {% if user.id == transfer.author.profile.id %}
                   {% else %}
-                
+
                   {% comment %} reputation {% endcomment %}
-                    
+
                   <div class="meta">
                         <button class="btn text-dark p-0 btn-outline-light" id="reputation-button" value="{{object.id}}">
                             {% if reputation %}
@@ -182,6 +182,152 @@
         {% endif %}
         <br/>
     </div>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+        <div class="ui text container">
+         <div class="ui text container ">
+            <h1 class="ui inverted header text-dark text-center mb-2">Profile</h1>
+        </div>
+        <div class="ui divided items">
+
+          <div class="item">
+            <div class="image">
+              <img src="{% static '' %}" alt="{{transfer.author.profile.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
+            </div>
+            <div class="content">
+              <a class="header">Username: {{ transfer.author.username }}</a>
+              <div class="meta">
+                <span class="cinema">Profile created: {{ transfer.author.profile.date }}</span>
+              </div>
+               <div class="meta">
+                <span class="cinema">Firstname: {{ transfer.author.first_name }}</span>
+              </div>
+                <div class="meta">
+                <span class="cinema">Lastname: {{ transfer.author.last_name }} </span>
+              </div>
+              <div class="extra">
+                <div class="ui label">IMAX</div>
+                <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+                {% if transfer.author.profile.telegram_url %}
+                    <div class="ui label"><a href="{{ transfer.author.profile.telegram_url}}"> Telegram</a></div>
+                {% endif %}
+
+                {% if transfer.author.profile.instagram_url %}
+                  <div class="ui label"><a href="{{ transfer.author.profile.instagram_url}}"> Instagram</a></div>
+                {% endif %}
+
+                {% if transfer.author.profile.facebook_url %}
+                  <div class="ui label"><a href="{{ transfer.author.profile.facebook_url}}"> Facebook</a></div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui labeled button" tabindex="0">
+          <div class="ui primary button">
+            <i class="exchange icon"></i>Transfers
+          </div>
+          <a class="ui basic left pointing blue label">
+            {{ page_user_transfer.count }}
+          </a>
+        </div>
+         <div class="ui labeled button" tabindex="0">
+          <div class="ui green button">
+            <i class="chart line icon"></i> Reputations
+          </div>
+          <a class="ui basic left pointing blue label">
+            {% if total_reputations > 0 %}
+                {{total_reputations}}
+             {% else %}
+                0
+             {% endif %}
+          </a>
+        </div>
+        <div class="ui labeled button" tabindex="0">
+          <div class="ui red button">
+            <i class="heart icon"></i> Likes
+          </div>
+          <a class="ui basic red left pointing label">
+            {% if total_likes > 0%}
+                {{total_likes}}
+            {% else %}
+                0
+            {% endif %}
+          </a>
+        </div>
+
+        <div class="ui labeled button" tabindex="0">
+          <div class="ui grey button">
+            <i class="comments icon"></i> Comments
+          </div>
+          <a class="ui basic left pointing blue label">
+            {{ page_user_comment.count }}
+          </a>
+        </div>
+
+<!--         <div class="ui special cards justify-content-center flex-lg-nowrap">-->
+<!--            <div class="card">-->
+<!--            <div class="blurring dimmable image">-->
+<!--              <div class="ui dimmer">-->
+<!--                <div class="content">-->
+<!--                  <div class="center">-->
+<!--                    <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <img src="{% static '/assets/img/transfers.png' %}" >-->
+<!--            </div>-->
+<!--          </div>-->
+<!--            <div class="card">-->
+<!--            <div class="blurring dimmable image">-->
+<!--              <div class="ui dimmer">-->
+<!--                <div class="content">-->
+<!--                  <div class="center">-->
+<!--                    <div class="ui inverted button">-->
+<!--                        {% if total_reputations > 0 %}-->
+<!--                            <h1>{{total_reputations}}</h1>-->
+<!--                        {% else %}-->
+<!--                            <h1>0</h1>-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <img src="{% static '/assets/img/reputations.png' %}">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--            <div class="card">-->
+<!--                <div class="blurring dimmable image">-->
+<!--                  <div class="ui dimmer">-->
+<!--                    <div class="content">-->
+<!--                      <div class="center">-->
+<!--                        <div class="ui inverted button">-->
+<!--                            {% if total_likes > 0%}-->
+<!--                                <h1>{{total_likes}}</h1>-->
+<!--                            {% else %}-->
+<!--                                <h1>0</h1>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <img src="{% static '/assets/img/likes.png' %}">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="card">-->
+<!--                <div class="blurring dimmable image">-->
+<!--                  <div class="ui dimmer">-->
+<!--                    <div class="content">-->
+<!--                      <div class="center">-->
+<!--                        <div class="ui inverted button"><h1>{{ page_user_comment.count }}</h1></div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <img src="{% static '/assets/img/comments.png' %}" >-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+      </div>
   </div>
 
 <!--    comments section begin-->

@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from .models import Transfer, TransferComment
 from .filters import TransferFilter
 from .forms import TransferCommentForm, TransferForm
+from articles.models import Profile
 
 
 # Create your views here.
@@ -172,11 +173,12 @@ class TransferDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(TransferDetailView, self).get_context_data(*args, **kwargs)
         stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])
-        print('stuffT:', stuff)# for loop all Articles with pk key, if doesnt exit, get 404
+        #print('stuffT:', stuff.author_id)# for loop all Articles with pk key, if doesnt exit, get 404
         total_likes = stuff.total_likes()  # from model 'total_likes' function
         total_reputations = stuff.total_reputations()
         total_views = stuff.total_views()
-        # print('stuff:', stuff)
+        page_user_transfer = Transfer.objects.filter(author_id=stuff.author_id)
+        page_user_comment = TransferComment.objects.filter(author_id=stuff.author_id)
 
         liked = False
         reputation = False
@@ -191,15 +193,44 @@ class TransferDetailView(DetailView):
         if stuff.views.filter(id=self.request.user.id).exists():
             view = True
 
-        context['total_likes'] = total_likes
-        context['total_reputations'] = total_reputations
+            # count all likes
+            likes_array = []
+            for eachtransfer in page_user_transfer:
+                if eachtransfer.total_likes:
+                    print('True')
+                    likes_array.append(eachtransfer.total_likes())
+                    total_likes = 0
+                    for i in range(0, len(likes_array)):
+                        total_likes = total_likes + likes_array[i];
+                        total_likes
+                    context['total_likes'] = total_likes
+                else:
+                    context['total_likes'] = 0
+                    print('False')
+
+            # count all reputation
+            reputations_array = []
+            for eachtransfer in page_user_transfer:
+                if eachtransfer.total_reputations:
+                    reputations_array.append(eachtransfer.total_reputations())
+                    total_reputations = 0
+                    for i in range(0, len(reputations_array)):
+                        total_reputations = total_reputations + reputations_array[i];
+                        total_reputations
+                    context['total_reputations'] = total_reputations
+                else:
+                    context['total_reputations'] = 0
+
+
+        context['profile'] = Profile.objects.all()
+        context['page_user_transfer'] = page_user_transfer
+        context['page_user_comment'] = page_user_comment
         context['total_views'] = total_views
         context['liked'] = liked
         context['reputation'] = reputation
         context['view'] = view
         context['form'] = self.form
         return context
-
 
 class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transfer
