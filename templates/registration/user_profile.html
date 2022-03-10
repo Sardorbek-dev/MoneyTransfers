@@ -53,6 +53,15 @@
     </div>
     <div class="container text-center my-5">
         <h1 class="my-4">User activities</h1>
+        {% if userLike != 0 %}
+            {% for key, value in userLike.items %}
+                <a class="cinema" href="{% url 'user_profile' key  %}">
+                    {{value}}
+                </a>
+            {% endfor %}
+        {% else %}
+            <p>no likes</p>
+        {% endif %}
         <div class="ui special cards justify-content-center flex-lg-nowrap">
             <div class="card">
             <div class="blurring dimmable image">

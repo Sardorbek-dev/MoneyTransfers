@@ -193,33 +193,51 @@ class TransferDetailView(DetailView):
         if stuff.views.filter(id=self.request.user.id).exists():
             view = True
 
-            # count all likes
-            likes_array = []
-            for eachtransfer in page_user_transfer:
-                if eachtransfer.total_likes:
-                    print('True')
-                    likes_array.append(eachtransfer.total_likes())
-                    total_likes = 0
-                    for i in range(0, len(likes_array)):
-                        total_likes = total_likes + likes_array[i];
-                        total_likes
-                    context['total_likes'] = total_likes
-                else:
-                    context['total_likes'] = 0
-                    print('False')
+        # Users who have liked transfers of current user
+        if page_user_transfer.count() != 0:
+            userLike = []
+            userReputation = []
+            for eachTransfer in page_user_transfer:
 
-            # count all reputation
-            reputations_array = []
-            for eachtransfer in page_user_transfer:
-                if eachtransfer.total_reputations:
-                    reputations_array.append(eachtransfer.total_reputations())
-                    total_reputations = 0
-                    for i in range(0, len(reputations_array)):
-                        total_reputations = total_reputations + reputations_array[i];
-                        total_reputations
-                    context['total_reputations'] = total_reputations
-                else:
-                    context['total_reputations'] = 0
+                for user in eachTransfer.likes.all():
+                    userLike.append(user)
+
+                for user in eachTransfer.reputations.all():
+                    userReputation.append(user)
+            print(userReputation)
+
+            context['userLike'] = userLike
+            context['userReputation'] = userReputation
+        else:
+            context['userLike'] = 0
+            context['userReputation'] = 0
+
+        # count all likes
+        likes_array = []
+        for eachtransfer in page_user_transfer:
+            if eachtransfer.total_likes:
+                likes_array.append(eachtransfer.total_likes())
+                total_likes = 0
+                for i in range(0, len(likes_array)):
+                    total_likes = total_likes + likes_array[i];
+                    total_likes
+                context['total_likes'] = total_likes
+            else:
+                context['total_likes'] = 0
+                print('False')
+
+        # count all reputation
+        reputations_array = []
+        for eachtransfer in page_user_transfer:
+            if eachtransfer.total_reputations:
+                reputations_array.append(eachtransfer.total_reputations())
+                total_reputations = 0
+                for i in range(0, len(reputations_array)):
+                    total_reputations = total_reputations + reputations_array[i];
+                    total_reputations
+                context['total_reputations'] = total_reputations
+            else:
+                context['total_reputations'] = 0
 
 
         context['profile'] = Profile.objects.all()

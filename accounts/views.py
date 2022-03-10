@@ -36,12 +36,20 @@ class ShowProfilePageView(DetailView):
         page_user_comment = TransferComment.objects.filter(author_id=page_user.id)
         page_user_transfer = Transfer.objects.filter(author_id=page_user.id)
 
+        #Users who have liked transfers of current user
+        if page_user_transfer.count() != 0:
+            userLike = {}
+            for eachTransfer in page_user_transfer:
+                for user in eachTransfer.likes.all():
+                    userLike[user.id] = user.first_name
+            context['userLike'] = userLike
+        else:
+            context['userLike'] = 0
 
         # count all likes
         likes_array = []
         for eachtransfer in page_user_transfer:
             if eachtransfer.total_likes:
-                print('True')
                 likes_array.append(eachtransfer.total_likes())
                 total_likes = 0
                 for i in range(0, len(likes_array)):

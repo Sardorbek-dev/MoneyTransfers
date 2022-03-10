@@ -38,7 +38,7 @@
                 <h4>{{ object.description | safe }}</h4>
               </div>
                 <div class="meta">
-                    <a>Author: {{ transfer.author | title }} - {{ transfer.date }}</a>
+                    <a>Sana: {{ transfer.date }}</a>
                 </div>
               <div class="extra">
                   <div class="ui label">{{ transfer.price }}</div>
@@ -231,7 +231,7 @@
           </a>
         </div>
          <div class="ui labeled button" tabindex="0">
-          <div class="ui green button">
+          <div class="ui green button create_btn" id="new_test">
             <i class="chart line icon"></i> Reputations
           </div>
           <a class="ui basic left pointing blue label">
@@ -242,8 +242,10 @@
              {% endif %}
           </a>
         </div>
+
+
         <div class="ui labeled button" tabindex="0">
-          <div class="ui red button">
+          <div class="ui red button create_btn" id="test">
             <i class="heart icon"></i> Likes
           </div>
           <a class="ui basic red left pointing label">
@@ -263,6 +265,7 @@
             {{ page_user_comment.count }}
           </a>
         </div>
+
 
 <!--         <div class="ui special cards justify-content-center flex-lg-nowrap">-->
 <!--            <div class="card">-->
@@ -497,10 +500,85 @@
         <h1 class="ui inverted header"></h1>
     </div>
 
-
-
 <!--    comments section end-->
 </div>
+
+<!--    Modals -->
+    <!-- to show likes-->
+
+    <div class="ui modal test">
+      <i class="close icon"></i>
+      <div class="header">
+        Who liked?
+      </div>
+      <div class="image content">
+          <div class="ui items">
+              {% if total_likes != 0 %}
+                  {% for user in userLike %}
+                      <div class="item">
+                            <a class="ui tiny image">
+                                <div class="ui small image">
+                                    <img src="{% static ''  %}" id="{{user.profile.user_image}}" class="profileImageShowModal">
+                                </div>
+                            </a>
+                            <div class="middle aligned content">
+                              <div class="header">
+                                 <div class="description">
+                                    <i class="like red icon"></i><div class="ui header">{{user.first_name}} {{user.last_name}}</div>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  {% endfor %}
+              {% else %}
+                  <p>No Likes yet... </p>
+              {% endif %}
+          </div>
+      </div>
+      <div class="actions">
+        <div class="ui negative right button">
+          Close
+        </div>
+      </div>
+    </div>
+
+    <!-- to show reputations-->
+
+    <div class="ui modal new_test">
+      <i class="close icon"></i>
+      <div class="header">
+        Who gave reputation?
+      </div>
+      <div class="image content">
+          <div class="ui items">
+              {% if total_reputations != 0 %}
+                  {% for userReaction in userReputation %}
+                      <div class="item">
+                            <a class="ui tiny image">
+                                <div class="ui small image">
+                                    <img src="{% static ''  %}" id="{{userReaction.profile.user_image}}" class="profileImageShowModal">
+                                </div>
+                            </a>
+                            <div class="middle aligned content">
+                              <div class="header">
+                                 <div class="description">
+                                    <i class="like red icon"></i><div class="ui header">{{userReaction.first_name}} {{userReaction.last_name}}</div>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  {% endfor %}
+              {% else %}
+                  <p>No reputations yet... </p>
+              {% endif %}
+          </div>
+      </div>
+      <div class="actions">
+        <div class="ui negative right button">
+          Close
+        </div>
+      </div>
+    </div>
 
 <script>
 
@@ -518,6 +596,14 @@
         each_profileImageReply_id = item.id
         each_profileImageReply = item.src = "/static/images/" + each_profileImageReply_id + ".jpg";
 
+    })
+
+    // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShowModal')
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+        console.log(item)
     })
 
 
@@ -578,6 +664,27 @@
               }
             });
           })
+
+      // modal toggle to show likes
+         $(function(){
+            $("#test").click(function(){
+                $(".test").modal('show');
+            });
+            $(".test").modal({
+                closable: true
+            });
+        });
+
+         // modal toggle to show reputations
+         $(function(){
+            $("#new_test").click(function(){
+                $(".new_test").modal('show');
+            });
+            $(".new_test").modal({
+                closable: true
+            });
+        });
+
     });
 
 
