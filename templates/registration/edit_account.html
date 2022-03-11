@@ -5,42 +5,42 @@
 <title>{% block title %} Edit your Account {% endblock title %}</title>
 
 {% block content %}
+
 {% if user.is_authenticated %}
-    <div class="container">
-      <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-            <h1>Edit your Account</h1>
-            <form method="post">{% csrf_token %}
-              {{ form|crispy }}
-              <button class="positive ui button" type="submit">Edit</button>
-            </form>
-            {{ user.last_name }}
-    <!--        {{ user.profile.bio }} differently bio's -->
-            {{ user.bio }}
-            {% if user.profile.user_image %}
-                <img src="{{ user.profile.user_image.url }}" alt="">
-            {% else %}
-                <img src="{% static '/images/profile_foto.png' %}" alt="">
-            {% endif %}
-
-            {% if user.profile.telegram_url %}
-                <a href="{{ user.profile.telegram_url}}"> Telegram</a>
-            {% endif %}
-
-            {% if user.profile.instagram_url %}
-                <a href="{{ user.profile.instagram_url}}">Instagram</a>
-            {% endif %}
-
-            {% if user.profile.facebook_url %}
-                <a href="{{ user.profile.facebook_url}}">Facebook</a>
-            {% endif %}
+    <div class="ui inverted vertical masthead aligned segment">
+        <div class="ui center text container">
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header">Edit your Account</h1>
+            </div>
+            <div class="form-group">
+                <form method="post">{% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="positive ui button" type="submit">Edit</button>
+                </form>
+            </div>
+            <div class="ui center text container my-4">
+                <h1 class="ui inverted header"></h1>
+            </div>
         </div>
-        <div class="col-2"></div>
-      </div>
     </div>
 {% else %}
-    You are not allowed here! (...and you know it)
+ <div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">OOOPS.... <i class="user secret icon"></i></h1>
+        </div>
+        <h2>
+           You are not allowed here! (...and you know it)
+        </h2>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
+    </div>
+</div>
+
+
 {% endif %}
 
 {% endblock content %}
+
+

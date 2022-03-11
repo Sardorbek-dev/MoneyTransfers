@@ -516,7 +516,7 @@
               {% if total_likes != 0 %}
                   {% for user in userLike %}
                       <div class="item">
-                            <a class="ui tiny image">
+                            <a class="ui tiny image" href="{% url 'user_profile' user.profile.id  %}">
                                 <div class="ui small image">
                                     <img src="{% static ''  %}" id="{{user.profile.user_image}}" class="profileImageShowModal">
                                 </div>
@@ -524,7 +524,7 @@
                             <div class="middle aligned content">
                               <div class="header">
                                  <div class="description">
-                                    <i class="like red icon"></i><div class="ui header">{{user.first_name}} {{user.last_name}}</div>
+                                    <i class="like icon "></i><a class="ui header" href="{% url 'user_profile' user.profile.id  %}">{{user.first_name}} {{user.last_name}}</a>
                                 </div>
                               </div>
                             </div>
@@ -554,7 +554,7 @@
               {% if total_reputations != 0 %}
                   {% for userReaction in userReputation %}
                       <div class="item">
-                            <a class="ui tiny image">
+                            <a class="ui tiny image" href="{% url 'user_profile' userReaction.profile.id  %}">
                                 <div class="ui small image">
                                     <img src="{% static ''  %}" id="{{userReaction.profile.user_image}}" class="profileImageShowModal">
                                 </div>
@@ -562,7 +562,7 @@
                             <div class="middle aligned content">
                               <div class="header">
                                  <div class="description">
-                                    <i class="like red icon"></i><div class="ui header">{{userReaction.first_name}} {{userReaction.last_name}}</div>
+                                    <i class="like red icon"></i><a class="ui header" href="{% url 'user_profile' userReaction.profile.id  %}">{{userReaction.first_name}} {{userReaction.last_name}}</a>
                                 </div>
                               </div>
                             </div>
