@@ -10,7 +10,7 @@ class TransferForm(forms.ModelForm):
 
     class Meta:
         model = Transfer
-        fields = ('title', 'description', 'location', 'moneyCurrency', 'transferArt', 'whichLocation', 'price', 'exchangeRate', )
+        fields = ('title', 'description', 'location', 'moneyCurrency', 'transferArt', 'whichLocation', 'price', 'exchangeRate', 'subject', 'job', )
         # widgets = {
         #     'location': forms.ChoiceField(attrs={'class': "form-control"}),
         # }

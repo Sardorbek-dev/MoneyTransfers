@@ -19,7 +19,7 @@ class AccountShowView(ListView):
 
 class UserEditForm(UpdateView):
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy('article_list')
+    success_url = reverse_lazy('transfer_list')
     template_name = 'registration/edit_account.html'
 
     def get_object(self):
@@ -82,7 +82,7 @@ class ShowProfilePageView(DetailView):
 class EditProfilePageView(UpdateView):
     model = Profile
     template_name = 'registration/edit_profile_page.html'
-    success_url = reverse_lazy('article_list')
+    success_url = reverse_lazy('transfer_list')
     form_class = EditProfilePage
 
 class CreateProfilePageView(CreateView):

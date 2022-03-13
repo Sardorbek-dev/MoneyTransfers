@@ -5,6 +5,46 @@ from multiselectfield import MultiSelectField
 from ckeditor.fields import RichTextField
 
 # Create your models here.
+
+COMPUTER_SCIENCE = 'Computer Science'
+BUSINESS = 'Business'
+
+CS_1 = 'Software Engineer'
+CS_2 = 'Data Scientist'
+B_1 = 'Accountant'
+B_2 = 'Financial Analyst'
+
+SUBJECT_CHOICES = [
+    (COMPUTER_SCIENCE, COMPUTER_SCIENCE),
+    (BUSINESS, BUSINESS),
+]
+
+JOB_CHOICES = [
+    (CS_1, CS_1),
+    (CS_2, CS_2),
+    (B_1, B_1),
+    (B_2, B_2),
+]
+
+
+def get_cs_strings():
+    cs_strings = [
+        CS_1,
+        CS_2,
+    ]
+
+    return cs_strings
+
+
+def get_b_strings():
+    b_strings = [
+        B_1,
+        B_2,
+    ]
+
+    return b_strings
+
+
 class Transfer(models.Model):
     title = models.CharField(max_length=255, verbose_name="Transfer nomi",)
     description = RichTextField(verbose_name="Transfer bo'yicha batafsil ma'lomot")
@@ -103,11 +143,13 @@ class Transfer(models.Model):
     like_count = models.BigIntegerField(default='0')
     reputations = models.ManyToManyField(get_user_model(), related_name='reputations_like', blank=True)
     reputation_count = models.BigIntegerField(default='0')
-    views = models.ManyToManyField(get_user_model(), related_name='transfer_views', blank=True)
+    views = models.ManyToManyField(get_user_model(), related_name='transfer_views', blank=True, default=False)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
     )
+    subject = models.CharField(max_length=50, choices=SUBJECT_CHOICES)
+    job = models.CharField(max_length=50, choices=JOB_CHOICES)
 
     def get_likes(self):
         return self
@@ -129,6 +171,7 @@ class Transfer(models.Model):
 
     def get_absolute_url(self):
         return reverse('transfer_detail', args=[str(self.id)])
+
 
 
 class TransferComment(models.Model):

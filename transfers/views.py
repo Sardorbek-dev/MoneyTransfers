@@ -5,9 +5,9 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.http import HttpResponseRedirect, JsonResponse
+import json
 
-
-from .models import Transfer, TransferComment
+from .models import Transfer, TransferComment, get_cs_strings, get_b_strings
 from .filters import TransferFilter
 from .forms import TransferCommentForm, TransferForm
 from articles.models import Profile
@@ -62,7 +62,7 @@ def ReputationView(request, pk):
     if request.POST.get('action') == 'post':
         result = ''
         id = int(request.POST.get('postId'))
-        print('currentId:', id) 
+        print('currentId:', id)
         transfer = get_object_or_404(Transfer, id=id)
         if transfer.reputations.filter(id=request.user.id).exists():
             transfer.reputations.remove(request.user)
@@ -80,11 +80,12 @@ def ReputationView(request, pk):
 
 
 def TransferViewView(request, pk):
-    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
-    transfer_view = False
+    print('testPK', request.user.id)
 
-    if transfer.views.filter(id=request.user.id).exists():
-        transfer.views.add(request.user)
+    transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
+    # Field 'id' expected a number but got <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x00000186219C2770>>. Debug fixed!!!
+    if request.user.id is None:
+        transfer_view = False
     else:
         transfer.views.add(request.user)
         transfer_view = True
@@ -165,6 +166,19 @@ class TransferCreateView(CreateView):
     def test_func(self):
         return self.request.user.is_superuser
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cs_strings = get_cs_strings()
+        b_strings = get_b_strings()
+
+        json_cs_strings = json.dumps(cs_strings)
+        json_b_strings = json.dumps(b_strings)
+
+        context['json_cs_strings'] = json_cs_strings
+        context['json_b_strings'] = json_b_strings
+        return context
+
 class TransferDetailView(DetailView):
     model = Transfer
     template_name = 'transfer_detail.html'
@@ -175,7 +189,7 @@ class TransferDetailView(DetailView):
         stuff = get_object_or_404(Transfer, id=self.kwargs['pk'])
         #print('stuffT:', stuff.author_id)# for loop all Articles with pk key, if doesnt exit, get 404
         total_likes = stuff.total_likes()  # from model 'total_likes' function
-        total_reputations = stuff.total_reputations()
+        total_reputations = stuff.total_reputations() # Delete!!!!!!!!
         total_views = stuff.total_views()
         page_user_transfer = Transfer.objects.filter(author_id=stuff.author_id)
         page_user_comment = TransferComment.objects.filter(author_id=stuff.author_id)
@@ -224,7 +238,6 @@ class TransferDetailView(DetailView):
                 context['total_likes'] = total_likes
             else:
                 context['total_likes'] = 0
-                print('False')
 
         # count all reputation
         reputations_array = []
