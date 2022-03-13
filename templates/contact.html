@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %} Contact {% endblock title %}</title>
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header">Contact us</h1>
+        </div>
+           <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                <button class="ui green button my-4" type="submit">Send</button>
+            </form>
+        <div class="ui center text container my-4">
+            <h1 class="ui inverted header"></h1>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -116,8 +116,8 @@
   <div class="ui container">
     <a class="active item">Home</a>
     <a class="item" href="{% url 'transfer_list' %}">Transfer pool</a>
-<!--    <a class="item">Company</a>-->
-<!--    <a class="item">Careers</a>-->
+    <a class="item" href="{% url 'about' %}">About us</a>
+    <a class="item" href="{% url 'contact' %}">Contact</a>
     <div class="right menu">
         {% if user.is_authenticated %}
           <div class="item">
@@ -142,6 +142,8 @@
 <div class="ui vertical inverted sidebar menu">
   <a class="active item" href="{% url 'home' %}">Home</a>
   <a class="item" href="{% url 'transfer_list' %}">Transfer pool</a>
+  <a class="item" href="{% url 'about' %}">About us</a>
+  <a class="item" href="{% url 'contact' %}">Contact</a>
     {% if user.is_authenticated %}
         <a class="item">You are registered as '{{ user.username }}'</a>
         <a class="item" href="{% url 'logout' %}">Log Out</a>
@@ -169,6 +171,8 @@
                 <a class="item" href="{% url 'home' %}">Home</a>
 <!--                <a class="item" href="{% url 'article_list' %}">Transfer pool</a>-->
                 <a class="item" href="{% url 'transfer_list' %}">Transfers pool</a>
+                <a class="item" href="{% url 'about' %}">About us</a>
+                <a class="item" href="{% url 'contact' %}">Contact</a>
 <!--                <a class="item">Careers</a>-->
                 <div class="right item">
                     {% if user.is_authenticated %}

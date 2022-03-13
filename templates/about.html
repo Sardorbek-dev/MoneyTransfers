@@ -1,21 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-<title>{% block title %} Homepage {% endblock title %}</title>
+<title>{% block title %} About {% endblock title %}</title>
 
 {% block content %}
-<!--        {% if user.is_authenticated %}-->
-<!--            <p>You are registered as {{ user.username }}</p>-->
-<!--            <p><a href="{% url 'logout' %}"> Log out</a></p>-->
-<!--        {% else %}-->
-<!--            <p>-->
-<!--                <a href="{% url 'login' %}">Login</a>-->
-<!--                <a href="{% url 'signup' %}">Sign Up</a>-->
-<!--            </p>-->
-<!--        {% endif %}-->
+
 <div class="ui inverted vertical masthead center aligned segment">
     <div class="ui center text container">
         <h1 class="ui inverted header" data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">Money Transfer</h1>
+     data-aos-anchor-placement="top-bottom">About Money Transfer</h1>
         <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">Trust is good, control is better.</h2>
         <div class="ui huge primary button" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="{% url 'transfer_new' %}" class="text-white">Send money</a><i class="right arrow icon"></i></div>
     </div>
@@ -94,28 +86,7 @@
     </div>
   </div>
 
-  <div class="ui vertical stripe quote segment text-white">
-    <div class="ui equal width stackable internally celled grid">
-      <div class="row">
-        <div class="eight wide text-dark column" data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">
-          <h3>"I shouldn't have gone with their competitor."</h3>
-            <p>Chief Fun Officer Acme Toys</p>
-        </div>
-        <div class="column text-dark" data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">
-          <h3>"What a Company"</h3>
-          <p>That is what they all say about us</p>
-        </div>
 
-      </div>
-    </div>
-  </div>
-
-
-<div class="empty">
-
-</div>
 
 <div class="ui inverted vertical masthead center aligned segment" style="background-color:#00182F">
     <div class="ui center text container">

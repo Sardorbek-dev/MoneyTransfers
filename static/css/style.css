@@ -1,3 +1,4 @@
+
 .ui.inverted.segment,
 .ui.primary.inverted.segment {
     background: #001021;
@@ -5,7 +6,7 @@
 }
 
 .background-specific{
-    background-color: darkgray !important
+    background-color: F5F5F5 !important
 }
 
 
