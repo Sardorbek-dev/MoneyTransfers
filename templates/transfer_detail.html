@@ -109,14 +109,19 @@
                   {% comment %} like {% endcomment %}
 
                     <div class="meta">
-                      <button class="btn text-dark p-0 btn-outline-light" id="like-button" value="{{object.id}}">
-                        {% if liked %}
-                            <i class="heart icon big red like-button-icon"></i>
+                        {% if user.is_authenticated %}
+                          <button class="btn text-dark p-0 btn-outline-light" id="like-button" value="{{object.id}}">
+                            {% if liked %}
+                                <i class="heart icon big red like-button-icon"></i>
+                            {% else %}
+                                <i class="heart outline icon big red like-button-icon"></i>
+                            {% endif %}
+                          </button>
+                        <span class="" id="like_count">Likes: {{object.like_count }}</span>
                         {% else %}
-                            <i class="heart outline icon big red like-button-icon"></i>
+                            <span>(Please, Login to like) </span>
+                            <span>Likes: {{object.like_count }}</span>
                         {% endif %}
-                      </button>
-                      <span class="" id="like_count">Likes: {{object.like_count }}</span>
                     </div>
 
                   {% if user.id == transfer.author.profile.id %}
@@ -125,6 +130,7 @@
                   {% comment %} reputation {% endcomment %}
 
                   <div class="meta">
+                      {% if user.is_authenticated %}
                         <button class="btn text-dark p-0 btn-outline-light" id="reputation-button" value="{{object.id}}">
                             {% if reputation %}
                                 <i class="arrow alternate circle up icon big green reputation-button-icon"></i>
@@ -132,7 +138,11 @@
                                 <i class="arrow alternate circle up icon big reputation-button-icon"></i>
                             {% endif %}
                         </button>
-                        <span class="" id="reputation_count">Reputations: {{object.reputation_count }}</span>
+                          <span id="reputation_count">Reputations: {{object.reputation_count }}</span>
+                      {% else %}
+                        <span>(Please, Login to give reputation)</span>
+                        <span>Reputations: {{object.reputation_count }}</span>
+                      {% endif %}
                     </div>
 
                        {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
@@ -194,7 +204,7 @@
               <img src="{% static '' %}" alt="{{transfer.author.profile.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
             </div>
             <div class="content">
-              <a class="header">Username: {{ transfer.author.username }}</a>
+              <a class="header" href="{% url 'user_profile' transfer.author.profile.pk %}">Username: {{ transfer.author.username }}</a>
               <div class="meta">
                 <span class="cinema">Profile created: {{ transfer.author.profile.date }}</span>
               </div>
