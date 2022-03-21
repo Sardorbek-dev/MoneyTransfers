@@ -110,14 +110,18 @@
 
                     <div class="meta">
                         {% if user.is_authenticated %}
-                          <button class="btn text-dark p-0 btn-outline-light" id="like-button" value="{{object.id}}">
-                            {% if liked %}
-                                <i class="heart icon big red like-button-icon"></i>
+                            {% if user.profile.id %}
+                                <button class="btn text-dark p-0 btn-outline-light" id="like-button" value="{{object.id}}">
+                                    {% if liked %}
+                                        <i class="heart icon big red like-button-icon"></i>
+                                    {% else %}
+                                        <i class="heart outline icon big red like-button-icon"></i>
+                                    {% endif %}
+                                </button>
+                                <span class="" id="like_count">Likes: {{object.like_count }}</span>
                             {% else %}
-                                <i class="heart outline icon big red like-button-icon"></i>
+                                <span>Create profile to Like</span> <span class="">Likes: {{object.like_count }}</span>
                             {% endif %}
-                          </button>
-                        <span class="" id="like_count">Likes: {{object.like_count }}</span>
                         {% else %}
                             <span>(Please, Login to like) </span>
                             <span>Likes: {{object.like_count }}</span>
@@ -131,14 +135,21 @@
 
                   <div class="meta">
                       {% if user.is_authenticated %}
-                        <button class="btn text-dark p-0 btn-outline-light" id="reputation-button" value="{{object.id}}">
+                          {% if user.profile.id %}
+                            <button class="btn text-dark p-0 btn-outline-light" id="reputation-button" value="{{object.id}}">
                             {% if reputation %}
                                 <i class="arrow alternate circle up icon big green reputation-button-icon"></i>
                             {% else %}
                                 <i class="arrow alternate circle up icon big reputation-button-icon"></i>
                             {% endif %}
-                        </button>
-                          <span id="reputation_count">Reputations: {{object.reputation_count }}</span>
+                            </button>
+                            <span id="reputation_count">Reputations: {{object.reputation_count }}</span>
+                          {% else %}
+                            <span>Create profile to give reputation</span> <span>Reputations: {{object.reputation_count }}</span>
+                            <div class="item mt-4">
+                                <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                            </div>
+                          {% endif %}
                       {% else %}
                         <span>(Please, Login to give reputation)</span>
                         <span>Reputations: {{object.reputation_count }}</span>
@@ -507,7 +518,8 @@
 <!--                    </div>-->
 <!--                 </div>-->
 <!--            </div>-->
-        <h1 class="ui inverted header"></h1>
+        <h1 class="ui inverted header">
+        </h1>
     </div>
 
 <!--    comments section end-->

@@ -103,18 +103,23 @@ class TransferListView(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
         filtered_transfers = context['filter']
-        paginator = Paginator(filtered_transfers.qs, self.paginate_by)
 
-        page = self.request.GET.get('page')
+        if len(filtered_transfers.qs) > 10:
+            paginator = Paginator(filtered_transfers.qs, self.paginate_by)
 
-        try:
-            filtered_transfers = paginator.page(page)
-        except PageNotAnInteger:
-            filtered_transfers = paginator.page(1)
-        except EmptyPage:
-            filtered_transfers = paginator.page(paginator.num_pages)
-        context['filtered_transfers'] = filtered_transfers
-        return context
+            page = self.request.GET.get('page')
+
+            try:
+                filtered_transfers = paginator.page(page)
+            except PageNotAnInteger:
+                filtered_transfers = paginator.page(1)
+            except EmptyPage:
+                filtered_transfers = paginator.page(paginator.num_pages)
+            context['filtered_transfers'] = filtered_transfers
+            return context
+        else:
+            return context
+
 
 def transfer_detail_comment(request, pk):
 
