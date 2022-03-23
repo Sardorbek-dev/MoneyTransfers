@@ -15,7 +15,11 @@
         <div class="ui items">
           <div class="item">
             <div class="ui small image">
-              <img src="{% static '' %}" alt="{{user.profile.}}" class="profileImagehandle">
+                {% if user.profile.user_image %}
+                    <img src="{% static '' %}" alt="{{user.profile.}}" class="profileImagehandle">
+                {% else %}
+                    <img src="{% static '/images/profile_foto.png' %}" alt="{{user.profile.}}">
+                {% endif %}
             </div>
             <div class="content">
               <div class="header">Username: {{ user.username }}</div>

@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect, JsonResponse
 import json
 
-from .models import Transfer, TransferComment, get_cs_strings, get_b_strings
+from .models import Transfer, TransferComment, get_uz_strings, get_ger_strings
 from .filters import TransferFilter
 from .forms import TransferCommentForm, TransferForm
 from articles.models import Profile
@@ -174,14 +174,14 @@ class TransferCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        cs_strings = get_cs_strings()
-        b_strings = get_b_strings()
+        uz_strings = get_uz_strings()
+        ger_strings = get_ger_strings()
 
-        json_cs_strings = json.dumps(cs_strings)
-        json_b_strings = json.dumps(b_strings)
+        json_uz_strings = json.dumps(uz_strings)
+        json_ger_strings = json.dumps(ger_strings)
 
-        context['json_cs_strings'] = json_cs_strings
-        context['json_b_strings'] = json_b_strings
+        context['json_uz_strings'] = json_uz_strings
+        context['json_ger_strings'] = json_ger_strings
         return context
 
 class TransferDetailView(DetailView):

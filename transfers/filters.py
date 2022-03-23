@@ -25,8 +25,8 @@ class TransferFilter(django_filters.FilterSet):
     )
 
     CHOICES2 = (
-        ('GER', 'O\'zbekiston'),
-        ('UZB', 'Germaniya')
+        ('UZB', 'O\'zbekiston'),
+        ('GER', 'Germaniya')
     )
 
     # CHOICES3 = (
@@ -73,10 +73,10 @@ class TransferFilter(django_filters.FilterSet):
 
     def filter_location(self, queryset, name, value):
         if value == 'GER':
-            expression_location = 'GER'
+            expression_location = 'Germany'
             return queryset.filter(location=expression_location)
         else:
-            expression_location = 'UZB'
+            expression_location = 'Uzbekistan'
             return queryset.filter(location=expression_location)
 
     # def filter_transfer_art(self, queryset, name, value):

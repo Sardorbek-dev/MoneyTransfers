@@ -10,13 +10,13 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
         <div class="ui items p-4 border">
           <div class="item">
-             {% if transfer.location == 'GER' %}
+             {% if transfer.location == 'Germany' %}
                   <div class="image">
                      <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
                   </div>
-             {% elif transfer.location == 'UZBUSA' %}
+             {% elif transfer.location == 'Uzbekistan' %}
                   <div class="image">
-                     <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
+                     <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
                   </div>
               {% elif transfer.location == 'USAUZB' %}
                   <div class="image">
@@ -80,34 +80,60 @@
                           <i class="dollar sign icon"></i>
                       </div>
                  {% endif %}
-
-                  <span>
-                      <i class="map pin icon"></i> LOCATION:
-                  </span>
-                    {{ transfer.location }}
-
-                   {% comment %} <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                        {% if user.is_authenticated %}
-                            {% if liked %}
-                                <button type="submit" name="transfer_id" value="{{ object.id }}" class="ui red button likeButton">
-                                    <i class="thumbs down outline icon"></i>
-                                </button>
-                            {% else %}
-                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                    <p class="item">
-                                        <i class="thumbs up outline icon"></i>
-                                    </p>
-                                </button>
-                            {% endif %}
+                 <div class="meta my-3">
+                      <span>
+                          <i class="map pin icon"></i> LOCATION:
+                      </span>
+                        {% if transfer.location == 'Germany' %}
+                            Uzbekistan
+                        {% elif transfer.location == "Uzbekistan" %}
+                            Germany
+                        {% elif transfer.location == "England" %}
+                            England
+                        {% elif transfer.location == "USA" %}
+                            Amerika
                         {% else %}
-                          Login to like
+                            None
                         {% endif %}
 
-                        <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
-                    </form> {% endcomment %}
+                        {% comment %} <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                                {% if liked %}
+                                    <button type="submit" name="transfer_id" value="{{ object.id }}" class="ui red button likeButton">
+                                        <i class="thumbs down outline icon"></i>
+                                    </button>
+                                {% else %}
+                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                        <p class="item">
+                                            <i class="thumbs up outline icon"></i>
+                                        </p>
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                              Login to like
+                            {% endif %}
 
-                  {% comment %} like {% endcomment %}
+                            <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
+                        </form> {% endcomment %}
 
+                        {% comment %} like {% endcomment %}
+                    </div>
+                    <div class="meta my-3">
+                        <span><i class="flag icon black"></i> TARGER:</span>
+                        <span>
+                            {% if transfer.location == "Germany" %}
+                                Germany ({{ transfer.get_whichLocation_display }})
+                            {% elif transfer.location == "Uzbekistan" %}
+                                Uzbekistan ({{ transfer.get_whichLocation_display }})
+                            {% elif transfer.location == "USA" %}
+                                Amerika ({{ transfer.get_whichLocation_display }})
+                            {% elif transfer.location == "England" %}
+                                England ({{ transfer.get_whichLocation_display }})
+                            {% else %}
+                                None ({{ transfer.get_whichLocation_display }})
+                            {% endif %}
+                        </span>
+                    </div>
                     <div class="meta">
                         {% if user.is_authenticated %}
                             {% if user.profile.id %}

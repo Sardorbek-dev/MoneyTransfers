@@ -68,63 +68,57 @@
     <script>
         $(document).ready(function(){
 
-            $('#id_job').empty();
+            $('#id_whichLocation').empty();
 
-            var csStrings = JSON.parse('{{ json_cs_strings | escapejs }}');
-            var bStrings = JSON.parse('{{ json_b_strings | escapejs }}');
+            var uzStrings = JSON.parse('{{ json_uz_strings | escapejs }}');
+            var gerStrings = JSON.parse('{{ json_ger_strings | escapejs }}');
 
-            $('#id_subject').on('change', function(){
+            $('#id_location').on('change', function(){
 
-                var subject = $('#id_subject').val();
+                var location = $('#id_location').val();
 
-                if(subject == 'Computer Science'){
+                if(location == 'Uzbekistan'){
 
-                    $('#id_job').empty();
+                    $('#id_whichLocation').empty();
 
-                    var length = csStrings.length;
+                    var length = uzStrings.length;
                     var i;
                     for(i=0; i < length; i++){
 
-                        job = csStrings[i];
-                        $('#id_job').append(
-
+                        whichLocation = uzStrings[i];
+                        $('#id_whichLocation').append(
                             `
-                            <option value="${job}">
-                                ${job}
+                            <option value="${whichLocation}">
+                                ${whichLocation}
                             </option>
                             `
-
                         );
 
                     }
 
                 }
-                else if(subject == 'Business'){
+                else if(location == 'Germany'){
 
-                    $('#id_job').empty();
+                    $('#id_whichLocation').empty();
 
-                    var length = bStrings.length;
+                    var length = gerStrings.length;
                     var i;
                     for(i=0; i < length; i++){
 
-                        job = bStrings[i];
-                        $('#id_job').append(
-
+                        whichLocation = gerStrings[i];
+                        $('#id_whichLocation').append(
                             `
-                            <option value="${job}">
-                                ${job}
+                            <option value="${whichLocation}">
+                                ${whichLocation}
                             </option>
                             `
-
                         );
 
                     }
 
                 }
                 else{
-
-                    $('#id_job').empty();
-
+                    $('#id_whichLocation').empty();
                 }
 
             });
