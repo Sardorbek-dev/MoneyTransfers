@@ -24,7 +24,25 @@
           </div>
       </div>
       <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5">
-       <div class="ui segment border-0"> <h5>All Transfers: {{filter.qs.count}}</h5>
+       <div class="ui segment border-0">
+       <h5>
+           All Transfers: {{filter.qs.count}}
+           <div class="ui positive message transition hidden">
+              <i class="close icon"></i>
+              <div class="header">
+                Transfer Update
+              </div>
+              <p>
+                  {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                  {% endif %}
+              </p>
+           </div>
+       </h5>
             {% if filter.qs.count != 0 %}
                 {% if filter.qs.count <= 10 %}
                     {% for transfer in filter.qs %}
@@ -466,7 +484,6 @@
 
 <script>
 
-
         function myFunction(obj){
            superId = document.getElementById(obj.id).children[0]
            
@@ -483,8 +500,6 @@
                 },
                 success: function (json) {
                     obj.innerHTML = '<i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i>' + ' Reputations:' + ' ' + json['result']
-
-                   
                 },
                 error: function (xhr, errmsg, err) {
                     console.log(err)
@@ -503,12 +518,4 @@
 
 </script>  
 
-
  {% endblock content %}
-
-   {% comment %} reputation_button = document.querySelector(".reputation-button-icon")
-                        if (reputation_button.classList.contains('green')) {
-                            reputation_button.classList.remove('green')
-                        } else {
-                            reputation_button.classList.add('green')
-                        } {% endcomment %}

@@ -3,18 +3,98 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-        <h1 class="mt-4">Edit transfer</h1>
+<div class="ui inverted vertical masthead aligned segment">
+    <div class="ui center text container">
+        <h1 class="ui inverted header">Edit Transfer</h1>
         <form method="post" enctype="multipart/form-data"> {% csrf_token %}
             {{ form.media }}
             {{ form|crispy }}
             <button class="ui green button my-3" type="submit">Save</button>
         </form>
     </div>
-    <div class="col-2"></div>
-  </div>
+     <h1 class="ui inverted header"></h1>
 </div>
+
+ <script>
+        $(document).ready(function(){
+<!--        $('#id_whichLocation').empty();-->
+
+            let updateUzStrings = JSON.parse('{{ update_json_uz_strings | escapejs }}');
+            let updateGerStrings = JSON.parse('{{ update_json_ger_strings | escapejs }}');
+            let updateUsaStrings = JSON.parse('{{ update_json_usa_strings | escapejs }}');
+
+            $('#id_location').on('change', function(){
+
+                let location = $('#id_location').val();
+
+                if(location == 'Uzbekistan'){
+
+                    $('#id_whichLocation').empty();
+
+                    let length = updateUzStrings.length;
+                    let i;
+                    for(i=0; i < length; i++){
+
+                        whichLocation = updateUzStrings[i];
+                        $('#id_whichLocation').append(
+                            `
+                            <option value="${whichLocation}">
+                                ${whichLocation}
+                            </option>
+                            `
+                        );
+
+                    }
+
+                }
+                else if(location == 'Germany'){
+
+                    $('#id_whichLocation').empty();
+
+                    let length = updateGerStrings.length;
+                    let i;
+                    for(i=0; i < length; i++){
+
+                        whichLocation = updateGerStrings[i];
+                        $('#id_whichLocation').append(
+                            `
+                            <option value="${whichLocation}">
+                                ${whichLocation}
+                            </option>
+                            `
+                        );
+
+                    }
+
+                }
+                else if(location == 'USA'){
+
+                    $('#id_whichLocation').empty();
+
+                    let length = updateUsaStrings.length;
+                    let i;
+                    for(i=0; i < length; i++){
+
+                        whichLocation = updateUsaStrings[i];
+                        $('#id_whichLocation').append(
+                            `
+                            <option value="${whichLocation}">
+                                ${whichLocation}
+                            </option>
+                            `
+                        );
+
+                    }
+
+                }
+                else{
+                    $('#id_whichLocation').empty();
+                }
+
+            });
+
+        });
+    </script>
+
+
  {% endblock content %}

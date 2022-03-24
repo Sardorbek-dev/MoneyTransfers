@@ -70,19 +70,20 @@
 
             $('#id_whichLocation').empty();
 
-            var uzStrings = JSON.parse('{{ json_uz_strings | escapejs }}');
-            var gerStrings = JSON.parse('{{ json_ger_strings | escapejs }}');
+            let uzStrings = JSON.parse('{{ json_uz_strings | escapejs }}');
+            let gerStrings = JSON.parse('{{ json_ger_strings | escapejs }}');
+            let usaStrings = JSON.parse('{{ json_usa_strings | escapejs }}');
 
             $('#id_location').on('change', function(){
 
-                var location = $('#id_location').val();
+                let location = $('#id_location').val();
 
                 if(location == 'Uzbekistan'){
 
                     $('#id_whichLocation').empty();
 
-                    var length = uzStrings.length;
-                    var i;
+                    let length = uzStrings.length;
+                    let i;
                     for(i=0; i < length; i++){
 
                         whichLocation = uzStrings[i];
@@ -101,11 +102,31 @@
 
                     $('#id_whichLocation').empty();
 
-                    var length = gerStrings.length;
-                    var i;
+                    let length = gerStrings.length;
+                    let i;
                     for(i=0; i < length; i++){
 
                         whichLocation = gerStrings[i];
+                        $('#id_whichLocation').append(
+                            `
+                            <option value="${whichLocation}">
+                                ${whichLocation}
+                            </option>
+                            `
+                        );
+
+                    }
+
+                }
+                else if(location == 'USA'){
+
+                    $('#id_whichLocation').empty();
+
+                    let length = usaStrings.length;
+                    let i;
+                    for(i=0; i < length; i++){
+
+                        whichLocation = usaStrings[i];
                         $('#id_whichLocation').append(
                             `
                             <option value="${whichLocation}">

@@ -8,7 +8,9 @@ from ckeditor.fields import RichTextField
 
 uzbekistan = 'Uzbekistan'
 germany = 'Germany'
+usa = 'USA'
 
+# UZB
 UZ_0 = 'Toshkent shahri'
 UZ_1 = 'Toshkent viloyati'
 UZ_2 = 'Farg\'ona vodiysi'
@@ -25,6 +27,7 @@ UZ_12 = 'Xorazm'
 UZ_13 = 'Buxoro'
 UZ_14 = 'Qoraqalpog\'iston'
 
+# Germany
 GER_0 = 'Stadt München'
 GER_1 = 'Stadt Berlin'
 GER_2 = 'Stadt Hamburg'
@@ -45,12 +48,71 @@ GER_16 = 'Saarland'
 GER_17 = 'Schleswig Holstein'
 GER_18 = 'Thüringen'
 
+#USA
 
+USA_0 = 'New York city'
+USA_1 = 'Los Angeles'
+USA_2 = 'Chicago'
+USA_3 = 'Houston'
+USA_4 = 'Phoenix'
+USA_5 = 'Philadelphia'
+USA_6 = 'San Antonio'
+USA_7 = 'San Diego'
+USA_8 = 'Dallas'
+USA_9 = 'San Jose'
+USA_10 = 'Alabama'
+USA_11 = 'Alaska'
+USA_12 = 'Arizona'
+USA_13 = 'Arkansas'
+USA_14 = 'Colorado'
+USA_15 = 'Connecticut'
+USA_16 = 'Delaware'
+USA_17 = 'Florida'
+USA_18 = 'Georgia'
+USA_19 = 'Hawaii'
+USA_20 = 'Idaho'
+USA_21 = 'Illinois'
+USA_22 = 'indiana'
+USA_23 = 'Iowa'
+USA_24 = 'Kansas'
+USA_25 = 'Kentucky'
+USA_26 = 'Louisiana'
+USA_27 = 'Maine'
+USA_28 = 'Maryland'
+USA_29 = 'Massachusetts'
+USA_30 = 'Michigan'
+USA_31 = 'Minnesota'
+USA_32 = 'Mississippi'
+USA_33 = 'Missouri'
+USA_34 = 'Montana'
+USA_35 = 'Nebraska'
+USA_36 = 'Nevada'
+USA_37 = 'New Hampshire'
+USA_38 = 'New Jersey'
+USA_39 = 'New Mexico'
+USA_40 = 'North Carolina'
+USA_41 = 'North Dakota'
+USA_42 = 'Ohio'
+USA_43 = 'Oklahoma'
+USA_44 = 'Oregon'
+USA_45 = 'Pennsylvania'
+USA_46 = 'Rhode Island'
+USA_47 = 'South Carolina'
+USA_48 = 'South Dakota'
+USA_49 = 'Tennessee'
+USA_50 = 'Texas'
+USA_51 = 'Utah'
+USA_52 = 'Vermont'
+USA_53 = 'Virgina'
+USA_54 = 'West Virgina'
+USA_55 = 'Wisconsin'
+USA_56 = 'Wyoming'
 
 
 LOCATION_CHOICES = [
     (uzbekistan, uzbekistan),
     (germany, germany),
+    (usa, usa),
 ]
 
 CITY_CHOICES = [
@@ -87,6 +149,61 @@ CITY_CHOICES = [
     (GER_16, GER_16),
     (GER_17, GER_17),
     (GER_18, GER_18),
+    (USA_0, USA_0),
+    (USA_1, USA_1),
+    (USA_2, USA_2),
+    (USA_3, USA_3),
+    (USA_4, USA_4),
+    (USA_5, USA_5),
+    (USA_6, USA_6),
+    (USA_7, USA_7),
+    (USA_8, USA_8),
+    (USA_9, USA_9),
+    (USA_10, USA_10),
+    (USA_11, USA_11),
+    (USA_12, USA_12),
+    (USA_13, USA_13),
+    (USA_14, USA_14),
+    (USA_15, USA_15),
+    (USA_16, USA_16),
+    (USA_17, USA_17),
+    (USA_18, USA_18),
+    (USA_19, USA_19),
+    (USA_20, USA_20),
+    (USA_21, USA_21),
+    (USA_22, USA_22),
+    (USA_23, USA_23),
+    (USA_24, USA_24),
+    (USA_25, USA_25),
+    (USA_26, USA_26),
+    (USA_27, USA_27),
+    (USA_28, USA_28),
+    (USA_29, USA_29),
+    (USA_30, USA_30),
+    (USA_31, USA_31),
+    (USA_32, USA_32),
+    (USA_33, USA_33),
+    (USA_34, USA_34),
+    (USA_35, USA_35),
+    (USA_36, USA_36),
+    (USA_37, USA_37),
+    (USA_38, USA_38),
+    (USA_39, USA_39),
+    (USA_40, USA_40),
+    (USA_41, USA_41),
+    (USA_42, USA_42),
+    (USA_43, USA_43),
+    (USA_44, USA_44),
+    (USA_45, USA_45),
+    (USA_46, USA_46),
+    (USA_47, USA_47),
+    (USA_48, USA_48),
+    (USA_49, USA_49),
+    (USA_50, USA_50),
+    (USA_51, USA_51),
+    (USA_52, USA_52),
+    (USA_53, USA_53),
+    (USA_54, USA_54),
 ]
 
 
@@ -136,6 +253,66 @@ def get_ger_strings():
 
     return ger_strings
 
+def get_usa_strings():
+    usa_strings = [
+        USA_0,
+        USA_1,
+        USA_2,
+        USA_3,
+        USA_4,
+        USA_5,
+        USA_6,
+        USA_7,
+        USA_8,
+        USA_9,
+        USA_10,
+        USA_11,
+        USA_12,
+        USA_13,
+        USA_14,
+        USA_15,
+        USA_16,
+        USA_17,
+        USA_18,
+        USA_19,
+        USA_20,
+        USA_21,
+        USA_22,
+        USA_23,
+        USA_24,
+        USA_25,
+        USA_26,
+        USA_27,
+        USA_28,
+        USA_29,
+        USA_30,
+        USA_31,
+        USA_32,
+        USA_33,
+        USA_34,
+        USA_35,
+        USA_36,
+        USA_37,
+        USA_38,
+        USA_39,
+        USA_40,
+        USA_41,
+        USA_42,
+        USA_43,
+        USA_44,
+        USA_45,
+        USA_46,
+        USA_47,
+        USA_48,
+        USA_49,
+        USA_50,
+        USA_51,
+        USA_52,
+        USA_53,
+        USA_54,
+    ]
+
+    return usa_strings
 
 class Transfer(models.Model):
     title = models.CharField(max_length=255, verbose_name="Transfer nomi",)

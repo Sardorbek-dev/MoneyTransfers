@@ -270,7 +270,8 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
 <!--    <script src="/assets/application.js" ></script>-->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<!--    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>-->
+    <script src="{% static 'vendors/aos.js' %}"></script>
     <script>
         AOS.init({
             delay: 300,
@@ -312,6 +313,17 @@
           $('.ui.accordion')
             .accordion()
           ;
+
+        //Success message
+          $('.message .close')
+              .on('click', function() {
+                $(this)
+                  .closest('.message')
+                  .transition('fade')
+                ;
+              })
+          ;
+
       });
 
 

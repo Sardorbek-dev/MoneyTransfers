@@ -5,9 +5,11 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.http import HttpResponseRedirect, JsonResponse
+from django.contrib import messages
 import json
 
-from .models import Transfer, TransferComment, get_uz_strings, get_ger_strings
+
+from .models import Transfer, TransferComment, get_uz_strings, get_ger_strings, get_usa_strings
 from .filters import TransferFilter
 from .forms import TransferCommentForm, TransferForm
 from articles.models import Profile
@@ -176,12 +178,15 @@ class TransferCreateView(CreateView):
 
         uz_strings = get_uz_strings()
         ger_strings = get_ger_strings()
+        usa_strings = get_usa_strings()
 
         json_uz_strings = json.dumps(uz_strings)
         json_ger_strings = json.dumps(ger_strings)
+        json_usa_strings = json.dumps(usa_strings)
 
         context['json_uz_strings'] = json_uz_strings
         context['json_ger_strings'] = json_ger_strings
+        context['json_usa_strings'] = json_usa_strings
         return context
 
 class TransferDetailView(DetailView):
@@ -277,11 +282,25 @@ class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         obj = self.get_object()
         return obj.author == self.request.user
 
-    # def get_success_url(self):
-    #     messages.success(
-    #         self.request, 'Your post has been updated successfully.')
-    #     return reverse_lazy('transfer_list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        update_uz_strings = get_uz_strings()
+        update_ger_strings = get_ger_strings()
+        update_usa_strings = get_usa_strings()
+
+        update_json_uz_strings = json.dumps(update_uz_strings)
+        update_json_ger_strings = json.dumps(update_ger_strings)
+        update_json_usa_strings = json.dumps(update_usa_strings)
+
+        context['update_json_uz_strings'] = update_json_uz_strings
+        context['update_json_ger_strings'] = update_json_ger_strings
+        context['update_json_usa_strings'] = update_json_usa_strings
+        return context
+
+    def get_success_url(self):
+        messages.success(self.request, 'Your post has been updated successfully.')
+        return reverse_lazy('transfer_list')
 
 class TransferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Transfer
