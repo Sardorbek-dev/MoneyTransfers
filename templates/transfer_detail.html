@@ -270,7 +270,7 @@
           </div>
         </div>
         <div class="ui labeled button" tabindex="0">
-          <div class="ui primary button">
+          <div class="ui primary button create_btn" id="show_transfers">
             <i class="exchange icon"></i>Transfers
           </div>
           <a class="ui basic left pointing blue label">
@@ -552,8 +552,44 @@
 </div>
 
 <!--    Modals -->
-    <!-- to show likes-->
 
+    <!-- show transfers -->
+    <div class="ui modal show_transfers">
+      <i class="close icon"></i>
+      <div class="header">
+        How many transfer?
+      </div>
+      <div class="image content">
+          <div class="ui items">
+              {% if total_likes != 0 %}
+                  {% for user_transfer in page_user_transfer %}
+                      <div class="item">
+                            <a class="ui tiny image" href="{% url 'transfer_detail' user_transfer.id  %}">
+                                {{user_transfer.location}}
+                                {{user_transfer.whichLocation}}
+                            </a>
+                            <div class="middle aligned content">
+                              <div class="header">
+                                 <div class="description">
+                                    <a class="ui header" href="{% url 'transfer_detail' user_transfer.id  %}">{{user_transfer.title}} | {{user_transfer.date}}</a>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  {% endfor %}
+              {% else %}
+                  <p>No tranfers yet... </p>
+              {% endif %}
+          </div>
+      </div>
+      <div class="actions">
+        <div class="ui negative right button">
+          Close
+        </div>
+      </div>
+    </div>
+
+    <!-- to show likes-->
     <div class="ui modal test">
       <i class="close icon"></i>
       <div class="header">
@@ -651,7 +687,6 @@
     profileImageShow.forEach(function(item){
         each_profileImage_id = item.id
         each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
-        console.log(item)
     })
 
 
@@ -732,6 +767,17 @@
                 closable: true
             });
         });
+
+         // modal toggle to show transfers
+         $(function(){
+            $("#show_transfers").click(function(){
+                $(".show_transfers").modal('show');
+            });
+            $(".show_transfers").modal({
+                closable: true
+            });
+        });
+
 
     });
 

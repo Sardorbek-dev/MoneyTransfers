@@ -232,6 +232,7 @@ class TransferDetailView(DetailView):
 
             context['userLike'] = userLike
             context['userReputation'] = userReputation
+            context['page_user_transfer'] = page_user_transfer
         else:
             context['userLike'] = 0
             context['userReputation'] = 0

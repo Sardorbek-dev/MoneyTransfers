@@ -8,13 +8,13 @@ class TransferFilter(django_filters.FilterSet):
 
     #location = django_filters.CharFilter(label='davlat qisqartmasi(UZB/GER/USA)', lookup_expr='icontains')
     test_prices = (
-        ('0100', '0 - 100'),
-        ('100200', '100 - 200'),
-        ('200500', '200 - 500'),
-        ('5001000', '500 - 1000'),
-        ('10002000', '1000 - 2000'),
-        ('20005000', '2000 - 5000'),
-        ('500000000', '5000 - ...'),
+        ('0100', '0 - 99 €'),
+        ('100200', '100 - 199 €'),
+        ('200500', '200 - 499 €'),
+        ('5001000', '500 - 999 €'),
+        ('10002000', '1000 - 1999 €'),
+        ('20005000', '2000 - 4999 €'),
+        ('500000000', '5000 € - ...'),
     )
 
     # test=7500
@@ -53,19 +53,19 @@ class TransferFilter(django_filters.FilterSet):
 
     def filter_by_price(self, queryset, name, value):
         if value == '0100':
-            return queryset.filter(price__gt=0, price__lt=100)
+            return queryset.filter(price__gte=0, price__lte=99)
         if value == '100200':
-            return queryset.filter(price__gt=100, price__lt=200)
+            return queryset.filter(price__gte=100, price__lte=199)
         if value == '200500':
-            return queryset.filter(price__gt=200, price__lt=500)
+            return queryset.filter(price__gte=200, price__lte=499)
         if value == '5001000':
-            return queryset.filter(price__gt=500, price__lt=1000)
+            return queryset.filter(price__gte=500, price__lte=999)
         if value == '10002000':
-            return queryset.filter(price__gt=1000, price__lt=2000)
+            return queryset.filter(price__gte=1000, price__lte=1999)
         if value == '20005000':
-            return queryset.filter(price__gt=2000, price__lt=5000)
+            return queryset.filter(price__gte=2000, price__lte=4999)
         if value == '500000000':
-            return queryset.filter(price__gt=5000)
+            return queryset.filter(price__gte=5000)
 
     def filter_by_order(self, queryset, name, value):
         expression = 'price' if value == 'ascending' else '-price'
