@@ -27,7 +27,10 @@ class Profile(models.Model):
     facebook_url = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user.last_name)
+
+    # def natural_key(self):
+    #     return (self.user)
         
     def get_absolute_url(self):
         return reverse('home')

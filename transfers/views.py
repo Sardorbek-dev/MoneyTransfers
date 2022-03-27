@@ -106,7 +106,8 @@ class TransferListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
-        context['search_users'] = serializers.serialize("json", CustomUser.objects.all(), fields=("first_name", "last_name"))
+        context['search_users'] = serializers.serialize("json", CustomUser.objects.all(), fields=["first_name", "last_name"], use_natural_foreign_keys=True)
+        context['search_users_test'] = serializers.serialize("json", Profile.objects.all(), fields=["user", "user_image"], use_natural_foreign_keys=True)
         context['profiles'] = Profile.objects.all()
         context['users'] = CustomUser.objects.all()
         filtered_transfers = context['filter']

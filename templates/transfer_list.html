@@ -488,9 +488,12 @@
     <div class="ui modal show_profiles">
       <i class="close icon"></i>
       <div class="header">
-          <input type="text" id="search_here" placeholder="Search users...">
+          <div class="ui left icon input">
+            <input type="text" id="search_here" placeholder="Search users...">
+            <i class="users icon"></i>
+          </div>
       </div>
-      <div class="image content">
+      <div class="image content scrolling">
           <div class="ui items" id="modalUserShow">
               {% if profiles.count != 0 %}
                   {% for profile in profiles %}
@@ -506,7 +509,6 @@
                                     <a class="ui header" href="{% url 'user_profile' profile.id  %}">
                                         {{ profile.user.first_name }}
                                         {{ profile.user.last_name }}
-                                        {{profile.id}}
                                     </a>
                                 </div>
                               </div>
@@ -571,20 +573,19 @@
 
     // identify images of author which written comments
     profileImageShow = document.querySelectorAll('.profileImageShowModal')
-    console.log(profileImageShow)
     profileImageShow.forEach(function(item){
         each_profileImage_id = item.id
         each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
     })
 
-    const json_data = '{{search_users}}'
+    const json_data = '{{search_users_test}}'
     const cleaned_json = JSON.parse(json_data.replace(/&quot;/g, '"'))
     const search_input = document.getElementById('search_here')
 
     filteredArr = []
     search_input.addEventListener('keyup', (e)=>{
         modalUserShow.innerHTML = ''
-        filteredArr = cleaned_json.filter(user=> user['fields']['first_name'].toLowerCase().includes(e.target.value.toLowerCase()))
+        filteredArr = cleaned_json.filter(user=> user['fields']['user'][0].toLowerCase().includes(e.target.value.toLowerCase()))
         if (filteredArr.length > 0) {
             filteredArr.map(user=>{
                 let user_id_ = user['pk']
@@ -592,18 +593,18 @@
                 modalUserShow.innerHTML += `
                                                 <div class="item">
                                                     <a class="ui tiny image" href=${make_url}>
-                                                        <div class="ui small image">
-                                                            <img src="{% static ''  %}" id="${user_id_}" class="profileImageShowModal">
+                                                        <div class="ui mini image">
+                                                            <img src="{% static ''  %}" id="${user['fields']['user_image']}" class="profileImageShowModal">
                                                         </div>
                                                     </a>
                                                     <div class="middle aligned content">
                                                         <div class="header">
                                                             <div class="description">
                                                                 <a class="ui header" href=${make_url}>
-                                                                    ${user['fields']['first_name']}
+                                                                    ${user['fields']['user'][0]}
                                                                 </a>
                                                                 <a class="ui header" href=${make_url}>
-                                                                    ${user['fields']['last_name']}
+                                                                    ${user['fields']['user'][1]}
                                                                 </a>
                                                             </div>
                                                         </div>
