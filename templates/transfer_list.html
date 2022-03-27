@@ -9,513 +9,621 @@
 <div class="ui inverted vertical masthead aligned segment">
     <div class="container">
       <div class="row">
-      <h1 class="text-center my-5">Transfer Pool</h1>
-      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4" data-aos="fade-right">
-           <h4 class="ui text"><i class="filter icon"></i> Filter</h4>
-           <form method="get" class="my-3">{% csrf_token %}
+          <h1 class="text-center my-5">Transfer Pool</h1>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4" data-aos="fade-right">
+               <h4 class="ui text"><i class="filter icon"></i> Filter</h4>
+               <form method="get" class="my-3">{% csrf_token %}
 
-                {{ filter.form|crispy }}
-               <input class="ui green button my-3" type="submit" value="Qidirish...">
-               <a class="ui red button" href="{% url 'transfer_list' %}">Reset</a>
-           </form>
+                    {{ filter.form|crispy }}
+                   <input class="ui green button my-3" type="submit" value="Qidirish...">
+                   <a class="ui red button" href="{% url 'transfer_list' %}">Reset</a>
+               </form>
 
-          <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
-              <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish<i class="plus square outline icon"></i></a></buttun>
+              <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
+                  <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish<i class="plus square outline icon"></i></a></buttun>
+              </div>
+              <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
+                  <buttun class="ui green button" id="show_profiles">Search user</buttun>
+              </div>
+          </div>
+          <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5">
+           <div class="ui segment border-0">
+           <h5>
+               All Transfers: {{filter.qs.count}}
+               <div class="ui positive message transition hidden">
+                  <i class="close icon"></i>
+                  <div class="header">
+                    Transfer Update
+                  </div>
+                  <p>
+                      {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                            {% endfor %}
+                        </ul>
+                      {% endif %}
+                  </p>
+               </div>
+           </h5>
+                {% if filter.qs.count != 0 %}
+                    {% if filter.qs.count <= 10 %}
+                        {% for transfer in filter.qs %}
+    <!--           change id reputation button!!!! -->
+                            <div class="ui divided items p-4 border">
+                              <div class="item" data-aos="zoom-in">
+                                 {% if transfer.location == 'Germany' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% elif transfer.location == 'Uzbekistan' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                 {% elif transfer.location == 'UZBUSA' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% elif transfer.location == 'USAUZB' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% else %}
+                                      <div class="image">
+                                          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% endif %}
+                                  <div class="content">
+                                     <p class="header">{{ transfer.title }}</p>
+                                  <div class="meta">
+                                     <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - Sana: {{ transfer.date }}</a>
+                                  </div>
+                                   <div class="meta">
+                                    <p class="cinema">Transfer kursi: {{transfer.location}} {{ transfer.get_exchangeRate_display }}</p>
+                                  </div>
+                                  <div class="description">
+                                      <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
+                                  </div>
+
+                                    <div class="extra">
+                                        <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                             <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
+                <!--                             if debugs,then change the logic-->
+                <!--                                <a href="{% url 'transfer_detail' transfer.pk %}" type="submit" name="transfer_id" value="{{ transfer.id }}" style="color: white">Batafsil...</a>-->
+                                                    batafsil...
+
+                                                 <i class="right chevron icon"></i>
+                                            </button>
+                <!--                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">-->
+                <!--                                <p class="item">-->
+                <!--                                    <i class="arrow up icon"></i>-->
+                <!--                                </p>-->
+                <!--                            </button>-->
+                                        </form>
+
+                                        <div class="ui label">Transfer qiymati: <h4 class="text-danger">{{ transfer.price }}</h4></div>
+                <!--                        {% if transfer.location == 'GER' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% elif transfer.location == 'UZBUSA' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% elif transfer.location == 'USAUZB' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="us flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% else %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i>LOCATION:<i class="de flag" style="margin-left:5px"></i>-->
+                <!--                            </div>-->
+                <!--                        {% endif %}-->
+
+                                        {% if transfer.moneyCurrency == 'dollar' %}
+                                        <div class="ui label">
+                                            <i class="dollar sign icon"></i>
+                                            Dollar
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euro' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>
+                                            Euro
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'som' %}
+                                        <div class="ui label">
+                                            <i class="money bill alternate icon"></i>
+                                            So'm
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euroordollar' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>Euro yoki Dollar <i class="dollar sign icon"></i>
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euroorsom' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>Euro yoki So'm <i class="money bill alternate icon"></i>
+                                        </div>
+                                        {% else %}
+                                        <div class="ui label">
+                                            <i class="money bill alternate icon"></i>So'm yoki Dollar <i class="dollar sign icon"></i>
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="meta my-3">
+                                            <span><i class="globe icon"></i> LOCATION: </span>
+                                            <span>
+                                                {% if transfer.location == 'Germany' %}
+                                                    Uzbekistan
+                                                {% elif transfer.location == "Uzbekistan" %}
+                                                    Germany
+                                                {% elif transfer.location == "England" %}
+                                                    England
+                                                {% elif transfer.location == "USA" %}
+                                                    Amerika
+                                                {% else %}
+                                                    None
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="blobs-container">
+                                                <div class="blob red"></div>
+                                            </div>
+                                        </div>
+                                        <div class="meta my-3">
+                                            <span><i class="flag icon black"></i> TARGER:</span>
+                                            <span>
+                                                {% if transfer.location == "Germany" %}
+                                                    Germany ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "Uzbekistan" %}
+                                                    Uzbekistan ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "USA" %}
+                                                    Amerika ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "England" %}
+                                                    England ({{ transfer.get_whichLocation_display }})
+                                                {% else %}
+                                                    None ({{ transfer.get_whichLocation_display }})
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="meta my-3">
+
+                                            <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.like_count }} {{ author.liked }}  </span>
+                                            <span> | </span>
+                                            <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
+                                        </div>
+                                        {% if user.id == transfer.author.profile.id %}
+                                        {% else %}
+                                            {% if user.is_authenticated %}
+                                                {{ transfer.reputation }}
+                                                <div class="meta">
+                                                    <button class="btn text-dark reputation_count" onclick="myFunction(this)" value="{{transfer.id}}" id="{{transfer.id}}">
+                                                        <i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i> Reputations: {{transfer.reputation_count }}
+                                                    </button>
+                                                </div>
+                                            {% else %}
+                                                Login to give reputation
+                                            {% endif %}
+
+                                            {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                            {% if user.is_authenticated %}
+                                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                                    <p class="item">
+                                                        <i class="arrow up icon"></i>
+                                                    </p>
+                                                </button>
+                                            {% else %}
+                                              Login to give reputation
+                                            {% endif %}
+
+                                            <span> Reputations: {{ transfer.total_reputations }}</span>
+                                            </form> {% endcomment %}
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                       {% for transfer in filtered_transfers %}
+                            <div class="ui divided items p-4 border">
+                              <div class="item" data-aos="zoom-in">
+                                  {% if transfer.location == 'Uzbekistan' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% elif transfer.location == 'Germany' %}
+                                      <div class="image">
+                                          <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                 {% elif transfer.location == 'UZBUSA' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% elif transfer.location == 'USAUZB' %}
+                                      <div class="image">
+                                         <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% else %}
+                                      <div class="image">
+                                          <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                                      </div>
+                                  {% endif %}
+                                  <div class="content">
+                                     <p class="header">{{ transfer.title }}</p>
+                                  <div class="meta">
+                                     <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - Sana: {{ transfer.date }}</a>
+                                  </div>
+                                   <div class="meta">
+                                    <p class="cinema">Transfer kursi: {{ transfer.get_exchangeRate_display }}</p>
+                                  </div>
+                                  <div class="description">
+                                      <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
+                                  </div>
+
+                                    <div class="extra">
+                                        <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                             <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
+                <!--                             if debugs,then change the logic-->
+                <!--                                <a href="{% url 'transfer_detail' transfer.pk %}" type="submit" name="transfer_id" value="{{ transfer.id }}" style="color: white">Batafsil...</a>-->
+                                                    batafsil...
+
+                                                 <i class="right chevron icon"></i>
+                                            </button>
+                <!--                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">-->
+                <!--                                <p class="item">-->
+                <!--                                    <i class="arrow up icon"></i>-->
+                <!--                                </p>-->
+                <!--                            </button>-->
+                                        </form>
+
+                                        <div class="ui label">Transfer qiymati: <h4 class="text-danger">{{ transfer.price }}</h4></div>
+                <!--                        {% if transfer.location == 'GER' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% elif transfer.location == 'UZBUSA' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% elif transfer.location == 'USAUZB' %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i> LOCATION: <i class="us flag"></i>-->
+                <!--                            </div>-->
+                <!--                        {% else %}-->
+                <!--                            <div class="ui label">-->
+                <!--                                <i class="globe icon"></i>LOCATION:<i class="de flag" style="margin-left:5px"></i>-->
+                <!--                            </div>-->
+                <!--                        {% endif %}-->
+
+                                        {% if transfer.moneyCurrency == 'dollar' %}
+                                        <div class="ui label">
+                                            <i class="dollar sign icon"></i>
+                                            Dollar
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euro' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>
+                                            Euro
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'som' %}
+                                        <div class="ui label">
+                                            <i class="money bill alternate icon"></i>
+                                            So'm
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euroordollar' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>Euro yoki Dollar <i class="dollar sign icon"></i>
+                                        </div>
+                                        {% elif transfer.moneyCurrency == 'euroorsom' %}
+                                        <div class="ui label">
+                                            <i class="euro sign icon"></i>Euro yoki So'm <i class="money bill alternate icon"></i>
+                                        </div>
+                                        {% else %}
+                                        <div class="ui label">
+                                            <i class="money bill alternate icon"></i>So'm yoki Dollar <i class="dollar sign icon"></i>
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="meta my-3">
+                                            <span><i class="globe icon"></i> LOCATION: </span>
+                                            <span>
+                                                {% if transfer.location == 'Germany' %}
+                                                    Uzbekistan
+                                                {% elif transfer.location == "England" %}
+                                                    England
+                                                {% elif transfer.location == "USA" %}
+                                                    Amerika
+                                                {% elif transfer.location == "Uzbekistan" %}
+                                                    Germany
+                                                {% else %}
+                                                    None
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="meta">
+                                            <div class="blobs-container">
+                                                <div class="blob red"></div>
+                                            </div>
+                                        </div>
+                                        <div class="meta my-3">
+                                            <span><i class="flag icon black"></i> TARGER:</span>
+                                            <span>
+                                                {% if transfer.location == "Germany" %}
+                                                    Germany: ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "England" %}
+                                                    Angliya: ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "USA" %}
+                                                    Amerika: ({{ transfer.get_whichLocation_display }})
+                                                {% elif transfer.location == "Uzbekistan" %}
+                                                    Uzbekistan: ({{ transfer.get_whichLocation_display }})
+                                                {% else %}
+                                                    None: ({{ transfer.get_whichLocation_display }})
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="meta my-3">
+
+                                            <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.like_count }} {{ author.liked }}  </span>
+                                            <span> | </span>
+                                            <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
+                                        </div>
+                                        {% if user.id == transfer.author.profile.id %}
+                                        {% else %}
+                                            {% if user.is_authenticated %}
+                                                {{ transfer.reputation }}
+                                                <div class="meta">
+                                                    <button class="btn text-dark reputation_count" onclick="myFunction(this)" value="{{transfer.id}}" id="{{transfer.id}}">
+                                                        <i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i> Reputations: {{transfer.reputation_count }}
+                                                    </button>
+                                                </div>
+                                            {% else %}
+                                                Login to give reputation
+                                            {% endif %}
+
+                                            {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                            {% if user.is_authenticated %}
+                                                <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                                    <p class="item">
+                                                        <i class="arrow up icon"></i>
+                                                    </p>
+                                                </button>
+                                            {% else %}
+                                              Login to give reputation
+                                            {% endif %}
+
+                                            <span> Reputations: {{ transfer.total_reputations }}</span>
+                                            </form> {% endcomment %}
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                       {% endfor %}
+                    {% endif %}
+               {% else %}
+                    <div class="ui inverted vertical masthead center aligned segment">
+                        <div class="ui center text container">
+                            <h1 class="ui inverted header" data-aos="fade-up"
+                         data-aos-anchor-placement="top-bottom"><i class="optin monster icon"></i></h1>
+                            <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">No Transfers...</h2>
+                        </div>
+                    </div>
+               {% endif %}
+
+               <!--Pagination-->
+            {% if filter.qs.count > 10 %}
+                 <div class="container my-5">
+                <div class="row text-center">
+                     <div class="ui small horizontal divided list">
+                         {% if page_obj.has_previous %}
+                             <div class="item">
+                               <div class="content">
+                                   <a href="{% relative_url 1 'page' request.GET.urlencode %}" class="header">&laquo; first</a>
+                               </div>
+                             </div>
+                             <div class="item">
+                               <div class="content">
+                                   <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="header">previous</a>
+                               </div>
+                             </div>
+                         {% endif %}
+
+                        <div class="item">
+                           <div class="content">
+                               <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
+                           </div>
+                        </div>
+                         {% if page_obj.has_next %}
+                            <div class="item">
+                               <div class="content button" onclick="selectHrefButton(this)">
+                                    <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}" class="header" id="nextButtonPagination">next</a>
+                               </div>
+                            </div>
+                             <div class="item">
+                                <div class="content">
+                                    <a href="{% relative_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}" class="header">last &raquo;</a>
+                               </div>
+                             </div>
+                         {% endif %}
+                        </div>
+                     </div>
+                </div>
+            {% endif %}
+    <!--           <nav aria-label="Page navigation example">-->
+    <!--              <ul class="pagination">-->
+    <!--                {% if page_obj.has_previous %}-->
+    <!--                    <li class="page-item">-->
+    <!--                        <a class="page-link" href="#">-->
+    <!--                            <a href="?page=1">&laquo; first</a>-->
+    <!--                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+    <!--                        </a>-->
+    <!--                    </li>-->
+    <!--                {% endif %}-->
+
+    <!--                <li class="page-item">-->
+    <!--                    <a class="page-link" href="#">-->
+    <!--                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+    <!--                    </a>-->
+    <!--                </li>-->
+    <!--                {% if page_obj.has_next %}-->
+    <!--                    <li class="page-item">-->
+    <!--                        <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+    <!--                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
+    <!--                    </li>-->
+    <!--                {% endif %}-->
+    <!--              </ul>-->
+    <!--            </nav>-->
+
+
+           </div>
+         </div>
+      </div>
+    </div>
+
+<!--    Modals-->
+    <!-- Search Users -->
+    <div class="ui modal show_profiles">
+      <i class="close icon"></i>
+      <div class="header">
+          <input type="text" id="search_here" placeholder="Search users...">
+      </div>
+      <div class="image content">
+          <div class="ui items" id="modalUserShow">
+              {% if profiles.count != 0 %}
+                  {% for profile in profiles %}
+                      <div class="item">
+                           <a class="ui tiny image" href="{% url 'user_profile' profile.id  %}">
+                                <div class="ui mini image">
+                                    <img src="{% static ''  %}" id="{{profile.user_image}}" class="profileImageShowModal">
+                                </div>
+                            </a>
+                            <div class="middle aligned content">
+                              <div class="header">
+                                 <div class="description">
+                                    <a class="ui header" href="{% url 'user_profile' profile.id  %}">
+                                        {{ profile.user.first_name }}
+                                        {{ profile.user.last_name }}
+                                        {{profile.id}}
+                                    </a>
+                                </div>
+                              </div>
+                            </div>
+                      </div>
+                  {% endfor %}
+              {% else %}
+                  <p>No Users yet... </p>
+              {% endif %}
           </div>
       </div>
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5">
-       <div class="ui segment border-0">
-       <h5>
-           All Transfers: {{filter.qs.count}}
-           <div class="ui positive message transition hidden">
-              <i class="close icon"></i>
-              <div class="header">
-                Transfer Update
-              </div>
-              <p>
-                  {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                        {% endfor %}
-                    </ul>
-                  {% endif %}
-              </p>
-           </div>
-       </h5>
-            {% if filter.qs.count != 0 %}
-                {% if filter.qs.count <= 10 %}
-                    {% for transfer in filter.qs %}
-<!--           change id reputation button!!!! -->
-                        <div class="ui divided items p-4 border">
-                          <div class="item" data-aos="zoom-in">
-                             {% if transfer.location == 'Germany' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% elif transfer.location == 'Uzbekistan' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                             {% elif transfer.location == 'UZBUSA' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% elif transfer.location == 'USAUZB' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% else %}
-                                  <div class="image">
-                                      <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% endif %}
-                              <div class="content">
-                                 <p class="header">{{ transfer.title }}</p>
-                              <div class="meta">
-                                 <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - Sana: {{ transfer.date }}</a>
-                              </div>
-                               <div class="meta">
-                                <p class="cinema">Transfer kursi: {{transfer.location}} {{ transfer.get_exchangeRate_display }}</p>
-                              </div>
-                              <div class="description">
-                                  <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
-                              </div>
-
-                                <div class="extra">
-                                    <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                                         <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
-            <!--                             if debugs,then change the logic-->
-            <!--                                <a href="{% url 'transfer_detail' transfer.pk %}" type="submit" name="transfer_id" value="{{ transfer.id }}" style="color: white">Batafsil...</a>-->
-                                                batafsil...
-
-                                             <i class="right chevron icon"></i>
-                                        </button>
-            <!--                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">-->
-            <!--                                <p class="item">-->
-            <!--                                    <i class="arrow up icon"></i>-->
-            <!--                                </p>-->
-            <!--                            </button>-->
-                                    </form>
-
-                                    <div class="ui label">Transfer qiymati: <h4 class="text-danger">{{ transfer.price }}</h4></div>
-            <!--                        {% if transfer.location == 'GER' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% elif transfer.location == 'UZBUSA' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% elif transfer.location == 'USAUZB' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="us flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% else %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i>LOCATION:<i class="de flag" style="margin-left:5px"></i>-->
-            <!--                            </div>-->
-            <!--                        {% endif %}-->
-
-                                    {% if transfer.moneyCurrency == 'dollar' %}
-                                    <div class="ui label">
-                                        <i class="dollar sign icon"></i>
-                                        Dollar
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euro' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>
-                                        Euro
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'som' %}
-                                    <div class="ui label">
-                                        <i class="money bill alternate icon"></i>
-                                        So'm
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euroordollar' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>Euro yoki Dollar <i class="dollar sign icon"></i>
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euroorsom' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>Euro yoki So'm <i class="money bill alternate icon"></i>
-                                    </div>
-                                    {% else %}
-                                    <div class="ui label">
-                                        <i class="money bill alternate icon"></i>So'm yoki Dollar <i class="dollar sign icon"></i>
-                                    </div>
-                                    {% endif %}
-
-                                    <div class="meta my-3">
-                                        <span><i class="globe icon"></i> LOCATION: </span>
-                                        <span>
-                                            {% if transfer.location == 'Germany' %}
-                                                Uzbekistan
-                                            {% elif transfer.location == "Uzbekistan" %}
-                                                Germany
-                                            {% elif transfer.location == "England" %}
-                                                England
-                                            {% elif transfer.location == "USA" %}
-                                                Amerika
-                                            {% else %}
-                                                None
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                    <div class="meta">
-                                        <div class="blobs-container">
-                                            <div class="blob red"></div>
-                                        </div>
-                                    </div>
-                                    <div class="meta my-3">
-                                        <span><i class="flag icon black"></i> TARGER:</span>
-                                        <span>
-                                            {% if transfer.location == "Germany" %}
-                                                Germany ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "Uzbekistan" %}
-                                                Uzbekistan ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "USA" %}
-                                                Amerika ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "England" %}
-                                                England ({{ transfer.get_whichLocation_display }})
-                                            {% else %}
-                                                None ({{ transfer.get_whichLocation_display }})
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                    <div class="meta my-3">
-
-                                        <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.like_count }} {{ author.liked }}  </span>
-                                        <span> | </span>
-                                        <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
-                                    </div>
-                                    {% if user.id == transfer.author.profile.id %}
-                                    {% else %}
-                                        {% if user.is_authenticated %}
-                                            {{ transfer.reputation }}
-                                            <div class="meta">
-                                                <button class="btn text-dark reputation_count" onclick="myFunction(this)" value="{{transfer.id}}" id="{{transfer.id}}">
-                                                    <i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i> Reputations: {{transfer.reputation_count }}
-                                                </button>
-                                            </div>
-                                        {% else %}
-                                            Login to give reputation
-                                        {% endif %}
-
-                                        {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                                        {% if user.is_authenticated %}
-                                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                                <p class="item">
-                                                    <i class="arrow up icon"></i>
-                                                </p>
-                                            </button>
-                                        {% else %}
-                                          Login to give reputation
-                                        {% endif %}
-
-                                        <span> Reputations: {{ transfer.total_reputations }}</span>
-                                        </form> {% endcomment %}
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                   {% for transfer in filtered_transfers %}
-                        <div class="ui divided items p-4 border">
-                          <div class="item" data-aos="zoom-in">
-                              {% if transfer.location == 'Uzbekistan' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% elif transfer.location == 'Germany' %}
-                                  <div class="image">
-                                      <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                             {% elif transfer.location == 'UZBUSA' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/uzb_usa.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% elif transfer.location == 'USAUZB' %}
-                                  <div class="image">
-                                     <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% else %}
-                                  <div class="image">
-                                      <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
-                                  </div>
-                              {% endif %}
-                              <div class="content">
-                                 <p class="header">{{ transfer.title }}</p>
-                              <div class="meta">
-                                 <a class="cinema" href="{% url 'user_profile' transfer.author.id  %}">Author: {{ transfer.author | title }} - Sana: {{ transfer.date }}</a>
-                              </div>
-                               <div class="meta">
-                                <p class="cinema">Transfer kursi: {{ transfer.get_exchangeRate_display }}</p>
-                              </div>
-                              <div class="description">
-                                  <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
-                              </div>
-
-                                <div class="extra">
-                                    <form action="{% url 'view_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                                         <button class="ui right floated primary button" type="submit" name="transfer_id" value="{{ transfer.id }}" >
-            <!--                             if debugs,then change the logic-->
-            <!--                                <a href="{% url 'transfer_detail' transfer.pk %}" type="submit" name="transfer_id" value="{{ transfer.id }}" style="color: white">Batafsil...</a>-->
-                                                batafsil...
-
-                                             <i class="right chevron icon"></i>
-                                        </button>
-            <!--                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">-->
-            <!--                                <p class="item">-->
-            <!--                                    <i class="arrow up icon"></i>-->
-            <!--                                </p>-->
-            <!--                            </button>-->
-                                    </form>
-
-                                    <div class="ui label">Transfer qiymati: <h4 class="text-danger">{{ transfer.price }}</h4></div>
-            <!--                        {% if transfer.location == 'GER' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% elif transfer.location == 'UZBUSA' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="uz flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% elif transfer.location == 'USAUZB' %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i> LOCATION: <i class="us flag"></i>-->
-            <!--                            </div>-->
-            <!--                        {% else %}-->
-            <!--                            <div class="ui label">-->
-            <!--                                <i class="globe icon"></i>LOCATION:<i class="de flag" style="margin-left:5px"></i>-->
-            <!--                            </div>-->
-            <!--                        {% endif %}-->
-
-                                    {% if transfer.moneyCurrency == 'dollar' %}
-                                    <div class="ui label">
-                                        <i class="dollar sign icon"></i>
-                                        Dollar
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euro' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>
-                                        Euro
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'som' %}
-                                    <div class="ui label">
-                                        <i class="money bill alternate icon"></i>
-                                        So'm
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euroordollar' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>Euro yoki Dollar <i class="dollar sign icon"></i>
-                                    </div>
-                                    {% elif transfer.moneyCurrency == 'euroorsom' %}
-                                    <div class="ui label">
-                                        <i class="euro sign icon"></i>Euro yoki So'm <i class="money bill alternate icon"></i>
-                                    </div>
-                                    {% else %}
-                                    <div class="ui label">
-                                        <i class="money bill alternate icon"></i>So'm yoki Dollar <i class="dollar sign icon"></i>
-                                    </div>
-                                    {% endif %}
-
-                                    <div class="meta my-3">
-                                        <span><i class="globe icon"></i> LOCATION: </span>
-                                        <span>
-                                            {% if transfer.location == 'Germany' %}
-                                                Uzbekistan
-                                            {% elif transfer.location == "England" %}
-                                                England
-                                            {% elif transfer.location == "USA" %}
-                                                Amerika
-                                            {% elif transfer.location == "Uzbekistan" %}
-                                                Germany
-                                            {% else %}
-                                                None
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                    <div class="meta">
-                                        <div class="blobs-container">
-                                            <div class="blob red"></div>
-                                        </div>
-                                    </div>
-                                    <div class="meta my-3">
-                                        <span><i class="flag icon black"></i> TARGER:</span>
-                                        <span>
-                                            {% if transfer.location == "Germany" %}
-                                                Germany: ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "England" %}
-                                                Angliya: ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "USA" %}
-                                                Amerika: ({{ transfer.get_whichLocation_display }})
-                                            {% elif transfer.location == "Uzbekistan" %}
-                                                Uzbekistan: ({{ transfer.get_whichLocation_display }})
-                                            {% else %}
-                                                None: ({{ transfer.get_whichLocation_display }})
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                    <div class="meta my-3">
-
-                                        <span> | </span><span><i class="heart icon red"></i>  Likes: {{ transfer.like_count }} {{ author.liked }}  </span>
-                                        <span> | </span>
-                                        <span><i class="eye icon black"></i> Views: {{ transfer.total_views }}</span><span> | </span>
-                                    </div>
-                                    {% if user.id == transfer.author.profile.id %}
-                                    {% else %}
-                                        {% if user.is_authenticated %}
-                                            {{ transfer.reputation }}
-                                            <div class="meta">
-                                                <button class="btn text-dark reputation_count" onclick="myFunction(this)" value="{{transfer.id}}" id="{{transfer.id}}">
-                                                    <i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i> Reputations: {{transfer.reputation_count }}
-                                                </button>
-                                            </div>
-                                        {% else %}
-                                            Login to give reputation
-                                        {% endif %}
-
-                                        {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                                        {% if user.is_authenticated %}
-                                            <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                                <p class="item">
-                                                    <i class="arrow up icon"></i>
-                                                </p>
-                                            </button>
-                                        {% else %}
-                                          Login to give reputation
-                                        {% endif %}
-
-                                        <span> Reputations: {{ transfer.total_reputations }}</span>
-                                        </form> {% endcomment %}
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                   {% endfor %}
-                {% endif %}
-           {% else %}
-                <div class="ui inverted vertical masthead center aligned segment">
-                    <div class="ui center text container">
-                        <h1 class="ui inverted header" data-aos="fade-up"
-                     data-aos-anchor-placement="top-bottom"><i class="optin monster icon"></i></h1>
-                        <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">No Transfers...</h2>
-                    </div>
-                </div>
-           {% endif %}
-
-           <!--Pagination-->
-        {% if filter.qs.count > 10 %}
-             <div class="container my-5">
-            <div class="row text-center">
-                 <div class="ui small horizontal divided list">
-                     {% if page_obj.has_previous %}
-                         <div class="item">
-                           <div class="content">
-                               <a href="{% relative_url 1 'page' request.GET.urlencode %}" class="header">&laquo; first</a>
-                           </div>
-                         </div>
-                         <div class="item">
-                           <div class="content">
-                               <a href="{% relative_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="header">previous</a>
-                           </div>
-                         </div>
-                     {% endif %}
-
-                    <div class="item">
-                       <div class="content">
-                           <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>
-                       </div>
-                    </div>
-                     {% if page_obj.has_next %}
-                        <div class="item">
-                           <div class="content button" onclick="selectHrefButton(this)">
-                                <a href="{% relative_url page_obj.next_page_number 'page' request.GET.urlencode %}" class="header" id="nextButtonPagination">next</a>
-                           </div>
-                        </div>
-                         <div class="item">
-                            <div class="content">
-                                <a href="{% relative_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}" class="header">last &raquo;</a>
-                           </div>
-                         </div>
-                     {% endif %}
-                    </div>
-                 </div>
-            </div>
-        {% endif %}
-<!--           <nav aria-label="Page navigation example">-->
-<!--              <ul class="pagination">-->
-<!--                {% if page_obj.has_previous %}-->
-<!--                    <li class="page-item">-->
-<!--                        <a class="page-link" href="#">-->
-<!--                            <a href="?page=1">&laquo; first</a>-->
-<!--                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                {% endif %}-->
-
-<!--                <li class="page-item">-->
-<!--                    <a class="page-link" href="#">-->
-<!--                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                {% if page_obj.has_next %}-->
-<!--                    <li class="page-item">-->
-<!--                        <a href="?page={{ page_obj.next_page_number }}">next</a>-->
-<!--                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
-<!--                    </li>-->
-<!--                {% endif %}-->
-<!--              </ul>-->
-<!--            </nav>-->
-
-
-       </div>
-     </div>
-  </div>
+      <div class="actions">
+        <div class="ui negative right button">
+          Close
+        </div>
+      </div>
     </div>
-</div>
 
+</div>
 
 <script>
 
-        function myFunction(obj){
-           superId = document.getElementById(obj.id).children[0]
-           
-            transfer_id = obj.value;
-            
-            $.ajax({
-                type: 'POST',
-                url: '{% url "reputation_transfer" 10 %}'.replace('10', transfer_id),
-                data: {
-                postId: transfer_id,
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                action: 'post'
-                
-                },
-                success: function (json) {
-                    obj.innerHTML = '<i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i>' + ' Reputations:' + ' ' + json['result']
-                },
-                error: function (xhr, errmsg, err) {
-                    console.log(err)
 
-                }
+    $(document)
+        .ready(function() {
+
+         // modal toggle to show all users
+         $(function(){
+            $("#show_profiles").click(function(){
+                $(".show_profiles").modal('show');
             });
+            $(".show_profiles").modal({
+                closable: true
+            });
+        });
+
+    });
+
+    function myFunction(obj){
+       superId = document.getElementById(obj.id).children[0]
+
+        transfer_id = obj.value;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "reputation_transfer" 10 %}'.replace('10', transfer_id),
+            data: {
+            postId: transfer_id,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+
+            },
+            success: function (json) {
+                obj.innerHTML = '<i class="arrow alternate circle up icon big green reputation-button-icon new-reputation-button"></i>' + ' Reputations:' + ' ' + json['result']
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(err)
+
+            }
+        });
+    }
+
+    // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShowModal')
+    console.log(profileImageShow)
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+    })
+
+    const json_data = '{{search_users}}'
+    const cleaned_json = JSON.parse(json_data.replace(/&quot;/g, '"'))
+    const search_input = document.getElementById('search_here')
+
+    filteredArr = []
+    search_input.addEventListener('keyup', (e)=>{
+        modalUserShow.innerHTML = ''
+        filteredArr = cleaned_json.filter(user=> user['fields']['first_name'].toLowerCase().includes(e.target.value.toLowerCase()))
+        if (filteredArr.length > 0) {
+            filteredArr.map(user=>{
+                let user_id_ = user['pk']
+                let make_url = "{% url 'user_profile' 12345 %}".replace(/12345/, user_id_.toString());
+                modalUserShow.innerHTML += `
+                                                <div class="item">
+                                                    <a class="ui tiny image" href=${make_url}>
+                                                        <div class="ui small image">
+                                                            <img src="{% static ''  %}" id="${user_id_}" class="profileImageShowModal">
+                                                        </div>
+                                                    </a>
+                                                    <div class="middle aligned content">
+                                                        <div class="header">
+                                                            <div class="description">
+                                                                <a class="ui header" href=${make_url}>
+                                                                    ${user['fields']['first_name']}
+                                                                </a>
+                                                                <a class="ui header" href=${make_url}>
+                                                                    ${user['fields']['last_name']}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                           `
+
+                // identify images of author which written comments
+                profileImageShow = document.querySelectorAll('.profileImageShowModal')
+                profileImageShow.forEach(function(item){
+                    each_profileImage_id = item.id
+                    each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+                })
 
 
-
+            })
+        } else {
+            modalUserShow.innerHTML = 'No results found...'
         }
-
-        //Reputations
-        $(document).on('click', '.new-reputation-button', function (e) {
-            
-        })
-
+    })
 </script>  
 
  {% endblock content %}

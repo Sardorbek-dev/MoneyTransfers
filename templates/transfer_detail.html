@@ -557,7 +557,7 @@
     <div class="ui modal show_transfers">
       <i class="close icon"></i>
       <div class="header">
-        How many transfer?
+        How many transfers?
       </div>
       <div class="image content">
           <div class="ui items">
@@ -566,7 +566,8 @@
                       <div class="item">
                             <a class="ui tiny image" href="{% url 'transfer_detail' user_transfer.id  %}">
                                 {{user_transfer.location}}
-                                {{user_transfer.whichLocation}}
+                                ({{user_transfer.whichLocation}})
+                                <i class="exchange icon"></i>
                             </a>
                             <div class="middle aligned content">
                               <div class="header">
@@ -627,7 +628,6 @@
     </div>
 
     <!-- to show reputations-->
-
     <div class="ui modal new_test">
       <i class="close icon"></i>
       <div class="header">
@@ -646,7 +646,7 @@
                             <div class="middle aligned content">
                               <div class="header">
                                  <div class="description">
-                                    <i class="like red icon"></i><a class="ui header" href="{% url 'user_profile' userReaction.profile.id  %}">{{userReaction.first_name}} {{userReaction.last_name}}</a>
+                                    <a class="ui header" href="{% url 'user_profile' userReaction.profile.id  %}">{{userReaction.first_name}} {{userReaction.last_name}}</a>
                                 </div>
                               </div>
                             </div>
@@ -747,6 +747,16 @@
               }
             });
           })
+
+      // modal toggle to show all users
+         $(function(){
+            $("#show_profiles").click(function(){
+                $(".show_profiles").modal('show');
+            });
+            $(".show_profiles").modal({
+                closable: true
+            });
+        });
 
       // modal toggle to show likes
          $(function(){

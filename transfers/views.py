@@ -6,14 +6,16 @@ from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib import messages
+from django.core import serializers
 import json
+
 
 
 from .models import Transfer, TransferComment, get_uz_strings, get_ger_strings, get_usa_strings
 from .filters import TransferFilter
 from .forms import TransferCommentForm, TransferForm
 from articles.models import Profile
-
+from accounts.models import CustomUser
 
 # Create your views here.
 def like(request, pk):
@@ -104,6 +106,9 @@ class TransferListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
+        context['search_users'] = serializers.serialize("json", CustomUser.objects.all(), fields=("first_name", "last_name"))
+        context['profiles'] = Profile.objects.all()
+        context['users'] = CustomUser.objects.all()
         filtered_transfers = context['filter']
 
         if len(filtered_transfers.qs) > 10:
