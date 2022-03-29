@@ -35,6 +35,21 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('home')
 
+class ProfileFeedback(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profileFeedbacks')
+    date = models.DateField(auto_now_add=True)
+    content = models.TextField(max_length=150, default='',)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return '%s - %s' % (self.profile.user, self.content)
+
+    def get_absolute_url(self):
+        return reverse('user_profile', args=[str(self.id)])
+
 class Article(models.Model):
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=200, blank=True)

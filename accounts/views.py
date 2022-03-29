@@ -1,8 +1,10 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage
-from articles.models import Profile
+from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage, ProfileFeedbackForm
+from articles.models import Profile, ProfileFeedback
+from django.http import HttpResponseRedirect
 from .models import CustomUser
 from transfers.models import Transfer, TransferComment
 
@@ -28,6 +30,7 @@ class UserEditForm(UpdateView):
 class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'registration/user_profile.html'
+    form = ProfileFeedbackForm
 
     def get_context_data(self, *args, **kwargs):
         # users = Profile.objects.all()  # fetch all categoris from backend
@@ -76,8 +79,37 @@ class ShowProfilePageView(DetailView):
         context['page_user'] = page_user
         context['page_user_comment'] = page_user_comment
         context['page_user_transfer'] = page_user_transfer
-
+        context['form'] = self.form
         return context
+
+def send_feedback(request, pk):
+
+    profile = Profile.objects.get(id=pk)
+    transfer_contents = ProfileFeedback.objects.filter(profile=profile)
+    #profileFeedbackContenProfileFeedbackt = ProfileFeedback.objects.all()
+    # p = Paginator(ProfileFeedback, 5)
+    # page_number = request.GET.get('page')
+    # page_obj = p.get_page(page_number)
+
+    # Comment posted
+    if request.method == 'POST':
+        profile_feedback_content_form = ProfileFeedbackForm(request.POST or None)
+        if profile_feedback_content_form.is_valid():
+            profile_feedback_content = request.POST.get('content')
+            print('profile_feedback_content', profile_feedback_content)
+            new_profile_feedback_content = ProfileFeedback.objects.create(profile=profile, author=request.user, content=profile_feedback_content)
+            new_profile_feedback_content.save()
+
+            return HttpResponseRedirect(profile.get_absolute_url()) #redirect to user profile page
+    else:
+        profile_feedback_content_form = ProfileFeedbackForm()
+
+    context = {
+        'profile': profile,
+        'profile_feedback_content_form': profile_feedback_content_form,
+    }
+
+    return render(request, 'user_profile.html', context)
 
 class EditProfilePageView(UpdateView):
     model = Profile

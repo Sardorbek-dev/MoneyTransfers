@@ -150,7 +150,7 @@ def transfer_detail_comment(request, pk):
 
             new_transfer_comment.save()
 
-            return HttpResponseRedirect(transfer.get_absolute_url()) #redirect to article detail page
+            return HttpResponseRedirect(transfer.get_absolute_url()) #redirect to transfer detail page
 
     else:
         transfer_comment_form = TransferCommentForm()

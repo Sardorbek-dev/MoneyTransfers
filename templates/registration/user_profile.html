@@ -11,6 +11,22 @@
     <div class="ui text container">
         <div class="ui text container">
             <h1 class="ui inverted header">Profile</h1>
+                    {% if not object.profileFeedbacks.all %}
+                        NO feedbacks yet.. <a href="#">Add one </a>
+                    {% else %}
+                    <!--Feedbacks-->
+                        {% for feedback in object.profileFeedbacks.all %}
+                            <p>{{feedback.author}}</p>
+                            <p>{{feedback.content}}</p>
+                        {% endfor %}
+                    {% endif %}
+            <form class="ui reply form" method="POST" action="{% url 'send_feedback' object.pk %}">
+                {% csrf_token %}
+                <div class="field">
+                    {{ form|crispy }}
+                </div>
+                <button name="profile_feedback_content" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send feedback</button>
+            </form>
         </div>
         <div class="ui divided items">
           <div class="item">

@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 from django import forms
 from django.forms import fields
-from articles.models import Profile
+from articles.models import Profile, ProfileFeedback
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': 'Username'}))
@@ -46,4 +46,13 @@ class ProfilePageForm(forms.ModelForm):
             'telegram_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
             'instagram_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
             'facebook_url': forms.TextInput(attrs={'class': "form-control mb-3"}),
+        }
+
+class ProfileFeedbackForm(forms.ModelForm):
+    content = forms.CharField(label="", widget=forms.Textarea(attrs={'class': 'form-control', 'pleaceholder': 'Write text'}))
+    class Meta:
+        model = ProfileFeedback
+        fields = ('content', )
+        widgets = {
+            'content': forms.TextInput(attrs={'class': "form-control mb-3", 'placeholder': 'content'}),
         }
