@@ -9,25 +9,61 @@
 
 <div class="ui inverted vertical masthead aligned segment background-specific">
     <div class="ui text container">
-        <div class="ui text container">
-            <h1 class="ui inverted header">Profile</h1>
-                    {% if not object.profileFeedbacks.all %}
-                        NO feedbacks yet.. <a href="#">Add one </a>
-                    {% else %}
-                    <!--Feedbacks-->
-                        {% for feedback in object.profileFeedbacks.all %}
-                            <p>{{feedback.author}}</p>
+        <h1 class="ui inverted header">User Feedbacks</h1>
+        <div class="ui feed">
+            {% if not object.profileFeedbacks.all %}
+                NO feedbacks yet..
+            {% else %}
+                 <!--Feedbacks-->
+                {% for feedback in object.profileFeedbacks.all %}
+                    <div class="event">
+                        <div class="label">
+                          <img src="{% static '' %}" class="profileImageShow" id="{{feedback.author.profile.user_image}}">
+                        </div>
+                        <div class="content">
+                          <div class="summary">
+                            <a href="{% url 'user_profile' feedback.author.profile.id %}">{{feedback.author}}</a> left a feedback
+                            <div class="date">
+                              {{feedback.date}}
+                            </div>
+                          </div>
+                          <div class="extra text">
                             <p>{{feedback.content}}</p>
-                        {% endfor %}
-                    {% endif %}
-            <form class="ui reply form" method="POST" action="{% url 'send_feedback' object.pk %}">
-                {% csrf_token %}
-                <div class="field">
-                    {{ form|crispy }}
-                </div>
-                <button name="profile_feedback_content" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send feedback</button>
-            </form>
+                          </div>
+                          <div class="meta">
+                            <a class="like">
+                              <i class="like icon"></i> 0 Likes
+                            </a>
+                          </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
+        {% if user.is_authenticated %}
+            {% if user.profile.id %}
+                {% if user.profile.id != page_user.id %}
+                    <div class="ui text container">
+                        <div class="ui styled accordion">
+                          <div class="title">
+                            <i class="dropdown icon"></i>
+                                Send feedback
+                          </div>
+                          <div class="content">
+                            <form class="ui reply form" method="POST" action="{% url 'send_feedback' object.pk %}">
+                                {% csrf_token %}
+                                <div class="field">
+                                    {{ form|crispy }}
+                                </div>
+                                <button name="profile_feedback_content" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send feedback</button>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+       <h1 class="ui inverted header">Profile</h1>
         <div class="ui divided items">
           <div class="item">
             <div class="image">
@@ -67,7 +103,7 @@
           </div>
         </div>
     </div>
-    <div class="container text-center my-5">
+    <div class="container-fluid text-center my-5">
         <h1 class="my-4">User activities</h1>
         {% if userLike != 0 %}
             {% for key, value in userLike.items %}

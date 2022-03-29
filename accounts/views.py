@@ -100,7 +100,7 @@ def send_feedback(request, pk):
             new_profile_feedback_content = ProfileFeedback.objects.create(profile=profile, author=request.user, content=profile_feedback_content)
             new_profile_feedback_content.save()
 
-            return HttpResponseRedirect(profile.get_absolute_url()) #redirect to user profile page
+            return HttpResponseRedirect(reverse_lazy('user_profile', kwargs={'pk': pk})) #redirect to user profile page
     else:
         profile_feedback_content_form = ProfileFeedbackForm()
 
