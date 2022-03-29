@@ -5,6 +5,19 @@
 
 {% block content %}
 <div class="container">
+    {% if messages %}
+       <div class="ui positive message transition transfer_update">
+          <i class="close icon"></i>
+          <div class="header">
+            Transfer
+          </div>
+            <p>
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </p>
+       </div>
+   {% endif %}
   <h1 class="text-center my-5">Transfer bo'yicha batafsil ma'lumot</h1>
   <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
@@ -768,7 +781,7 @@
             });
         });
 
-         // modal toggle to show reputations
+      // modal toggle to show reputations
          $(function(){
             $("#new_test").click(function(){
                 $(".new_test").modal('show');
@@ -778,7 +791,7 @@
             });
         });
 
-         // modal toggle to show transfers
+      // modal toggle to show transfers
          $(function(){
             $("#show_transfers").click(function(){
                 $(".show_transfers").modal('show');
@@ -787,6 +800,13 @@
                 closable: true
             });
         });
+
+       // hide Alert after 3 seconds
+        setTimeout(function(){
+            if (!$('.transfer_update').hasClass('hidden')){
+                $('.transfer_update').addClass('hidden')
+            }
+        }, 10000)
 
 
     });

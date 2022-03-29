@@ -28,24 +28,22 @@
           </div>
           <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5">
            <div class="ui segment border-0">
-           <h5>
-               All Transfers: {{filter.qs.count}}
-               <div class="ui positive message transition hidden">
-                  <i class="close icon"></i>
-                  <div class="header">
-                    Transfer Update
-                  </div>
-                  <p>
-                      {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-                            {% endfor %}
-                        </ul>
-                      {% endif %}
-                  </p>
-               </div>
-           </h5>
+               <h5>
+                   All Transfers: {{filter.qs.count}}
+                   {% if messages %}
+                       <div class="ui positive message transition transfer_update">
+                          <i class="close icon"></i>
+                          <div class="header">
+                            Transfer
+                          </div>
+                            <p>
+                                {% for message in messages %}
+                                    {{ message }}
+                                {% endfor %}
+                            </p>
+                       </div>
+                   {% endif %}
+               </h5>
                 {% if filter.qs.count != 0 %}
                     {% if filter.qs.count <= 10 %}
                         {% for transfer in filter.qs %}
@@ -545,7 +543,17 @@
             });
         });
 
+        // hide Alert after 3 seconds
+        setTimeout(function(){
+            if (!$('.transfer_update').hasClass('hidden')){
+                $('.transfer_update').addClass('hidden')
+            }
+        }, 10000)
+
+
     });
+
+
 
     function myFunction(obj){
        superId = document.getElementById(obj.id).children[0]
@@ -578,7 +586,7 @@
         each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
     })
 
-    const json_data = '{{search_users_test}}'
+    const json_data = '{{search_users}}'
     const cleaned_json = JSON.parse(json_data.replace(/&quot;/g, '"'))
     const search_input = document.getElementById('search_here')
 
@@ -594,7 +602,7 @@
                                                 <div class="item">
                                                     <a class="ui tiny image" href=${make_url}>
                                                         <div class="ui mini image">
-                                                            <img src="{% static ''  %}" id="${user['fields']['user_image']}" class="profileImageShowModal">
+                                                            <img src="{% static ''  %}" id="${user['fields']['user_image']}" class="profileImageShowModalSearchArea">
                                                         </div>
                                                     </a>
                                                     <div class="middle aligned content">
@@ -612,8 +620,8 @@
                                                 </div>
                                            `
 
-                // identify images of author which written comments
-                profileImageShow = document.querySelectorAll('.profileImageShowModal')
+                // identify images of users in search area
+                profileImageShow = document.querySelectorAll('.profileImageShowModalSearchArea')
                 profileImageShow.forEach(function(item){
                     each_profileImage_id = item.id
                     each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";

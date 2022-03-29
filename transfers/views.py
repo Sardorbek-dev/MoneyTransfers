@@ -66,7 +66,6 @@ def ReputationView(request, pk):
     if request.POST.get('action') == 'post':
         result = ''
         id = int(request.POST.get('postId'))
-        print('currentId:', id)
         transfer = get_object_or_404(Transfer, id=id)
         if transfer.reputations.filter(id=request.user.id).exists():
             transfer.reputations.remove(request.user)
@@ -84,7 +83,6 @@ def ReputationView(request, pk):
 
 
 def TransferViewView(request, pk):
-    print('testPK', request.user.id)
 
     transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
     # Field 'id' expected a number but got <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x00000186219C2770>>. Debug fixed!!!
@@ -106,8 +104,7 @@ class TransferListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
-        context['search_users'] = serializers.serialize("json", CustomUser.objects.all(), fields=["first_name", "last_name"], use_natural_foreign_keys=True)
-        context['search_users_test'] = serializers.serialize("json", Profile.objects.all(), fields=["user", "user_image"], use_natural_foreign_keys=True)
+        context['search_users'] = serializers.serialize("json", Profile.objects.all(), fields=["user", "user_image"], use_natural_foreign_keys=True)
         context['profiles'] = Profile.objects.all()
         context['users'] = CustomUser.objects.all()
         filtered_transfers = context['filter']
@@ -195,6 +192,10 @@ class TransferCreateView(CreateView):
         context['json_usa_strings'] = json_usa_strings
         return context
 
+    def get_success_url(self, **kwargs):
+        messages.success(self.request, 'Your transfer has been successfully created.')
+        return reverse_lazy('transfer_list')
+
 class TransferDetailView(DetailView):
     model = Transfer
     template_name = 'transfer_detail.html'
@@ -234,7 +235,6 @@ class TransferDetailView(DetailView):
 
                 for user in eachTransfer.reputations.all():
                     userReputation.append(user)
-            print(userReputation)
 
             context['userLike'] = userLike
             context['userReputation'] = userReputation
@@ -306,8 +306,9 @@ class TransferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        messages.success(self.request, 'Your post has been updated successfully.')
-        return reverse_lazy('transfer_list')
+        messages.success(self.request, 'Your transfer has been successfully updated.')
+        transfer_id = self.kwargs['pk']
+        return reverse_lazy('transfer_detail', kwargs={'pk': transfer_id})
 
 class TransferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Transfer
@@ -317,3 +318,7 @@ class TransferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
+
+    def get_success_url(self):
+        messages.success(self.request, 'Your transfer has been successfully deleted.')
+        return reverse_lazy('transfer_list')
