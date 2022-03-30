@@ -30,6 +30,7 @@
                           <div class="extra text">
                             <p>{{feedback.content}}</p>
                           </div>
+                          
                           <div class="meta">
                             <a class="like">
                               <i class="like icon"></i> 0 Likes
@@ -318,10 +319,10 @@
 {% endif %}
 
 <script>
-    
+
     // dynamic Image profile page
 
-    asss = document.querySelector('.profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
+    document.querySelector('.profileImagehandle').src="/static/images/" + '{{page_user.user_image}}' + ".jpg";
 
   // identify images of author which written comments
     profileImageShow = document.querySelectorAll('.profileImageShow')

@@ -4,7 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from .forms import CustomUserCreationForm, CustomUserChangeForm, ProfilePageForm, EditProfilePage, ProfileFeedbackForm
 from articles.models import Profile, ProfileFeedback
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from .models import CustomUser
 from transfers.models import Transfer, TransferComment
 
