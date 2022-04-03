@@ -64,7 +64,7 @@
                 {% endif %}
             {% endif %}
         {% endif %}
-       <h1 class="ui inverted header">Profile</h1>
+        <h1 class="ui inverted header">Profile</h1>
         <div class="ui divided items">
           <div class="item">
             <div class="image">
@@ -103,11 +103,42 @@
             </div>
           </div>
         </div>
+
+        <h1 class="">All active Transfers</h1>
+        <div class="ui divided items">
+            {% if transfers_status_active.count != 0 %}
+                {% for active_transfer in transfers_status_active %}
+                    <div class="item">
+                        <div class="content">
+                            <a class="header" href="{% url 'transfer_detail' active_transfer.id %}">
+                                {{ active_transfer.title }}
+                                 <span class="blobs-container">
+                                    <div class="blob green"></div>
+                                </span>
+                            </a>
+                            <div class="meta">
+                               <span class="cinema">Date: {{ active_transfer.date }}</span>
+                            </div>
+                            <div class="meta">
+                                <span class="cinema"></span>
+                            </div>
+                            <div class="description">
+                                <p>{{ active_transfer.description|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No active Transfers yet..</p>
+            {% endif %}
+        </div>
+
     </div>
     <div class="container-fluid text-center my-5">
         <h1 class="my-4">User activities</h1>
         {% if userLike != 0 %}
             {% for key, value in userLike.items %}
+                <p class="my-2">User likes</p>
                 <a class="cinema" href="{% url 'user_profile' key  %}">
                     {{value}}
                 </a>
@@ -115,7 +146,7 @@
         {% else %}
             <p>no likes</p>
         {% endif %}
-        <div class="ui special cards justify-content-center flex-lg-nowrap">
+        <div class="ui special cards justify-content-center flex-lg-nowrap mt-2">
             <div class="card">
             <div class="blurring dimmable image">
               <div class="ui dimmer">

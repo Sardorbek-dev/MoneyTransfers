@@ -30,6 +30,12 @@
 	animation: pulse-red 2s infinite;
 }
 
+.blob.green {
+	background: rgba(8, 173, 48, 1);
+	box-shadow: 0 0 0 0 rgba(8, 173, 48, 1);;
+	animation: pulse-green 2s infinite;
+}
+
 @keyframes pulse-red {
 	0% {
 		transform: scale(0.95);
@@ -44,5 +50,22 @@
 	100% {
 		transform: scale(0.95);
 		box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+	}
+}
+
+@keyframes pulse-green {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(8, 173, 48, 0.8);;
+	}
+
+	70% {
+		transform: scale(1.25);
+		box-shadow: 0 0 0 10px rgba(8, 173, 48, 0);;
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(8, 173, 48, 0);;
 	}
 }

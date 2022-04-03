@@ -38,6 +38,7 @@ class ShowProfilePageView(DetailView):
         page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
         page_user_comment = TransferComment.objects.filter(author_id=page_user.id)
         page_user_transfer = Transfer.objects.filter(author_id=page_user.id)
+        context['transfers_status_active'] = Transfer.objects.filter(status_transfer=True, author_id=self.kwargs['pk'])
 
         #Users who have liked transfers of current user
         if page_user_transfer.count() != 0:
