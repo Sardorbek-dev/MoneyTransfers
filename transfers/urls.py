@@ -9,6 +9,7 @@ from .views import (
     ReputationView,
     TransferViewView,
     like,
+    status_change
 )
 
 urlpatterns = [
@@ -19,6 +20,7 @@ urlpatterns = [
     path('', TransferListView.as_view(), name='transfer_list'),
     path('like/<int:pk>', like, name='like_transfer'),
     path('reputation/<int:pk>', ReputationView, name='reputation_transfer'),
+    path('status/<int:pk>', status_change, name='status_change'),
     path('view/<int:pk>', TransferViewView, name='view_transfer'),
     path('comment/<int:pk>', transfer_detail_comment, name='transfer_detail_comment'),
 ]

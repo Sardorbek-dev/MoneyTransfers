@@ -35,7 +35,31 @@ def like(request, pk):
             transfer.save()
 
         return JsonResponse({'result': result, })
-    return HttpResponseRedirect(transfer.get_absolute_url())    
+
+        return HttpResponseRedirect(transfer.get_absolute_url())
+
+def status_change(request, pk):
+    print( 'transfer: ',pk)
+    if request.POST.get('action') == 'post':
+        result = ''
+        id = request.POST.get('postId')
+        print( 'transfer2: ',id)
+
+        transfer = get_object_or_404(Transfer, id=id)
+
+        if transfer.status_transfer:
+            transfer.status_transfer = False
+            result = transfer.status_transfer
+            transfer.save()
+        else:
+            transfer.status_transfer = True
+            result = transfer.status_transfer
+            transfer.save()
+
+        return JsonResponse({'result': result, })
+
+        return HttpResponseRedirect(transfer.get_absolute_url())
+
 
 # def LikeView(request, pk):
 #     transfer = get_object_or_404(Transfer, id=request.POST.get('transfer_id'))  # Attrs of Form ==> id=request.POST.get('article_id') FROTNEND--> article_id = name="article_id"
@@ -79,7 +103,8 @@ def ReputationView(request, pk):
             transfer.save()
 
         return JsonResponse({'result': result, })
-    return HttpResponseRedirect(transfer.get_absolute_url())  
+
+        return HttpResponseRedirect(transfer.get_absolute_url())
 
 
 def TransferViewView(request, pk):
@@ -104,6 +129,7 @@ class TransferListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = TransferFilter(self.request.GET, queryset=self.get_queryset()) # or => Transfer.objects.all()
+        context['filter_status_active'] = Transfer.objects.filter(status_transfer=True)
         context['search_users'] = serializers.serialize("json", Profile.objects.all(), fields=["user", "user_image"], use_natural_foreign_keys=True)
         context['profiles'] = Profile.objects.all()
         context['users'] = CustomUser.objects.all()
@@ -120,6 +146,7 @@ class TransferListView(ListView):
                 filtered_transfers = paginator.page(1)
             except EmptyPage:
                 filtered_transfers = paginator.page(paginator.num_pages)
+
             context['filtered_transfers'] = filtered_transfers
             return context
         else:
@@ -215,6 +242,7 @@ class TransferDetailView(DetailView):
         reputation = False
         view = False
 
+
         if stuff.likes.filter(id=self.request.user.id).exists():
             liked = True
 
@@ -277,6 +305,7 @@ class TransferDetailView(DetailView):
         context['liked'] = liked
         context['reputation'] = reputation
         context['view'] = view
+
         context['form'] = self.form
         return context
 

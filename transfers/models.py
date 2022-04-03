@@ -419,11 +419,15 @@ class Transfer(models.Model):
     )
     location = models.CharField(max_length=50, choices=LOCATION_CHOICES, verbose_name='Pul yuboriladigan davlatni tanlang')
     whichLocation = models.CharField(max_length=50, choices=CITY_CHOICES, verbose_name="Qaysi shahar yoki viloyat/Bundesland ga yubormoqchisiz")
+    status_transfer = models.BooleanField(default=True)
 
     def get_likes(self):
         return self
 
     def get_reputations(self):
+        return self
+
+    def get_status_transfer(self):
         return self
 
     def total_likes(self):

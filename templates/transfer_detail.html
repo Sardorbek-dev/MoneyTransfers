@@ -168,6 +168,22 @@
                     </div>
 
                   {% if user.id == transfer.author.profile.id %}
+                    <div class="meta my-5">
+                        <button class="btn text-dark p-0 btn-outline-light" id="status-transfer-button" value="{{transfer.id}}">
+                            {% if transfer.status_transfer %}
+                                <i class="eye icon big green transfer-status-button-icon"></i>
+                            {% else %}
+                                <i class="eye icon big transfer-status-button-icon"></i>
+                            {% endif %}
+                        </button>
+                        <span id="status_transfer_display" >
+                            {% if transfer.status_transfer %}
+                                Status: Aktiv
+                            {% else %}
+                                Status: Inaktiv
+                            {% endif %}
+                        </span>
+                    </div>
                   {% else %}
 
                   {% comment %} reputation {% endcomment %}
@@ -193,7 +209,7 @@
                         <span>(Please, Login to give reputation)</span>
                         <span>Reputations: {{object.reputation_count }}</span>
                       {% endif %}
-                    </div>
+                  </div>
 
                        {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
                             {% if user.is_authenticated %}
@@ -760,6 +776,36 @@
               }
             });
           })
+
+
+          //status change
+          $(document).on('click', '#status-transfer-button', function (e) {
+            e.preventDefault();
+            $.ajax({
+              type: 'POST',
+              url: '{% url "status_change" transfer.id %}',
+              data: {
+                postId: $('#status-transfer-button').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+              },
+              success: function (json) {
+                reputation_button = document.querySelector(".transfer-status-button-icon")
+                if (reputation_button.classList.contains('green')) {
+                    reputation_button.classList.remove('green')
+                    document.getElementById("status_transfer_display").innerHTML = 'Status:' + ' ' + 'Inaktiv'
+                } else {
+                    reputation_button.classList.add('green')
+                    document.getElementById("status_transfer_display").innerHTML = 'Status:' + ' ' + 'Aktiv'
+                }
+                
+              },
+              error: function (xhr, errmsg, err) {
+    
+              }
+            });
+          })
+
 
       // modal toggle to show all users
          $(function(){

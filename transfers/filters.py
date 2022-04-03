@@ -53,31 +53,31 @@ class TransferFilter(django_filters.FilterSet):
 
     def filter_by_price(self, queryset, name, value):
         if value == '0100':
-            return queryset.filter(price__gte=0, price__lte=99)
+            return queryset.filter(price__gte=0, price__lte=99, status_transfer=True)
         if value == '100200':
-            return queryset.filter(price__gte=100, price__lte=199)
+            return queryset.filter(price__gte=100, price__lte=199, status_transfer=True)
         if value == '200500':
-            return queryset.filter(price__gte=200, price__lte=499)
+            return queryset.filter(price__gte=200, price__lte=499, status_transfer=True)
         if value == '5001000':
-            return queryset.filter(price__gte=500, price__lte=999)
+            return queryset.filter(price__gte=500, price__lte=999, status_transfer=True)
         if value == '10002000':
-            return queryset.filter(price__gte=1000, price__lte=1999)
+            return queryset.filter(price__gte=1000, price__lte=1999, status_transfer=True)
         if value == '20005000':
-            return queryset.filter(price__gte=2000, price__lte=4999)
+            return queryset.filter(price__gte=2000, price__lte=4999, status_transfer=True)
         if value == '500000000':
-            return queryset.filter(price__gte=5000)
+            return queryset.filter(price__gte=5000, status_transfer=True)
 
     def filter_by_order(self, queryset, name, value):
         expression = 'price' if value == 'ascending' else '-price'
-        return queryset.order_by(expression)
+        return queryset.filter(status_transfer=True).order_by(expression)
 
     def filter_location(self, queryset, name, value):
         if value == 'GER':
             expression_location = 'Germany'
-            return queryset.filter(location=expression_location)
+            return queryset.filter(location=expression_location, status_transfer=True)
         else:
             expression_location = 'Uzbekistan'
-            return queryset.filter(location=expression_location)
+            return queryset.filter(location=expression_location, status_transfer=True)
 
     # def filter_transfer_art(self, queryset, name, value):
     #
