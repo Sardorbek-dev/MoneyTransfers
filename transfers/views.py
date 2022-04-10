@@ -1,4 +1,6 @@
+import re
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -118,6 +120,13 @@ def TransferViewView(request, pk):
         transfer_view = True
 
     return HttpResponseRedirect(transfer.get_absolute_url()) # reverse('article_list', args=[str(pk)]) args=[str(pk)]) --> primary key of the article, which by user liked
+
+# def checkboxFilterTransfer(request):
+#     transfer_l = request.GET.getlist('color[]')
+#     allTransfers = Transfer.objects.all()
+#     t = render_to_string('transfer_list.html', {'data': allTransfers})
+#     print(transfer_l)
+#     return JsonResponse({'data': t})
 
 class TransferListView(ListView):
     paginate_by = 5

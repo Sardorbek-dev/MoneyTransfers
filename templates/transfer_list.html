@@ -15,9 +15,21 @@
                <form method="get" class="my-3">{% csrf_token %}
 
                     {{ filter.form|crispy }}
+                    
+                  
                    <input class="ui green button my-3" type="submit" value="Qidirish...">
                    <a class="ui red button" href="{% url 'transfer_list' %}">Reset</a>
                </form>
+               {% comment %} <form method="post"> {% csrf_token %}
+                    <div class="inline field">
+                        <div class="ui">
+                            <input class="ui my-3" type="checkbox" value="test_checkbox">
+                            <input name="filter_checkbox" type="checkbox" tabindex="0" class="hidden"/>
+                            <label name="filter_checkbox" id="filter_checkbox">Checkbox</label>
+                        </div>
+                        
+                    </div>
+                </form> {% endcomment %}
 
               <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
                   <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish<i class="plus square outline icon"></i></a></buttun>
@@ -26,7 +38,8 @@
                   <buttun class="ui green button" id="show_profiles">Search user</buttun>
               </div>
           </div>
-          <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5">
+          <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5" >
+              <p class="checkbox_filter_loading"> Loading...</p>
            <div class="ui segment border-0">
                <h5>
                    All Transfers: {{filter_status_active.count}}
@@ -81,7 +94,12 @@
                                         <p class="cinema">Transfer kursi: {{transfer.location}} {{ transfer.get_exchangeRate_display }}</p>
                                       </div>
                                       <div class="description">
-                                          <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
+                                          <div class="ui label text-danger">
+                                              <span class="text-dark">Transfer turi:</span>
+                                          </div>
+                                          {% for transferArt in transfer.transferArt %}
+                                            <div class="ui label">{{transferArt}}</div>
+                                          {% endfor %}
                                       </div>
 
                                         <div class="extra">
@@ -168,6 +186,11 @@
                                                 <div class="blobs-container">
                                                     <div class="blob red"></div>
                                                 </div>
+                                            </div>
+                                             <div class="meta">
+                                                <p class="my-1">
+                                                    {{ transfer.transferArt }}
+                                                </p>
                                             </div>
                                             <div class="meta my-3">
                                                 <span><i class="flag icon black"></i> TARGER:</span>
@@ -260,7 +283,11 @@
                                         <p class="cinema">Transfer kursi: {{ transfer.get_exchangeRate_display }}</p>
                                       </div>
                                       <div class="description">
-                                          <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span> {{ transfer.transferArt }}</div>
+                                          <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span>
+                                          </div>
+                                          {% for transferArt in transfer.transferArt %}
+                                            <div class="ui label">{{transferArt}}</div>
+                                          {% endfor %}
                                       </div>
 
                                         <div class="extra">
@@ -348,6 +375,7 @@
                                                     <div class="blob red"></div>
                                                 </div>
                                             </div>
+                                           
                                             <div class="meta my-3">
                                                 <span><i class="flag icon black"></i> TARGER:</span>
                                                 <span>
@@ -554,9 +582,42 @@
             }
         }, 10000)
 
+        // checkbox filter
+        $(".checkbox_filter_loading").hide()
+        {% comment %}
+        $(".filter-checkbox,#priceFilterBtn").on('click',function(){
+            
+            var _filterObj={};
+
+            $(".filter-checkbox").each(function(index,ele){
+                var _filterVal=$(this).val();
+                var _filterKey=$(this).data('filter');
+                _filterObj[_filterKey]=Array.from(document.querySelectorAll('input[data-filter='+_filterKey+']:checked')).map(function(el){
+                        return el.value;
+                });
+            });
+    
+            // Run Ajax
+            $.ajax({
+                url:'{% url "transfer_checkbox_filter" %}',
+                data:_filterObj,
+                dataType:'json',
+                beforeSend:function(){
+                    $(".checkbox_filter_loading").show()
+                }, 
+                success:function(res){
+                    $(".checkbox_filter_loading").hide()
+                    console.log(res)
+                    console.log('response')
+                },
+                error: function (res) {
+                    alert("error " + res);
+                }
+            });
+        });
+        // End {% endcomment %}
 
     });
-
 
 
     function myFunction(obj){
@@ -593,6 +654,7 @@
     const cleaned_json = JSON.parse(json_data.replace(/&quot;/g, '"'))
     const search_input = document.getElementById('search_here')
 
+    // search user by firstname
     filteredArr = []
     search_input.addEventListener('keyup', (e)=>{
         modalUserShow.innerHTML = ''

@@ -9,7 +9,7 @@ from .views import (
     ReputationView,
     TransferViewView,
     like,
-    status_change
+    status_change, 
 )
 
 urlpatterns = [
@@ -24,3 +24,5 @@ urlpatterns = [
     path('view/<int:pk>', TransferViewView, name='view_transfer'),
     path('comment/<int:pk>', transfer_detail_comment, name='transfer_detail_comment'),
 ]
+
+    # path('chekbox/', checkboxFilterTransfer, name='transfer_checkbox_filter'),
