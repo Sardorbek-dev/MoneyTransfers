@@ -39,43 +39,44 @@ class ShowProfilePageView(DetailView):
         page_user_comment = TransferComment.objects.filter(author_id=page_user.id)
         page_user_transfer = Transfer.objects.filter(author_id=page_user.id)
         context['transfers_status_active'] = Transfer.objects.filter(status_transfer=True, author_id=self.kwargs['pk'])
-
-        #Users who have liked transfers of current user
+        
+        # Users who have liked transfers of current user
         if page_user_transfer.count() != 0:
-            userLike = {}
+            userLike = []
+            userReputation = []
             for eachTransfer in page_user_transfer:
+
                 for user in eachTransfer.likes.all():
-                    userLike[user.id] = user.first_name
-            context['userLike'] = userLike
+                    userLike.append(user)
+
+                for user in eachTransfer.reputations.all():
+                    userReputation.append(user)
+            
+            userLike_counted = {}
+            for i in userLike:
+                userLike_counted[i] = userLike.count(i)
+
+            userReputation_counted = {}
+            for i in userReputation:
+                userReputation_counted[i] = userReputation.count(i)
+
+            like_counter = 0
+            for user, total_likes in userLike_counted.items():
+                like_counter = like_counter + total_likes
+
+            reputation_counter = 0
+            for user, total_reputations in userReputation_counted.items():
+                reputation_counter = reputation_counter + total_reputations
+
+            context['userLike'] = userLike_counted
+            context['userReputation'] = userReputation_counted
+            context['like_counter_total'] = like_counter
+            context['reputation_counter_total'] = reputation_counter
         else:
             context['userLike'] = 0
-
-        # count all likes
-        likes_array = []
-        for eachtransfer in page_user_transfer:
-            if eachtransfer.total_likes:
-                likes_array.append(eachtransfer.total_likes())
-                total_likes = 0
-                for i in range(0, len(likes_array)):
-                    total_likes = total_likes + likes_array[i];
-                    total_likes
-                context['total_likes'] = total_likes
-            else:
-                context['total_likes'] = 0
-                print('False')
-
-        # count all reputation
-        reputations_array = []
-        for eachtransfer in page_user_transfer:
-            if eachtransfer.total_reputations:
-                reputations_array.append(eachtransfer.total_reputations())
-                total_reputations = 0
-                for i in range(0, len(reputations_array)):
-                    total_reputations = total_reputations + reputations_array[i];
-                    total_reputations
-                context['total_reputations'] = total_reputations
-            else:
-                context['total_reputations'] = 0
+            context['userLike_test_total'] = 0
+            context['like_counter_total'] = 0
+            context['reputation_counter_total'] = 0
 
         context['page_user'] = page_user
         context['page_user_comment'] = page_user_comment

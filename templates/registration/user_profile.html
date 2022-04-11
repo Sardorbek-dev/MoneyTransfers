@@ -137,10 +137,10 @@
     <div class="container-fluid text-center my-5">
         <h1 class="my-4">User activities</h1>
         {% if userLike != 0 %}
-            {% for key, value in userLike.items %}
+            {% for user, count in userLike.items %}
                 <p class="my-2">User likes</p>
-                <a class="cinema" href="{% url 'user_profile' key  %}">
-                    {{value}}
+                <a class="cinema" href="{% url 'user_profile' user.id  %}">
+                    {{user.first_name}}-{{user.last_name}} - {{count}} 
                 </a>
             {% endfor %}
         {% else %}
@@ -165,11 +165,7 @@
                 <div class="content">
                   <div class="center">
                     <div class="ui inverted button">
-                        {% if total_reputations > 0 %}
-                            <h1>{{total_reputations}}</h1>
-                        {% else %}
-                            <h1>0</h1>
-                        {% endif %}
+                      <h1>{{reputation_counter_total}}</h1> 
                     </div>
                   </div>
                 </div>
@@ -183,11 +179,7 @@
                     <div class="content">
                       <div class="center">
                         <div class="ui inverted button">
-                            {% if total_likes > 0%}
-                                <h1>{{total_likes}}</h1>
-                            {% else %}
-                                <h1>0</h1>
-                            {% endif %}
+                          <h1>{{like_counter_total}}</h1>
                         </div>
                       </div>
                     </div>

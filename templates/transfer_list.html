@@ -6,10 +6,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 <div class="ui inverted vertical masthead aligned segment">
     <div class="container">
       <div class="row">
           <h1 class="text-center my-5">Transfer Pool</h1>
+            {% comment %} 
+                <div class="load">
+                    <hr/><hr/><hr/><hr/>
+                </div> 
+            {% endcomment %}
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4" data-aos="fade-right">
                <h4 class="ui text"><i class="filter icon"></i> Filter</h4>
                <form method="get" class="my-3">{% csrf_token %}
@@ -98,7 +104,24 @@
                                               <span class="text-dark">Transfer turi:</span>
                                           </div>
                                           {% for transferArt in transfer.transferArt %}
-                                            <div class="ui label">{{transferArt}}</div>
+                                            {% if transferArt == 'fasttransfer' %}
+                                                <div class="ui label">Sofort Überweisung</div>
+                                            {% endif %}
+                                            {% if transferArt == 'plastik' %}
+                                                <div class="ui label">Plastik karta</div>
+                                            {% endif %}
+                                            {% if transferArt == 'cash' %}
+                                                <div class="ui label">Naqd pul</div>
+                                            {% endif %}
+                                            {% if transferArt == 'paypal' %}
+                                                <div class="ui label">Paypal</div>
+                                            {% endif %}
+                                            {% if transferArt == 'normaltransfer' %}
+                                                <div class="ui label">Bank hisob raqamidan (2-3 ish kuni davom etadi)</div>
+                                            {% endif %}
+                                            {% if transferArt == 'irrelevant' %}
+                                                <div class="ui label">Farqi yo'q</div>
+                                            {% endif %}
                                           {% endfor %}
                                       </div>
 
@@ -286,7 +309,24 @@
                                           <div class="ui label text-danger"> <span class="text-dark">Transfer turi:</span>
                                           </div>
                                           {% for transferArt in transfer.transferArt %}
-                                            <div class="ui label">{{transferArt}}</div>
+                                            {% if transferArt == 'fasttransfer' %}
+                                                <div class="ui label">Sofort Überweisung</div>
+                                            {% endif %}
+                                            {% if transferArt == 'plastik' %}
+                                                <div class="ui label">Plastik karta</div>
+                                            {% endif %}
+                                            {% if transferArt == 'cash' %}
+                                                <div class="ui label">Naqd pul</div>
+                                            {% endif %}
+                                            {% if transferArt == 'paypal' %}
+                                                <div class="ui label">Paypal</div>
+                                            {% endif %}
+                                            {% if transferArt == 'normaltransfer' %}
+                                                <div class="ui label">Bank hisob raqamidan (2-3 ish kuni davom etadi)</div>
+                                            {% endif %}
+                                            {% if transferArt == 'irrelevant' %}
+                                                <div class="ui label">Farqi yo'q</div>
+                                            {% endif %}
                                           {% endfor %}
                                       </div>
 

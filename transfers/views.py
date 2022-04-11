@@ -272,9 +272,17 @@ class TransferDetailView(DetailView):
 
                 for user in eachTransfer.reputations.all():
                     userReputation.append(user)
+            
+            userLike_counted = {}
+            for i in userLike:
+                userLike_counted[i] = userLike.count(i)
 
-            context['userLike'] = userLike
-            context['userReputation'] = userReputation
+            userReputation_counted = {}
+            for i in userReputation:
+                userReputation_counted[i] = userReputation.count(i)
+
+            context['userLike'] = userLike_counted
+            context['userReputation'] = userReputation_counted
             context['page_user_transfer'] = page_user_transfer
         else:
             context['userLike'] = 0

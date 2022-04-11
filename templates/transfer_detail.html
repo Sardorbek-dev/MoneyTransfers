@@ -628,7 +628,7 @@
       <div class="image content">
           <div class="ui items">
               {% if total_likes != 0 %}
-                  {% for user in userLike %}
+                  {% for user, count in userLike.items %}
                       <div class="item">
                             <a class="ui tiny image" href="{% url 'user_profile' user.profile.id  %}">
                                 <div class="ui small image">
@@ -638,7 +638,7 @@
                             <div class="middle aligned content">
                               <div class="header">
                                  <div class="description">
-                                    <i class="like icon "></i><a class="ui header" href="{% url 'user_profile' user.profile.id  %}">{{user.first_name}} {{user.last_name}}</a>
+                                    <i class="like icon "></i><a class="ui header" href="{% url 'user_profile' user.profile.id  %}">{{user.first_name}} {{user.last_name}} - {{count}}</a>
                                 </div>
                               </div>
                             </div>
@@ -665,7 +665,7 @@
       <div class="image content">
           <div class="ui items">
               {% if total_reputations != 0 %}
-                  {% for userReaction in userReputation %}
+                  {% for userReaction, count in userReputation.items %}
                       <div class="item">
                             <a class="ui tiny image" href="{% url 'user_profile' userReaction.profile.id  %}">
                                 <div class="ui small image">
@@ -675,7 +675,7 @@
                             <div class="middle aligned content">
                               <div class="header">
                                  <div class="description">
-                                    <a class="ui header" href="{% url 'user_profile' userReaction.profile.id  %}">{{userReaction.first_name}} {{userReaction.last_name}}</a>
+                                    <a class="ui header" href="{% url 'user_profile' userReaction.profile.id  %}">{{userReaction.first_name}} {{userReaction.last_name}} - {{count}}</a>
                                 </div>
                               </div>
                             </div>
