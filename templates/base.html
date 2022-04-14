@@ -21,6 +21,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 <style type="text/css">
+
     .hidden.menu {
       display: none;
     }
@@ -235,7 +236,10 @@
 
        {% endblock content %}
 
-
+<!--scroll button-->
+<button class="btn btn-primary scrolling show-elements-onscroll-button pb-3" type="button">
+    <i class="angle double up icon"></i>
+</button>
 <!--footer-->
     <div class="ui inverted vertical footer segment footer-segment">
         <div class="ui container">
@@ -307,7 +311,7 @@
                 <h4 class="ui header text-white">Help Preserve This Project</h4>
                 <p> Support for the continued development of Money Transfer comes directly from our community.</p>
                 <form>
-                  <button type="submit" class="ui large teal button">Donate Today</button>
+                  <button type="submit" class="ui large vk button">Donate Today</button>
                 </form>
                 <p class="mt-4"> <i class="copyright outline icon"></i> MoneyTransfer <span id="date_now"></span></p>
             </div>
@@ -326,10 +330,6 @@
         });
     </script>
     <script>
-
-    let today = new Date();
-    let date = today.getFullYear();
-    document.getElementById('date_now').innerHTML = date
 
       $(document)
         .ready(function() {
@@ -380,7 +380,7 @@
 
 
 
-      {% comment %} $(document).on('click', '#like-button', function (e) {
+    {% comment %} $(document).on('click', '#like-button', function (e) {
         e.preventDefault();
         $.ajax({
           type: 'POST',
@@ -394,78 +394,107 @@
             document.getElementById("like_count").innerHTML = json['result']
           },
           error: function (xhr, errmsg, err) {
-    
+
           }
         });
-      }) {% endcomment %}
+    }) {% endcomment %}
 
-        function selectImageButton(objButton) {
+    // Show date now
+    let today = new Date();
+    let date = today.getFullYear();
+    document.getElementById('date_now').innerHTML = date
 
-          let imageId = document.getElementById("id_user_image")
-          let ImageFieldId = document.getElementById("ImageFieldId")
+    // scrolling
 
-          {% if user.gender == 'female' %}
+    $('.scrolling').on('click', () => window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    }));
 
-            arrray_girls = ['1_girl', '2_girl', '3_girl', '4_girl']
+    $('.scroll-down-span').on('click', () => window.scrollTo({
+      top: 870,
+      behavior: 'smooth',
+    }));
 
-            arrray_girls.forEach(function(item){
-              console.log(item, objButton.id)
-              
-              if (item == objButton.id) {
-                console.log(item, objButton.id)
-                imageId.value = objButton.id
-                
-                objButton.classList.remove('red')
-                objButton.classList.add('green')
-                objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
-                
-              }
-              if (item !== objButton.id) {
-                index = arrray_girls.indexOf(item)
-                card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
-                if (card.classList.contains('green')){
-                  card.classList.remove('green')
-                  card.classList.add('red')
-                  card.innerHTML = 'select'
-                }
-  
-               
-              } 
-              
-              
-            });
-          
-            {% else %}
-              arrray_boys = ['1_man', '2_man', '3_man', '4_man'] 
-              arrray_boys.forEach(function(item){
-            
-                if (item == objButton.id) {
-                  imageId.value = objButton.id
-                  objButton.classList.remove('red')
-                  objButton.classList.add('green')
-                  objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
-                  
-                }
-                if (item !== objButton.id) {
-                  index = arrray_boys.indexOf(item)
-                  card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
-                  if (card.classList.contains('green')){
-                    card.classList.remove('green')
-                    card.classList.add('red')
-                    card.innerHTML = 'select'
-                  }
-    
-                  console.log(card.classList)
-    
-    
-                 
-                } 
-                
-                
-              });
-            {% endif %}
-        
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+           $('.scrolling').addClass('show-elements-onscroll-button');
         }
+        else {
+            $('.scrolling').removeClass('show-elements-onscroll-button')
+        }
+    }
+
+
+    function selectImageButton(objButton) {
+
+      let imageId = document.getElementById("id_user_image")
+      let ImageFieldId = document.getElementById("ImageFieldId")
+
+      {% if user.gender == 'female' %}
+
+        arrray_girls = ['1_girl', '2_girl', '3_girl', '4_girl']
+
+        arrray_girls.forEach(function(item){
+          console.log(item, objButton.id)
+
+          if (item == objButton.id) {
+            console.log(item, objButton.id)
+            imageId.value = objButton.id
+
+            objButton.classList.remove('red')
+            objButton.classList.add('green')
+            objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
+
+          }
+          if (item !== objButton.id) {
+            index = arrray_girls.indexOf(item)
+            card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
+            if (card.classList.contains('green')){
+              card.classList.remove('green')
+              card.classList.add('red')
+              card.innerHTML = 'select'
+            }
+
+
+          }
+
+
+        });
+
+        {% else %}
+          arrray_boys = ['1_man', '2_man', '3_man', '4_man']
+          arrray_boys.forEach(function(item){
+
+            if (item == objButton.id) {
+              imageId.value = objButton.id
+              objButton.classList.remove('red')
+              objButton.classList.add('green')
+              objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
+
+            }
+            if (item !== objButton.id) {
+              index = arrray_boys.indexOf(item)
+              card = ImageFieldId.children[index].children[0].children[0].children[0].children[0].children[0]
+              if (card.classList.contains('green')){
+                card.classList.remove('green')
+                card.classList.add('red')
+                card.innerHTML = 'select'
+              }
+
+              console.log(card.classList)
+
+
+
+            }
+
+
+          });
+        {% endif %}
+
+    }
 
         
     </script>
