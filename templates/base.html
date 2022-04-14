@@ -21,7 +21,9 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 <style type="text/css">
-
+    html {
+      scroll-behavior: smooth;
+    }
     .hidden.menu {
       display: none;
     }
@@ -237,7 +239,7 @@
        {% endblock content %}
 
 <!--scroll button-->
-<button class="btn btn-primary scrolling show-elements-onscroll-button pb-3" type="button">
+<button class="btn btn-primary scrolling pb-3" type="button">
     <i class="angle double up icon"></i>
 </button>
 <!--footer-->
