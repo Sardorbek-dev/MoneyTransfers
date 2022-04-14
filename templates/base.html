@@ -237,31 +237,79 @@
 
 
 <!--footer-->
-    <div class="ui inverted vertical footer segment">
+    <div class="ui inverted vertical footer segment footer-segment">
         <div class="ui container">
             <div class="ui stackable inverted divided equal height stackable grid">
                 <div class="three wide column">
-                    <h4 class="ui inverted header">About</h4>
+                    <h4 class="ui inverted header">Money Transfer</h4>
                     <div class="ui inverted link list">
                         <a href="#" class="item">Sitemap</a>
-                        <a href="#" class="item">Contact Us</a>
-                        <a href="#" class="item">Religious Ceremonies</a>
-                        <a href="#" class="item">Gazebo Plans</a>
+                        <a href="{% url 'about' %}" class="item">Abour Us</a>
+                        <a href="{% url 'contact' %}" class="item">Contact Us</a>
+                        <a href="{% url 'transfer_list' %}" class="item">Transfer Pool</a>
                     </div>
                 </div>
                 <div class="three wide column">
                     <h4 class="ui inverted header">Services</h4>
                     <div class="ui inverted link list">
-                        <a href="#" class="item">Banana Pre-Order</a>
-                        <a href="#" class="item">DNA FAQ</a>
-                        <a href="#" class="item">How To Access</a>
-                        <a href="#" class="item">Favorite X-Men</a>
+                        <a href="{% url 'contact' %}" class="item">Become a partner</a>
+                        <a href="{% url 'contact' %}" class="item">IT Consulting</a>
+                        <a href="{% url 'contact' %}" class="item">Web Development</a>
+                        <a href="{% url 'contact' %}" class="item">Hire Developer</a>
                     </div>
                 </div>
-                <div class="seven wide column">
-                    <h4 class="ui inverted header">Footer Header</h4>
-                    <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                <div class="three wide column">
+                    <h4 class="ui inverted header">Feedback & Suggestion</h4>
+                    <div class="ui inverted link list">
+                        <a href="{% url 'contact' %}" class="item">Feedback</a>
+                         <a href="{% url 'contact' %}" class="item">Suggestion</a>
+                    </div>
                 </div>
+                 <div class="three wide column">
+                    <h4 class="ui inverted header">Social Media</h4>
+                     <div class="ui inverted link list">
+                        <button class="ui circular facebook icon button">
+                          <i class="facebook icon"></i>
+                        </button>
+                        <button class="ui circular twitter icon button">
+                          <i class="twitter icon"></i>
+                        </button>
+                        <button class="ui circular instagram icon button">
+                          <i class="instagram icon"></i>
+                        </button>
+                        <button class="ui circular vk icon button">
+                          <i class="vk icon"></i>
+                        </button>
+                     </div>
+                     <div class="ui inverted link list">
+                        <button class="ui circular linkedin icon button">
+                          <i class="linkedin icon"></i>
+                        </button>
+                        <button class="ui circular google plus icon button">
+                          <i class="google plus icon"></i>
+                        </button>
+                        <button class="ui circular telegram icon primary button">
+                          <i class="telegram icon"></i>
+                        </button>
+                        <button class="ui circular facebook messenger icon primary button">
+                          <i class="facebook messenger icon"></i>
+                        </button>
+                     </div>
+                </div>
+                <div class="three wide column">
+                    <h4 class="ui inverted header">Our Location <i class="map marker alternate small icon red"></i></h4>
+                    <p>Cosimastraße 36, Munich <br> Bavaria Germany <br> Phone: +4915731162629</p>
+                </div>
+            </div>
+        </div>
+        <div class="ui container center aligned mt-5">
+            <div class="seven wide right floated column">
+                <h4 class="ui header text-white">Help Preserve This Project</h4>
+                <p> Support for the continued development of Money Transfer comes directly from our community.</p>
+                <form>
+                  <button type="submit" class="ui large teal button">Donate Today</button>
+                </form>
+                <p class="mt-4"> <i class="copyright outline icon"></i> MoneyTransfer <span id="date_now"></span></p>
             </div>
         </div>
     </div>
@@ -278,6 +326,10 @@
         });
     </script>
     <script>
+
+    let today = new Date();
+    let date = today.getFullYear();
+    document.getElementById('date_now').innerHTML = date
 
       $(document)
         .ready(function() {
@@ -346,8 +398,6 @@
           }
         });
       }) {% endcomment %}
-
-
 
         function selectImageButton(objButton) {
 
