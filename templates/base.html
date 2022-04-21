@@ -313,7 +313,7 @@
                 <h4 class="ui header text-white">Help Preserve This Project</h4>
                 <p> Support for the continued development of Money Transfer comes directly from our community.</p>
                 <form>
-                  <button type="submit" class="ui large vk button">Donate Today</button>
+                  <button type="submit" class="ui vk button">Donate Today</button>
                 </form>
                 <p class="mt-4"> <i class="copyright outline icon"></i> MoneyTransfer <span id="date_now"></span></p>
             </div>
@@ -322,16 +322,17 @@
 </div>
 
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha256-t8GepnyPmw9t+foMh3mKNvcorqNHamSKtKRxxpUEgFI=" crossorigin="anonymous"></script>
 <!--    <script src="/assets/application.js" ></script>-->
-<!--    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>-->
-    <script src="{% static 'vendors/aos.js' %}"></script>
-    <script>
-        AOS.init({
-            delay: 300,
-        });
-    </script>
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+<script src="{% static 'vendors/aos.js' %}"></script>
+<script src="{% static 'js/base.js' %}"></script>
+<script>
+    AOS.init({
+        delay: 300,
+    });
+</script>
+<script>
 
       $(document)
         .ready(function() {
@@ -357,7 +358,7 @@
             .dropdown()
           ;
 
-        // Create profile page profile image hover
+          // Create profile page profile image hover
           $('.special.cards .image').dimmer({
            on: 'hover'
             
@@ -368,19 +369,37 @@
             .accordion()
           ;
 
-        //Success message
-          $('.message .close')
+          //Success message
+            $('.message .close')
               .on('click', function() {
                 $(this)
                   .closest('.message')
                   .transition('fade')
                 ;
-              })
-          ;
+            });
 
+          // Carousel
+            $('.customer-logos').slick({
+                slidesToShow: 6,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 1500,
+                arrows: false,
+                dots: false,
+                pauseOnHover: false,
+                responsive: [{
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 4
+                    }
+                }, {
+                    breakpoint: 520,
+                    settings: {
+                        slidesToShow: 3
+                    }
+                }]
+            });
       });
-
-
 
     {% comment %} $(document).on('click', '#like-button', function (e) {
         e.preventDefault();
@@ -429,27 +448,21 @@
         }
     }
 
-
     function selectImageButton(objButton) {
 
       let imageId = document.getElementById("id_user_image")
       let ImageFieldId = document.getElementById("ImageFieldId")
 
       {% if user.gender == 'female' %}
-
         arrray_girls = ['1_girl', '2_girl', '3_girl', '4_girl']
 
         arrray_girls.forEach(function(item){
-          console.log(item, objButton.id)
-
           if (item == objButton.id) {
-            console.log(item, objButton.id)
             imageId.value = objButton.id
 
             objButton.classList.remove('red')
             objButton.classList.add('green')
             objButton.innerHTML = 'selected<small><i class="check circle icon"></i></small>'
-
           }
           if (item !== objButton.id) {
             index = arrray_girls.indexOf(item)
@@ -459,11 +472,7 @@
               card.classList.add('red')
               card.innerHTML = 'select'
             }
-
-
           }
-
-
         });
 
         {% else %}
@@ -485,21 +494,14 @@
                 card.classList.add('red')
                 card.innerHTML = 'select'
               }
-
-              console.log(card.classList)
-
-
-
             }
-
-
           });
         {% endif %}
 
     }
 
         
-    </script>
+</script>
 
 </body>
 </html>

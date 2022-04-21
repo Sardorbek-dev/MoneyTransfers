@@ -590,7 +590,7 @@
       </div>
       <div class="image content">
           <div class="ui items">
-              {% if total_likes != 0 %}
+              {% if page_user_transfer != 0 %}
                   {% for user_transfer in page_user_transfer %}
                       <div class="item">
                             <a class="ui tiny image" href="{% url 'transfer_detail' user_transfer.id  %}">
