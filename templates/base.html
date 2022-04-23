@@ -239,7 +239,7 @@
        {% endblock content %}
 
 <!--scroll button-->
-<button class="btn btn-primary scrolling pb-3" type="button">
+<button class="btn btn-primary scrolling-homepage pb-3" type="button">
     <i class="angle double up icon"></i>
 </button>
 <!--footer-->
@@ -427,7 +427,7 @@
 
     // scrolling
 
-    $('.scrolling').on('click', () => window.scrollTo({
+    $('.scrolling-homepage').on('click', () => window.scrollTo({
       top: 0,
       behavior: 'smooth',
     }));
@@ -441,10 +441,10 @@
 
     function scrollFunction() {
         if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
-           $('.scrolling').addClass('show-elements-onscroll-button');
+           $('.scrolling-homepage').addClass('show-elements-onscroll-button');
         }
         else {
-            $('.scrolling').removeClass('show-elements-onscroll-button')
+            $('.scrolling-homepage').removeClass('show-elements-onscroll-button')
         }
     }
 

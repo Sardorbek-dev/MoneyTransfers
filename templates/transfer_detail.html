@@ -414,8 +414,9 @@
     <div class="ui threaded comments">
         <h3 class="ui dividing header">Comments {{ transfer.page_obj }}</h3>
         {% if not object.transfer_comments.all %}
-            NO comments yet.. <a href="#">Add one </a>
+            NO comments yet..
         {% else %}
+
         <!--comments-->
 
             {% for comment in object.transfer_comments.all %}
@@ -431,24 +432,42 @@
                                 <span class="date">{{ comment.date }}</span>
                             </div>
                             <div class="text">
-                                {{ comment.transfer_comment }}
+
+                                <div class="row">
+                                    <div class="col-8">
+                                        <p class="mb-3">{{ comment.transfer_comment }}</p>
+                                    </div>
+                                    <div class="col-4" style="text-align: right;">
+                                        <form class="ui reply" method="post" action="{% url 'delete_comment' object.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                            <button class="ui red button"><a class="item text-white"><i class="trash alternate icon"></i></a></button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                             <div class="actions">
-                                <a class="reply">Reply</a>
+                                {% if comment.transfer_replies.all %}
+                                    <a class="reply">Replies</a>
+                                {% else %}
+                                    <a class="reply">No replies yet</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
+
                 {% endif %}
                 <!--show all comments end -->
+
                 <!--transfer_comment-->
                     {% if comment.reply.id %}
-                    {% else%}
+                    {% else %}
                         <div class="comment">
 
                             <!--comment with replies-->
 
                             <!--replies-->
-                            <div class="comments">
+                            <div class="comments mb-4">
                                 {% for reply in comment.transfer_replies.all %}
                                     <div class="comment">
                                         <a class="avatar" style="height: 3rem">
@@ -505,8 +524,7 @@
             {% endfor %}
         {% endif %}
         <!-- comment end -->
-        Leave Comments ()
-
+        <p>Leave Comment</p>
         {% if user.is_authenticated %}
             {% if user.profile.id %}
                   <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">

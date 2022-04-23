@@ -141,6 +141,7 @@ class TransferListView(ListView):
         context['filter_status_active'] = Transfer.objects.filter(status_transfer=True)
         context['search_users'] = serializers.serialize("json", Profile.objects.all(), fields=["user", "user_image"], use_natural_foreign_keys=True)
         context['profiles'] = Profile.objects.all()
+        print(context['profiles'])
         context['users'] = CustomUser.objects.all()
         filtered_transfers = context['filter']
 
@@ -199,7 +200,19 @@ def transfer_detail_comment(request, pk):
 
     return render(request, 'transfer_detail.html', context)
 
+def comment_delete(request, pk):
+    transfer = Transfer.objects.get(id=pk)
+    transferComment = TransferComment.objects.all()
 
+    # delete comment
+    if request.method == 'POST':
+        reply_id = request.POST.get('comment_id')
+        for each_comment in transferComment:
+            if each_comment.id == int(reply_id):
+                each_comment.delete()
+                print("this:", each_comment)
+
+    return HttpResponseRedirect(transfer.get_absolute_url())
 
 class TransferCreateView(CreateView):
     form_class = TransferForm
@@ -368,3 +381,5 @@ class TransferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         messages.success(self.request, 'Your transfer has been successfully deleted.')
         return reverse_lazy('transfer_list')
+
+

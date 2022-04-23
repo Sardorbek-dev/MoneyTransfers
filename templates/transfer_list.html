@@ -692,11 +692,13 @@
 
     const json_data = '{{search_users}}'
     const cleaned_json = JSON.parse(json_data.replace(/&quot;/g, '"'))
+    console.log(cleaned_json)
     const search_input = document.getElementById('search_here')
 
     // search user by firstname
     filteredArr = []
     search_input.addEventListener('keyup', (e)=>{
+        console.log('hello')
         modalUserShow.innerHTML = ''
         filteredArr = cleaned_json.filter(user=> user['fields']['user'][0].toLowerCase().includes(e.target.value.toLowerCase()))
         if (filteredArr.length > 0) {

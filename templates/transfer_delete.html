@@ -4,7 +4,7 @@
 <div class="ui inverted vertical masthead aligned segment">
     <div class="ui center text container">
         <h1 class="ui inverted header">Delete Transfer</h1>
-        <h4>Do you delete this transfer "{{ transfer.title }}" really?</h4>
+        <h4>Do you really want to delete this transfer "{{ transfer.title }}"?</h4>
         <form method="post" > {% csrf_token %}
             <button class="ui red button" type="submit">Delete</button>
         </form>
