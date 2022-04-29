@@ -435,14 +435,18 @@
 
                                 <div class="row">
                                     <div class="col-8">
-                                        <p class="mb-3">{{ comment.transfer_comment }}</p>
+                                        <p class="mb-3">{{ comment.transfer_comment }} {{ user.id }}</p>
                                     </div>
                                     <div class="col-4" style="text-align: right;">
-                                        <form class="ui reply" method="post" action="{% url 'delete_comment' object.id %}">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                            <button class="ui red button"><a class="item text-white"><i class="trash alternate icon"></i></a></button>
-                                        </form>
+                                        {% if user.is_authenticated %}
+                                            {% if user.id == comment.author.id %}
+                                                <form class="ui reply" method="post" action="{% url 'delete_comment' object.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                    <button class="ui red button"><a class="item text-white"><i class="trash alternate icon"></i></a></button>
+                                                </form>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

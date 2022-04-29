@@ -17,73 +17,81 @@
     <div class="ui center text container">
         <h1 class="ui inverted header" data-aos="fade-up"
      data-aos-anchor-placement="top-bottom">Money Transfer</h1>
-        <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">Trust is good, control is better.</h2>
+        <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">Best way to send money internationally.</h2>
         <div class="ui huge primary button" data-aos="fade-up" data-aos-anchor-placement="top-bottom"><a href="{% url 'transfer_new' %}" class="text-white">Send money</a><i class="right arrow icon"></i></div>
     </div>
 </div>
 
-<div class="ui vertical stripe segment">
-     <h1 class="text-center my-5" data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">Cards</h1>
+<div class="ui vertical stripe segment segment-gradient">
+     <h1 class="text-center my-5 home-big-title" data-aos="fade-up"
+     data-aos-anchor-placement="top-bottom">How can you send money via MoneyTransfer?</h1>
     <div class="container-styled">
-      <div class="card-styled" data-aos="fade-right">
-        <img class="image-styled" src="https://res.cloudinary.com/ddbxzcb7k/image/upload/v1565102528/dp-01_mxstm3.svg"></img>
-        <div class="info">
-          <h2 class="card-title-styled">Malia Mcknight</h2>
-          <div class="title">Pancake Collector</div>
-          <div class="desc">Malia has collected pancakes all over the world. She loves chocolate.</div>
-        </div>
-
-        <div class="actions-card">
-          <button class="trade">TRADE</button>
-          <div class="overlay"></div>
-          <div class="card-heart-container">
-            <div class="card-heart"></div>
-          </div>
-        </div>
-      </div>
       <div class="card-styled" data-aos="zoom-out">
-        <img class="image-styled" src="https://res.cloudinary.com/ddbxzcb7k/image/upload/v1565105907/cpdp-03_kjev3e.svg"></img>
+        <img class="image-styled" src="{% static '/assets/img/register_and_identify.svg' %}">
         <div class="info">
-          <h2 class="card-title-styled">Morgan Sweeney</h2>
-          <div class="title">Ant Collector</div>
-          <div class="desc">Morgan has collected ants since they were six years old and now has many dozen ants but none in their pants.</div>
+          <h2 class="card-title-styled">Sign Up</h2>
+          <div class="desc">Sign up online or in our app for free. All you need is an email address and phone number!</div>
         </div>
         <div class="actions">
-          <button class="trade">TRADE</button>
           <div class="overlay"></div>
           <div class="card-heart-container">
-            <div class="card-heart"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card-styled" data-aos="zoom-out">
-        <img class="image-styled" src="https://res.cloudinary.com/ddbxzcb7k/image/upload/v1565105907/cpdp-02_kkownp.svg"></img>
-        <div class="info">
-          <h2 class="card-title-styled" Quinton Kirby</h2>
-          <div class="title">Peanut Collector</div>
-          <div class="desc">Quinton is crazy about peanuts. You all know what she does with them. She goes nuts!</div>
-        </div>
-        <div class="actions">
-          <button class="trade">TRADE</button>
-          <div class="overlay"></div>
-          <div class="card-heart-container">
-            <div class="card-heart"></div>
+            <div class="card-heart">
+                <div class="icon-new-styled">
+                    <i class="angle double right icon big"></i>
+                </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="card-styled" data-aos="fade-left">
-        <img class="image-styled" src="https://res.cloudinary.com/ddbxzcb7k/image/upload/v1565105907/cpdp-04_sfozms.svg"></img>
+        <img class="image-styled" src="{% static '/assets/img/choose_amount.svg' %}">
         <div class="info">
-          <h2 class="card-title-styled">Fu Chang</h2>
-          <div class="title">Candy Collector</div>
-          <div class="desc">Baron loves to find exotic candies wherever she travels. Beware! Her collection gives sugar rush</div>
+          <h2 class="card-title-styled">Create a new transfer</h2>
+          <div class="desc">Create a new transfer with just a few clicks. Tell us how much you want to transfer and where you want to transfer.</div>
         </div>
         <div class="actions">
-          <button class="trade">TRADE</button>
           <div class="overlay"></div>
           <div class="card-heart-container">
-            <div class="card-heart"></div>
+            <div class="card-heart">
+                 <div class="icon-new-styled">
+                    <i class="angle double right icon big"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-styled" data-aos="fade-right">
+        <img class="image-styled" src="{% static '/assets/img/send-money.svg' %}">
+        <div class="info">
+          <h2 class="card-title-styled">Send money for free</h2>
+          <div class="desc"> We will show you a number of matching transfers in our platform. Send your money without a bank and fees. </div>
+        </div>
+
+        <div class="actions-card">
+          <div class="overlay"></div>
+          <div class="card-heart-container">
+            <div class="card-heart">
+                 <div class="icon-new-styled">
+                    <i class="angle double right icon big"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-styled" data-aos="zoom-out">
+        <img class="image-styled text-center" src="{% static '/assets/img/receive_money.svg' %}">
+        <div class="info">
+          <h2 class="card-title-styled">That's it!</h2>
+          <div class="desc">Have you found matching transfer!? Send the money on time and always be honest so that people trust you.</div>
+        </div>
+        <div class="actions">
+          <div class="overlay"></div>
+          <div class="card-heart-container">
+            <div class="card-heart">
+                 <div class="icon-new-styled">
+                    <i class="angle double right icon big"></i>
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -162,8 +170,6 @@
     </div>
 </div>
 
-
-
 <div class="ui vertical stripe segment" data-aos="fade-up"
      data-aos-anchor-placement="top-bottom">
     <div class="ui middle aligned stackable grid container">
@@ -182,7 +188,7 @@
           <h3 class="ui header" data-aos="fade-up"
      data-aos-anchor-placement="top-bottom">Ganz einfach und ohne Gebühren</h3>
           <p data-aos="fade-up"
-     data-aos-anchor-placement="top-bottom">Egal wo Sie sind, können Sie nun gebührenfrei nach Heimat Geld schicken</p>
+     data-aos-anchor-placement="top-bottom">Egal wo Sie sind, können Sie nun gebührenfrei nach Ihrer Heimat Geld schicken</p>
           <h3 class="ui header" data-aos="fade-up"
      data-aos-anchor-placement="top-bottom">Gute Möglichkeite</h3>
           <p data-aos="fade-up"
@@ -199,10 +205,104 @@
     </div>
   </div>
 
+<div class="ui vertical stripe segment">
+     <h1 class="text-center my-5 home-big-title" data-aos="fade-up"
+     data-aos-anchor-placement="top-bottom">How can you send money via MoneyTransfer?</h1>
+    <div class="container-styled">
+      <div class="card-styled" data-aos="zoom-out">
+        <img class="image-styled-performance" src="{% static '/assets/img/new_community_reputation.png' %}">
+        <div class="info">
+          <h2 class="card-title-styled my-4 px-2">Sign Up</h2>
+          <div class="desc px-2">Sign up online or in our app for free. All you need is an email address and phone number!</div>
+        </div>
+        <div class="actions">
+          <div class="card-heart-container">
+            <div class="card-heart">
+                <div class="icon-new-styled">
+                    <i class="chevron circle right icon big"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-styled" data-aos="zoom-out">
+        <img class="image-styled-performance" src="{% static '/assets/img/community_svg.svg' %}">
+        <div class="info">
+          <h2 class="card-title-styled my-4 px-2">Create a new transfer</h2>
+          <div class="desc px-2">Create a new transfer with just a few clicks. Tell us how much you want to transfer and where you want to transfer.</div>
+        </div>
+        <div class="actions">
+          <div class="card-heart-container">
+            <div class="card-heart">
+                 <div class="icon-new-styled">
+                    <i class="chevron circle right icon big"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-styled" data-aos="zoom-out">
+        <img class="image-styled-performance" src="{% static '/assets/img/like_and_reputation.png' %}">
+        <div class="info">
+          <h2 class="card-title-styled my-4 px-2">Send money for free</h2>
+          <div class="desc px-2"> We will show you a number of matching transfers in our platform. Send your money without a bank and fees. </div>
+        </div>
+
+        <div class="actions-card">
+          <div class="card-heart-container">
+            <div class="card-heart">
+                 <div class="icon-new-styled">
+                    <i class="chevron circle right icon big"></i>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+<!--     <div class="container">-->
+<!--        <div class="ui three column grid">-->
+<!--          <div class="column">-->
+<!--            <div class="ui fluid card">-->
+<!--              <div class="image">-->
+<!--                <img src="{% static '/images/1_man.jpg' %}">-->
+<!--              </div>-->
+<!--              <div class="content">-->
+<!--                <a class="header">Daniel Louise<i class="gem icon"></i></a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="column">-->
+<!--            <div class="ui fluid card">-->
+<!--              <div class="image">-->
+<!--                <img src="{% static '/images/1_girl.jpg' %}">-->
+<!--              </div>-->
+<!--              <div class="content">-->
+<!--                <a class="header">Helen Troy <i class="handshake icon"></i></a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="column">-->
+<!--            <div class="ui fluid card">-->
+<!--              <div class="image">-->
+<!--                <img src="{% static '/images/2_man.jpg' %}">-->
+<!--              </div>-->
+<!--              <div class="content">-->
+<!--                <a class="header">Elliot Fu <i class="trophy icon "></i></a>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+
 <div class="empty"></div>
 
 <div class="container-fluid mt-5">
-    <h1 class="text-center my-5" data-aos="fade-up"
+    <h1 class="text-center home-big-title" data-aos="fade-up"
      data-aos-anchor-placement="top-bottom">Brands</h1>
    <section class="customer-logos slider">
       <div class="slide"><img src="https://image.freepik.com/free-vector/luxury-letter-e-logo-design_1017-8903.jpg"></div>
@@ -213,6 +313,40 @@
       <div class="slide"><img src="https://image.freepik.com/free-vector/football-logo-background_1195-244.jpg"></div>
       <div class="slide"><img src="https://image.freepik.com/free-vector/background-of-spots-halftone_1035-3847.jpg"></div>
    </section>
+</div>
+
+<div class="ui vertical stripe segment stripe-new-style">
+    <h1 class="text-center home-big-title">Support</h1>
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="eight wide column" >
+          <h3 class="ui header">Talk with the experts in large transfers</h3>
+          <p>
+              Our team of specialists is here to give you personalised support and guidance. No robots. Just real people, ready to help.
+          </p>
+
+          <div class="ui buttons">
+              <button class="ui button">Email Us</button>
+              <div class="or"></div>
+              <button class="ui black button">Contact Us</button>
+          </div>
+
+
+        </div>
+        <div class="six wide right floated column">
+           <div class="ui move up reveal">
+              <div class="visible content">
+                <img src="{% static '/assets/img/support_2.png' %}" class="ui image">
+              </div>
+              <div class="hidden content">
+                <img src="{% static '/assets/img/support_1.jpg' %}" class="ui image">
+              </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
 </div>
 
 
