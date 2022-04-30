@@ -168,7 +168,7 @@
                     </div>
 
                   {% if user.id == transfer.author.profile.id %}
-                    <div class="meta my-5">
+                    <div class="meta mb-5">
                         <button class="btn text-dark p-0 btn-outline-light" id="status-transfer-button" value="{{transfer.id}}">
                             {% if transfer.status_transfer %}
                                 <i class="eye icon big green transfer-status-button-icon"></i>
@@ -298,7 +298,7 @@
             </div>
           </div>
         </div>
-        <div class="ui labeled button" tabindex="0">
+        <div class="ui labeled button mb-2" tabindex="0">
           <div class="ui primary button create_btn" id="show_transfers">
             <i class="exchange icon"></i>Transfers
           </div>
@@ -306,7 +306,7 @@
             {{ page_user_transfer.count }}
           </a>
         </div>
-         <div class="ui labeled button" tabindex="0">
+         <div class="ui labeled button mb-2" tabindex="0">
           <div class="ui green button create_btn" id="new_test">
             <i class="chart line icon"></i> Reputations
           </div>
@@ -318,9 +318,7 @@
              {% endif %}
           </a>
         </div>
-
-
-        <div class="ui labeled button" tabindex="0">
+        <div class="ui labeled button mb-2" tabindex="0">
           <div class="ui red button create_btn" id="test">
             <i class="heart icon"></i> Likes
           </div>
@@ -332,8 +330,7 @@
             {% endif %}
           </a>
         </div>
-
-        <div class="ui labeled button" tabindex="0">
+        <div class="ui labeled button mb-2" tabindex="0">
           <div class="ui grey button">
             <i class="comments icon"></i> Comments
           </div>
