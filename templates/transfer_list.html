@@ -16,32 +16,32 @@
                     <hr/><hr/><hr/><hr/>
                 </div> 
             {% endcomment %}
+
           <div class="col-xl-3 col-lg-3 col-md-12 col-sm-4" data-aos="fade-right">
                <h4 class="ui text"><i class="filter icon"></i> Filter</h4>
                <form method="get" class="my-3">{% csrf_token %}
 
                     {{ filter.form|crispy }}
-                    
-                  
-                   <input class="ui green button my-3" type="submit" value="Qidirish...">
+
+                   <input class="ui green button my-3" type="submit" value="Search">
                    <a class="ui red button" href="{% url 'transfer_list' %}">Reset</a>
                </form>
+
                {% comment %} <form method="post"> {% csrf_token %}
                     <div class="inline field">
                         <div class="ui">
                             <input class="ui my-3" type="checkbox" value="test_checkbox">
                             <input name="filter_checkbox" type="checkbox" tabindex="0" class="hidden"/>
-                            <label name="filter_checkbox" id="filter_checkbox">Checkbox</label>
+                            <label for="filter_checkbox" id="filter_checkbox">Checkbox</label>
                         </div>
-                        
                     </div>
                 </form> {% endcomment %}
 
               <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
-                  <buttun class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Transfer qo'shish<i class="plus square outline icon"></i></a></buttun>
+                  <button class="ui red button"><a class="text-white" href="{% url 'transfer_new' %}">Add new transfer <i class="plus square outline icon"></i></a></button>
               </div>
               <div class="col-lg-12 col-xl-12 col-md-12 text-center mb-4">
-                  <buttun class="ui green button" id="show_profiles">Search user</buttun>
+                  <button class="ui green button" id="show_profiles">Search user</button>
               </div>
           </div>
           <div class="col-xl-9 col-lg-9 col-md-12 col-sm-4  mb-5" >
@@ -253,9 +253,9 @@
                                                 {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
                                                 {% if user.is_authenticated %}
                                                     <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                                        <p class="item">
+                                                        <span class="item">
                                                             <i class="arrow up icon"></i>
-                                                        </p>
+                                                        </span>
                                                     </button>
                                                 {% else %}
                                                   Login to give reputation
@@ -478,7 +478,7 @@
                         <div class="ui center text container">
                             <h1 class="ui inverted header" data-aos="fade-up"
                          data-aos-anchor-placement="top-bottom"><i class="optin monster icon"></i></h1>
-                            <h2 data-aos="fade-up"data-aos-anchor-placement="top-bottom">No Transfers...</h2>
+                            <h2 data-aos="fade-up" data-aos-anchor-placement="top-bottom">No Transfers...</h2>
                         </div>
                     </div>
                {% endif %}
