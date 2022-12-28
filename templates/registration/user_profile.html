@@ -7,173 +7,164 @@
 {% block content %}
 {% if user.is_authenticated %}
 
-<div class="ui inverted vertical masthead aligned segment background-specific">
-    <div class="ui text container">
-        <h1 class="ui inverted header">User Feedbacks</h1>
-        <div class="ui feed">
-            {% if not object.profileFeedbacks.all %}
-                NO feedbacks yet..
-            {% else %}
-                 <!--Feedbacks-->
-                {% for feedback in object.profileFeedbacks.all %}
-                    <div class="event">
-                        <div class="label">
-                          <img src="{% static '' %}" class="profileImageShow" id="{{feedback.author.profile.user_image}}">
-                        </div>
-                        <div class="content">
-                          <div class="summary">
-                            <a href="{% url 'user_profile' feedback.author.profile.id %}">{{feedback.author}}</a> left a feedback
-                            <div class="date">
-                              {{feedback.date}}
-                            </div>
-                          </div>
-                          <div class="extra text">
-                            <p>{{feedback.content}}</p>
-                          </div>
-                          
-                          <div class="meta">
-                            <a class="like">
-                              <i class="like icon"></i> 0 Likes
-                            </a>
-                          </div>
-                        </div>
+<div class="ui inverted vertical masthead segment profile-container-fluid">
+    <div class="ui text background-color-specific ">
+        <div class="profile-container">
+            <div class="ui divided items">
+                <h1 class="ui inverted profile-header">Profile</h1>
+                <div class="item">
+                    <div class="image">
+                      <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImagehandle">
                     </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        {% if user.is_authenticated %}
-            {% if user.profile.id %}
-                {% if user.profile.id != page_user.id %}
-                    <div class="ui text container">
-                        <div class="ui styled accordion">
-                          <div class="title">
-                            <i class="dropdown icon"></i>
-                                Send feedback
-                          </div>
-                          <div class="content">
-                            <form class="ui reply form" method="POST" action="{% url 'send_feedback' object.pk %}">
-                                {% csrf_token %}
-                                <div class="field">
-                                    {{ form|crispy }}
+                    <div class="content">
+                      <a class="header text-white">Username: {{ page_user.user.username }}</a>
+                      <div class="meta">
+                        <span class="cinema text-white">Profile created: {{ user.profile.date }}</span>
+                      </div>
+                       <div class="meta">
+                        <span class="cinema text-white ">Firstname: {{ page_user.user.first_name }}</span>
+                      </div>
+                        <div class="meta">
+                        <span class="cinema text-white ">Lastname: {{ page_user.user.last_name }} </span>
+                      </div>
+
+                      <div class="description text-white">
+                        <p> bio: {{ page_user.bio }}</p>
+                      </div>
+                      <div class="extra">
+                        <div class="ui label">IMAX</div>
+                        <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+                        {% if page_user.telegram_url %}
+                            <div class="ui label"><a href="{{ page_user.telegram_url}}"> Telegram</a></div>
+                        {% endif %}
+
+                        {% if page_user.instagram_url %}
+                          <div class="ui label"><a href="{{ page_user.instagram_url}}"> Instagram</a></div>
+                        {% endif %}
+
+                        {% if page_user.facebook_url %}
+                          <div class="ui label"><a href="{{ page_user.facebook_url}}"> Facebook</a></div>
+                        {% endif %}
+                      </div>
+                    </div>
+              </div>
+            </div>
+            <div class="ui accordion">
+                <h1 class="ui inverted">User Feedbacks</h1>
+                <div class="active title boundary-accordion mt-3">
+                  {% for feedbackInAccordion in object.profileFeedbacks.all|slice:":5" %}
+                      <img src="{% static '' %}" id="{{feedbackInAccordion.author.profile.user_image}}"
+                       class="ui avatar image profileImageShow activating element accordion-segment mt-2"
+                       data-title="{{feedbackInAccordion.author}}" data-content="{{feedbackInAccordion.content|truncatechars:50}}">
+                  {% endfor %}
+                  <h5 class="mt-4 text-white">Click here to show more...</h5>
+                </div>
+              <div class="content">
+                <div class="ui feed">
+                    {% if not object.profileFeedbacks.all %}
+                        NO feedbacks yet..
+                    {% else %}
+                         <!--Feedbacks-->
+                        {% for feedback in object.profileFeedbacks.all %}
+                            <div class="event">
+                                <div class="label">
+                                  <img src="{% static '' %}" class="profileImageShow" id="{{feedback.author.profile.user_image}}">
                                 </div>
-                                <button name="profile_feedback_content" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send feedback</button>
-                            </form>
-                          </div>
-                        </div>
-                    </div>
+                                <div class="content">
+                                  <div class="summary text-white">
+                                    <a href="{% url 'user_profile' feedback.author.profile.id %}">{{feedback.author}}</a> left a feedback
+                                    <div class="date text-white">
+                                      {{feedback.date}}
+                                    </div>
+                                  </div>
+                                  <div class="extra text text-white">
+                                    <p>{{feedback.content}}</p>
+                                  </div>
+
+                                  <div class="meta">
+                                    <a class="like text-white">
+                                      <i class="like icon"></i> 0 Likes
+                                    </a>
+                                  </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+              </div>
+                {% if user.is_authenticated %}
+                    {% if user.profile.id %}
+                        {% if user.profile.id != page_user.id %}
+                            <button class="ui button mt-4" id="send_feedback_profile">
+                                send feedback
+                            </button>
+                        {% endif %}
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        {% endif %}
-        <h1 class="ui inverted header">Profile</h1>
-        <div class="ui divided items">
-          <div class="item">
-            <div class="image">
-              <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImagehandle">
             </div>
-            <div class="content">
-              <a class="header">Username: {{ page_user.user.username }}</a>
-              <div class="meta">
-                <span class="cinema">Profile created: {{ user.profile.date }}</span>
-              </div>
-               <div class="meta">
-                <span class="cinema">Firstname: {{ page_user.user.first_name }}</span>
-              </div>
-                <div class="meta">
-                <span class="cinema">Lastname: {{ page_user.user.last_name }} </span>
-              </div>
-
-              <div class="description">
-                <p> bio: {{ page_user.bio }}</p>
-              </div>
-              <div class="extra">
-                <div class="ui label">IMAX</div>
-                <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
-                {% if page_user.telegram_url %}
-                    <div class="ui label"><a href="{{ page_user.telegram_url}}"> Telegram</a></div>
-                {% endif %}
-
-                {% if page_user.instagram_url %}
-                  <div class="ui label"><a href="{{ page_user.instagram_url}}"> Instagram</a></div>
-                {% endif %}
-
-                {% if page_user.facebook_url %}
-                  <div class="ui label"><a href="{{ page_user.facebook_url}}"> Facebook</a></div>
-                {% endif %}
-              </div>
-            </div>
-          </div>
         </div>
-
-        <h1 class="">All active Transfers</h1>
-        <div class="ui divided items">
+    </div>
+    <div class="ui all-active-transfers background-color-specific">
+        <div class="ui divided items" style="padding: 50px 25px">
+            <h1 class="text-center mb-5">All active Transfers</h1>
             {% if transfers_status_active.count != 0 %}
                 {% for active_transfer in transfers_status_active %}
-                    <div class="item">
-                        <div class="content">
-                            <a class="header" href="{% url 'transfer_detail' active_transfer.id %}">
+                    <div class="ui message text-white">
+                      <div class="header">
+                            <a class="header a-transfer-header" href="{% url 'transfer_detail' active_transfer.id %}">
                                 {{ active_transfer.title }}
                                  <span class="blobs-container">
                                     <div class="blob green"></div>
                                 </span>
                             </a>
-                            <div class="meta">
-                               <span class="cinema">Date: {{ active_transfer.date }}</span>
-                            </div>
-                            <div class="meta">
-                                <span class="cinema"></span>
-                            </div>
-                            <div class="description">
-                                <p>{{ active_transfer.description|safe }}</p>
-                            </div>
-                        </div>
+                      </div>
+                        <p>
+                            {{ active_transfer.description|safe }}
+                        </p>
+                        <span>
+                            <icon style="font-weight: bold">
+                                Date:
+                            </icon>
+                            {{ active_transfer.date }}
+                        </span>
                     </div>
                 {% endfor %}
             {% else %}
                 <p>No active Transfers yet..</p>
             {% endif %}
         </div>
-
     </div>
-    <div class="container-fluid text-center my-5">
-        <h1 class="my-4">User activities</h1>
-        {% if userLike != 0 %}
-            {% for user, count in userLike.items %}
-                <p class="my-2">User likes</p>
-                <a class="cinema" href="{% url 'user_profile' user.id  %}">
-                    {{user.first_name}}-{{user.last_name}} - {{count}} 
-                </a>
-            {% endfor %}
-        {% else %}
-            <p>no likes</p>
-        {% endif %}
-        <div class="ui special cards justify-content-center flex-lg-nowrap mt-2">
+
+    <div class="container-fluid my-5 background-color-specific">
+        <h1 class="my-4 text-center">User activities</h1>
+        <div class="ui special cards justify-content-center flex-lg-nowrap mt-2 px-4">
             <div class="card">
-            <div class="blurring dimmable image">
-              <div class="ui dimmer">
-                <div class="content">
-                  <div class="center">
-                    <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>
-                  </div>
-                </div>
-              </div>
-              <img src="{% static '/assets/img/transfers.png' %}" >
-            </div>
-          </div>
-            <div class="card">
-            <div class="blurring dimmable image">
-              <div class="ui dimmer">
-                <div class="content">
-                  <div class="center">
-                    <div class="ui inverted button">
-                      <h1>{{reputation_counter_total}}</h1> 
+                <div class="blurring dimmable image">
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <div class="center">
+                        <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>
+                      </div>
                     </div>
                   </div>
+                  <img src="{% static '/assets/img/transfers.png' %}" >
                 </div>
-              </div>
-              <img src="{% static '/assets/img/reputations.png' %}">
             </div>
-          </div>
             <div class="card">
+                <div class="blurring dimmable image">
+                  <div class="ui dimmer">
+                    <div class="content">
+                      <div class="center">
+                        <div class="ui inverted button">
+                          <h1>{{reputation_counter_total}}</h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="{% static '/assets/img/reputations.png' %}">
+                </div>
+            </div>
+            <div class="card" id="new_test_profile_likes">
                 <div class="blurring dimmable image">
                   <div class="ui dimmer">
                     <div class="content">
@@ -200,128 +191,122 @@
                 </div>
             </div>
         </div>
-    </div>
-<!--    <div class="ui text container">-->
-<!--        <h1 class="ui inverted header"></h1>-->
-<!--    </div>-->
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-2 col-xl-2"></div>
-            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                <!--transfers-->
-                <div class="ui minimal comments">
-                    <div class="ui accordion">
-                        <div class="title ">
-                            <div>
-                                <div class="ui items">
-                                  <div class="item">
-                                    <a class="ui tiny image">
-                                      <img src="{% static '/assets/img/transfers_mini.png' %}">
-                                    </a>
-                                    <div class="middle aligned content">
-                                      <div class="header">
-                                        <i class="history icon"></i>
-                                        History of all transfers
-                                      </div>
-                                        <div class="description">
-                                            <p>Click to show!</p>
+        <div class="container my-5 history-container">
+            <div class="row">
+                <div class="col-lg-2 col-xl-2"></div>
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <!--transfers-->
+                    <div class="ui minimal comments">
+                        <div class="ui accordion">
+                            <div class="title ">
+                                <div>
+                                    <div class="ui items">
+                                      <div class="item">
+                                        <a class="ui tiny image">
+                                          <img src="{% static '/assets/img/transfers_mini.png' %}">
+                                        </a>
+                                        <div class="middle aligned content">
+                                          <div class="header text-white">
+                                            <i class="history icon"></i>
+                                            History of all transfers
+                                          </div>
+                                            <div class="description text-white">
+                                                <p>Click to show!</p>
+                                            </div>
                                         </div>
+                                      </div>
                                     </div>
-                                  </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="content">
-                            {% if page_user_transfer.count > 0 %}
-                                 {% for transfer in page_user_transfer.all %}
-                                     {% if profile.user.id == transfer.author.id %}
-                                          <div class="comment my-4">
-                                              <div class="mb-2">
-                                                <p class="reply"><a href="{% url 'transfer_detail' transfer.pk %}" >{{transfer.title}}</a> at {{transfer.date}}</p>
-                                              </div>
-                                            <a class="avatar" style="height: 3rem">
-                                              <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
-                                            </a>
+                            <div class="content">
+                                {% if page_user_transfer.count > 0 %}
+                                     {% for transfer in page_user_transfer.all %}
+                                         {% if profile.user.id == transfer.author.id %}
+                                              <div class="comment my-4">
+                                                  <div class="mb-2">
+                                                    <p class="reply"><a href="{% url 'transfer_detail' transfer.pk %}" >{{transfer.title}}</a> at {{transfer.date}}</p>
+                                                  </div>
+                                                <a class="avatar" style="height: 3rem">
+                                                  <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
+                                                </a>
 
-                                            <div class="content">
-                                              <a class="author">{{transfer.author}}</a>
-                                              <div class="metadata">
-                                                <span class="date">{{transfer.date}}</span>
+                                                <div class="content">
+                                                  <a class="author text-white">{{transfer.author}}</a>
+                                                  <div class="metadata">
+                                                    <span class="date text-white">{{transfer.date}}</span>
+                                                  </div>
+                                                  <div class="text text-white">
+                                                      {{transfer.description|safe}}
+                                                  </div>
+                                                </div>
                                               </div>
-                                              <div class="text">
-                                                  {{transfer.description|safe}}
-                                              </div>
-                                            </div>
-                                          </div>
-                                     {% endif %}
-                                 {% endfor %}
-                             {% else %}
-                                <h3 class="text-center">no transfers yet...</h3>
-                             {% endif %}
+                                         {% endif %}
+                                     {% endfor %}
+                                 {% else %}
+                                    <h3 class="text-center">no transfers yet...</h3>
+                                 {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                <!--comments-->
-                <div class="ui minimal comments">
-                   <div class="ui accordion">
-                      <div class="title">
-                       <div class="ui items">
-                          <div class="item">
-                            <a class="ui tiny image">
-                              <img src="{% static '/assets/img/comments_mini.png' %}">
-                            </a>
-                            <div class="middle aligned content">
-                              <div class="header">
-                                <i class="history icon"></i>
-                                History of all comments
-                              </div>
-                                <div class="description">
-                                    <p>Click to show!</p>
+                <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                    <!--comments-->
+                    <div class="ui minimal comments">
+                       <div class="ui accordion">
+                          <div class="title">
+                           <div class="ui items">
+                              <div class="item">
+                                <a class="ui tiny image">
+                                  <img src="{% static '/assets/img/comments_mini.png' %}">
+                                </a>
+                                <div class="middle aligned content">
+                                  <div class="header text-white">
+                                    <i class="history icon"></i>
+                                    History of all comments
+                                  </div>
+                                    <div class="description text-white">
+                                        <p>Click to show!</p>
+                                    </div>
                                 </div>
+                              </div>
                             </div>
                           </div>
+                          <div class="content">
+                              {% if page_user_comment.count > 0 %}
+                                {% for comment in page_user_comment.all %}
+                                    {% if profile.user.id == comment.author.id %}
+                                      <div class="comment my-4">
+                                          <div class="mb-2">
+                                            <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
+                                          </div>
+                                        <a class="avatar" style="height: 3rem">
+                                          <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
+                                        </a>
+
+                                        <div class="content">
+                                          <a class="author text-white">{{comment.author}}</a>
+                                          <div class="metadata">
+                                            <span class="date text-white">{{comment.date}}</span>
+                                          </div>
+                                          <div class="text text-white">
+                                              {{comment.transfer_comment}}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    {% endif %}
+                                {% endfor %}
+                              {% else %}
+                                <h3 class="text-center">No comments yet...</h3>
+                              {% endif %}
+
+                          </div>
                         </div>
-                      </div>
-                      <div class="content">
-                          {% if page_user_comment.count > 0 %}
-                            {% for comment in page_user_comment.all %}
-                                {% if profile.user.id == comment.author.id %}
-                                  <div class="comment my-4">
-                                      <div class="mb-2">
-                                        <p class="reply">{{profile.user.first_name}} left comments on <a href="{% url 'transfer_detail' comment.transfer.pk %}" >{{comment.transfer.title}}</a> at {{comment.date}}</p>
-                                      </div>
-                                    <a class="avatar" style="height: 3rem">
-                                      <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
-                                    </a>
-
-                                    <div class="content">
-                                      <a class="author">{{comment.author}}</a>
-                                      <div class="metadata">
-                                        <span class="date">{{comment.date}}</span>
-                                      </div>
-                                      <div class="text">
-                                          {{comment.transfer_comment}}
-                                      </div>
-                                    </div>
-                                  </div>
-                                {% endif %}
-                            {% endfor %}
-                          {% else %}
-                            <h3 class="text-center">No comments yet...</h3>
-                          {% endif %}
-
-                      </div>
                     </div>
                 </div>
+                <div class="col-lg-2 col-xl-2"></div>
             </div>
-            <div class="col-lg-2 col-xl-2"></div>
-        </div>
     </div>
-    <div class="ui center text container">
-        <h1 class="ui inverted header"></h1>
     </div>
 </div>
 
@@ -341,6 +326,67 @@
 </div>
 {% endif %}
 
+<!-- Modal to send feedback -->
+<div class="ui modal send_feedback_profile">
+  <i class="close icon"></i>
+  <div class="header">
+    Send Feedback
+  </div>
+    <div class="header">Your feedback should contain maximal of 300 characters!</div>
+  <div class="image content">
+    <form class="ui reply form" style="width: 100%" method="POST" action="{% url 'send_feedback' object.pk %}">
+        {% csrf_token %}
+        <div class="field">
+            {{ form|crispy }}
+        </div>
+        <button name="profile_feedback_content" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send feedback</button>
+    </form>
+  </div>
+  <div class="actions">
+    <div class="ui negative right button">
+      Close
+    </div>
+  </div>
+</div>
+
+<!-- Modal to show Likes-->
+<div class="ui modal new_test_profile_likes">
+  <i class="close icon"></i>
+  <div class="header">
+    Who liked?
+  </div>
+  <div class="image content">
+      <div class="ui items">
+          {% if userLike != 0 %}
+                {% for user, count in userLike.items %}
+                  <div class="item">
+                        <a class="ui tiny image" href="{% url 'user_profile' user.profile.id  %}">
+                            <div class="ui small image">
+                                <img src="{% static ''  %}" id="{{user.profile.user_image}}" class="profileImageShowModal">
+                            </div>
+                        </a>
+                        <div class="middle aligned content">
+                          <div class="header">
+                             <div class="description">
+                                <a class="ui header" href="{% url 'user_profile' user.profile.id  %}">{{user.first_name}} {{user.last_name}} ( {{count}} )</a>
+                            </div>
+                          </div>
+                        </div>
+                  </div>
+                {% endfor %}
+          {% else %}
+              <p>No Likes... </p>
+          {% endif %}
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui negative right button">
+      Close
+    </div>
+  </div>
+</div>
+
+
 <script>
 
     // dynamic Image profile page
@@ -353,6 +399,54 @@
         each_profileImage_id = item.id
         each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
     })
+
+        // Identify images of the author to which comments have replied
+    profileImageShowReply = document.querySelectorAll('.profileImageShowReply')
+    profileImageShowReply.forEach(function(item){
+        each_profileImageReply_id = item.id
+        each_profileImageReply = item.src = "/static/images/" + each_profileImageReply_id + ".jpg";
+
+    })
+
+    // identify images of author which written comments
+    profileImageShow = document.querySelectorAll('.profileImageShowModal')
+    profileImageShow.forEach(function(item){
+        each_profileImage_id = item.id
+        each_profileImage = item.src = "/static/images/" + each_profileImage_id + ".jpg";
+    })
+
+
+    $(document).ready(function() {
+         // modal toggle to show likes on profile page
+         $(function(){
+            $("#new_test_profile_likes").click(function(){
+                $(".new_test_profile_likes").modal('show');
+            });
+            $(".new_test_profile_likes").modal({
+                closable: true
+            });
+        });
+
+        $(function(){
+            $("#send_feedback_profile").click(function(){
+                $(".send_feedback_profile").modal('show');
+            });
+            $(".send_feedback_profile").modal({
+                closable: true
+            });
+        });
+
+        // set accordion
+        $('.activating.element')
+          .popup()
+        ;
+        // Accordion popup
+        $('.boundary-accordion')
+          .popup({
+            boundary: '.accordion-segment'
+          })
+
+    });
 
 </script>
  {% endblock content %}

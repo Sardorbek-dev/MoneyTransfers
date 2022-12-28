@@ -5,10 +5,6 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-.background-specific{
-    background-color: #8f8b8b !important
-}
-
 .blobs-container {
 	display: flex;
 }
@@ -70,9 +66,9 @@
 	}
 }
 
-================
+/* ================
      Home
-================
+================ */
 
 .color_specific {
 background-color: #3f4de4 !important;
@@ -379,6 +375,127 @@ background-color: #3f4de4 !important;
     z-index: 88;
     padding: 25px 0;
 }
+
+/* Profile Design */
+.profile-container{
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 0 30px;
+  margin: 8rem auto;
+
+}
+
+.profile-container-fluid{
+
+}
+
+.background-color-specific {
+    max-width: 1200px;
+    margin: 30px auto !important;
+    background-color: #0c1e31 !important;
+    padding: 10px 10px;
+    border-radius: 20px;
+}
+
+
+.all-active-transfers {
+    margin: 8rem auto;
+}
+
+.a-transfer-header {
+    display:flex !important;
+    align-items: center;
+}
+
+.ui.message {
+    background: #1d285b;
+}
+
+.history-container {
+    max-width: 1200px;
+}
+
+.accordion-segment {
+    width: 40px !important;
+    height: 40px !important;
+    margin-right: 10px !important;
+}
+
+
+/*
+==================
+MEDIA QUERY
+==================
+*/
+
+
+
+@media (max-width: 1024px){
+    .profile-container{
+      max-width: 960px;
+      margin: 50px auto;
+      margin-top: 6rem;
+
+    }
+    .all-active-transfers {
+        margin: 5rem auto;
+    }
+
+    .background-color-specific {
+        max-width: 960px;
+    }
+}
+
+@media (max-width: 768px){
+    .profile-container{
+      grid-template-columns: 1fr;
+      max-width: 600px;
+      margin: 50px auto;
+      margin-top: 6rem;
+
+    }
+
+    .history-container {
+        max-width: 610px;
+    }
+
+    .background-color-specific {
+        max-width: 720px;
+    }
+
+}
+
+@media (max-width: 375px) or (max-width: 425px){
+    .profile-container{
+      grid-template-columns: 1fr;
+      max-width: 350px;
+      margin: 0px 25px;
+
+    }
+    .profile-header {
+        text-align: center;
+    }
+
+    .history-container {
+        max-width: 350px;
+    }
+
+    .background-color-specific {
+        max-width: 375px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

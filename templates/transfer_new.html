@@ -10,7 +10,7 @@
             <div class="ui center text container my-4">
                 <h1 class="ui inverted header">New Transfer<i class="sync icon"></i></h1>
             </div>
-            <form method="post" enctype="multipart/form-data" class="crispy form-horizontal"> {% csrf_token %}
+            <form method="post" enctype="multipart/form-data" class="crispy form-horizontal" style="width: 100%"> {% csrf_token %}
                 {{ form.media }}
                 {{ form|crispy }}
                 <button class="ui green button mt-3" type="submit">Submit</button> <small>(Please, check all informations, before creating a new transfer)</small>

@@ -98,7 +98,6 @@ def send_feedback(request, pk):
         profile_feedback_content_form = ProfileFeedbackForm(request.POST or None)
         if profile_feedback_content_form.is_valid():
             profile_feedback_content = request.POST.get('content')
-            print('profile_feedback_content', profile_feedback_content)
             new_profile_feedback_content = ProfileFeedback.objects.create(profile=profile, author=request.user, content=profile_feedback_content)
             new_profile_feedback_content.save()
 
