@@ -383,7 +383,7 @@ background-color: #3f4de4 !important;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 0 30px;
-  margin: 8rem auto;
+  margin: 6rem auto;
 
 }
 
@@ -413,6 +413,12 @@ background-color: #3f4de4 !important;
     background: #1d285b;
 }
 
+.card-detail-color {
+    background: #1d285b;
+    border-radius: 20px;
+    padding: 50px;
+}
+
 .history-container {
     max-width: 1200px;
 }
@@ -423,6 +429,14 @@ background-color: #3f4de4 !important;
     margin-right: 10px !important;
 }
 
+.set-textarea-width{
+    width: 600px;
+}
+
+.ui.comments {
+    margin: 20px auto;
+    max-width: 930px;
+}
 
 /*
 ==================
@@ -485,8 +499,20 @@ MEDIA QUERY
     .background-color-specific {
         max-width: 375px;
     }
+
+    .card-detail-color {
+        padding: 15px;
+    }
+
 }
 
+@media (max-width: 320px) or (max-width: 375px){
+
+    .card-detail-color {
+        padding: 20px;
+    }
+
+}
 
 
 

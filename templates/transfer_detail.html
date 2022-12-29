@@ -4,602 +4,613 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    {% if messages %}
-       <div class="ui positive message transition transfer_update">
-          <i class="close icon"></i>
-          <div class="header">
-            Transfer
-          </div>
-            <p>
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            </p>
-       </div>
-   {% endif %}
-  <h1 class="text-center my-5">Transfer bo'yicha batafsil ma'lumot</h1>
-  <div class="row">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
-        <div class="ui items p-4 border">
-          <div class="item">
-             {% if transfer.location == 'Germany' %}
-                  <div class="image">
-                     <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
-                  </div>
-             {% elif transfer.location == 'Uzbekistan' %}
-                  <div class="image">
-                     <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
-                  </div>
-              {% elif transfer.location == 'USAUZB' %}
-                  <div class="image">
-                     <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
-                  </div>
-              {% else %}
-                  <div class="image">
-                      <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
-                  </div>
-              {% endif %}
-            <div class="middle aligned content">
+<div class="ui inverted vertical masthead segment profile-container-fluid">
+    <div class="background-color-specific p-5">
+        {% if messages %}
+           <div class="ui positive message transition transfer_update">
+              <i class="close icon"></i>
               <div class="header">
-                {{ transfer.title }}
+                Transfer
               </div>
-                <div class="meta my-3">
-                    <span><i class="eye icon"></i> Views: {{ object.total_views }}</span>
-                </div>
-              <div class="description">
-                <h4>{{ object.description | safe }}</h4>
-              </div>
-                <div class="meta">
-                    <a>Sana: {{ transfer.date }}</a>
-                </div>
-              <div class="extra">
-                  <div class="ui label">{{ transfer.price }}</div>
-                  {% if transfer.location != 'GER' %}
-                      <div class="ui label"><i class="globe icon"></i>
-                         <i class="uz flag"></i>
+                <p>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </p>
+           </div>
+        {% endif %}
+        <h1 class="text-center my-5">Transfer bo'yicha batafsil ma'lumot</h1>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+            <div class="ui items card-detail-color mx-md-3">
+              <div class="item">
+                 {% if transfer.location == 'Germany' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/ger_uzb.png' %}" alt="{{ transfer.title }}">
+                      </div>
+                 {% elif transfer.location == 'Uzbekistan' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
+                      </div>
+                  {% elif transfer.location == 'USAUZB' %}
+                      <div class="image">
+                         <img src="{% static '/assets/img/usa_uzb.png' %}" alt="{{ transfer.title }}">
                       </div>
                   {% else %}
-                  <div class="ui label"><i class="globe icon"></i>
-                         <i class="de flag"></i>
-                  </div>
-                 {% endif %}
-
-                  {% if transfer.moneyCurrency == 'dollar' %}
-                      <div class="ui label">
-                         <i class="dollar sign icon"></i>
-                      </div>
-                  {% elif transfer.moneyCurrency == 'euro' %}
-                      <div class="ui label">
-                         <i class="euro sign icon"></i>
-                      </div>
-                  {% elif transfer.moneyCurrency == 'som' %}
-                      <div class="ui label">
-                         <i class="money bill alternate icon"></i>
-                      </div>
-                  {% elif transfer.moneyCurrency == 'euroordollar' %}
-                      <div class="ui label">
-                         <i class="euro sign icon"></i>
-                         <i class="dollar sign icon"></i>
-                      </div>
-                  {% elif transfer.moneyCurrency == 'euroorsom' %}
-                      <div class="ui label">
-                         <i class="euro sign icon"></i>
-                         <i class="money bill alternate icon"></i>
-                      </div>
-                  {% else %}
-                      <div class="ui label">
-                         <i class="money bill alternate icon"></i>
-                          <i class="dollar sign icon"></i>
-                      </div>
-                 {% endif %}
-                 <div class="meta my-3">
-                      <span>
-                          <i class="map pin icon"></i> LOCATION:
-                      </span>
-                        {% if transfer.location == 'Germany' %}
-                            Uzbekistan
-                        {% elif transfer.location == "Uzbekistan" %}
-                            Germany
-                        {% elif transfer.location == "England" %}
-                            England
-                        {% elif transfer.location == "USA" %}
-                            Amerika
-                        {% else %}
-                            None
-                        {% endif %}
-
-                        {% comment %} <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                            {% if user.is_authenticated %}
-                                {% if liked %}
-                                    <button type="submit" name="transfer_id" value="{{ object.id }}" class="ui red button likeButton">
-                                        <i class="thumbs down outline icon"></i>
-                                    </button>
-                                {% else %}
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                        <p class="item">
-                                            <i class="thumbs up outline icon"></i>
-                                        </p>
-                                    </button>
-                                {% endif %}
-                            {% else %}
-                              Login to like
-                            {% endif %}
-
-                            <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
-                        </form> {% endcomment %}
-
-                        {% comment %} like {% endcomment %}
-                    </div>
-                    <div class="meta my-3">
-                        <span><i class="flag icon black"></i> TARGER:</span>
-                        <span>
-                            {% if transfer.location == "Germany" %}
-                                Germany ({{ transfer.get_whichLocation_display }})
-                            {% elif transfer.location == "Uzbekistan" %}
-                                Uzbekistan ({{ transfer.get_whichLocation_display }})
-                            {% elif transfer.location == "USA" %}
-                                Amerika ({{ transfer.get_whichLocation_display }})
-                            {% elif transfer.location == "England" %}
-                                England ({{ transfer.get_whichLocation_display }})
-                            {% else %}
-                                None ({{ transfer.get_whichLocation_display }})
-                            {% endif %}
-                        </span>
-                    </div>
-                    <div class="meta">
-                        {% if user.is_authenticated %}
-                            {% if user.profile.id %}
-                                <button class="btn text-dark p-0 btn-outline-light" type="submit" id="like-button" value="{{object.id}}">
-                                    {% if liked %}
-                                        <i class="heart icon big red like-button-icon"></i>
-                                    {% else %}
-                                        <i class="heart outline icon big red like-button-icon"></i>
-                                    {% endif %}
-                                </button>
-                                <span class="" id="like_count">Likes: {{object.like_count }}</span>
-                            {% else %}
-                                <span>Create profile to Like</span> <span class="">Likes: {{object.like_count }}</span>
-                            {% endif %}
-                        {% else %}
-                            <span>(Please, Login to like) </span>
-                            <span>Likes: {{object.like_count }}</span>
-                        {% endif %}
-                    </div>
-
-                  {% if user.id == transfer.author.profile.id %}
-                    <div class="meta mb-5">
-                        <button class="btn text-dark p-0 btn-outline-light" id="status-transfer-button" value="{{transfer.id}}">
-                            {% if transfer.status_transfer %}
-                                <i class="eye icon big green transfer-status-button-icon"></i>
-                            {% else %}
-                                <i class="eye icon big transfer-status-button-icon"></i>
-                            {% endif %}
-                        </button>
-                        <span id="status_transfer_display" >
-                            {% if transfer.status_transfer %}
-                                Status: Aktiv
-                            {% else %}
-                                Status: Inaktiv
-                            {% endif %}
-                        </span>
-                    </div>
-                  {% else %}
-
-                  {% comment %} reputation {% endcomment %}
-
-                  <div class="meta">
-                      {% if user.is_authenticated %}
-                          {% if user.profile.id %}
-                            <button class="btn text-dark p-0 btn-outline-light" id="reputation-button" value="{{object.id}}">
-                            {% if reputation %}
-                                <i class="arrow alternate circle up icon big green reputation-button-icon"></i>
-                            {% else %}
-                                <i class="arrow alternate circle up icon big reputation-button-icon"></i>
-                            {% endif %}
-                            </button>
-                            <span id="reputation_count">Reputations: {{object.reputation_count }}</span>
-                          {% else %}
-                            <span>Create profile to give reputation</span> <span>Reputations: {{object.reputation_count }}</span>
-                            <div class="item mt-4">
-                                <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
-                            </div>
-                          {% endif %}
-                      {% else %}
-                        <span>(Please, Login to give reputation)</span>
-                        <span>Reputations: {{object.reputation_count }}</span>
-                      {% endif %}
-                  </div>
-
-                       {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
-                            {% if user.is_authenticated %}
-                                {% if reputation %}
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
-                                         <i class="arrow down icon"></i>
-                                    </button>
-                                {% else %}
-                                    <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
-                                        <p class="item">
-                                             <i class="arrow up icon"></i>
-                                        </p>
-                                    </button>
-                                {% endif %}
-                            {% else %}
-                              Login to give reputation
-                            {% endif %}
-                            <span> Reputation: {{ object.total_reputations }}</span>
-                        </form> {% endcomment %}
-                   {% endif %}
-
-                  {% if user.is_authenticated %}
-                      <div class="ui right floated button">
-                          Bog'lanish
-                      </div>
-                  {% else %}
-                      <div class="ui right floated button red">
-                          <a href="{% url 'login' %}">Login</a>
-                      </div>
-                      <div class="ui right floated button">
-                          Bog'lanish uchun röyhatdan öting
+                      <div class="image">
+                          <img src="{% static '/assets/img/uzb_ger.png' %}" alt="{{ transfer.title }}">
                       </div>
                   {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-        {% if user.id == transfer.author.id %}
-            <div class="row text-center pb-3">
-                <div class="col-12">
-                    <button class="ui yellow button"><a class="item" href="{% url 'transfer_edit' transfer.pk %}">Tahrirlash</a></button>
-                    <button class="ui red button"><a class="item" href="{% url 'transfer_delete' transfer.pk %}">O'chirish</a></button>
-                    <button class="ui green button"><a class="item text-white" href="{% url 'transfer_list' %}">Barcha Transferlar</a></button>
+                <div class="middle aligned content">
+                    <div class="header text-white">
+                        {{ transfer.title }}
+                    </div>
+                    <div class="meta my-3 text-white">
+                        <span><i class="eye icon"></i> Views: {{ object.total_views }}</span>
+                    </div>
+                  <div class="description text-white">
+                    <h4>{{ object.description | safe }}</h4>
+                  </div>
+                    <div class="meta">
+                        <a class="text-white">Date: {{ transfer.date }}</a>
+                    </div>
+                  <div class="extra">
+                      <div class="ui label">{{ transfer.price }}</div>
+                      {% if transfer.location != 'GER' %}
+                          <div class="ui label"><i class="globe icon"></i>
+                             <i class="uz flag"></i>
+                          </div>
+                      {% else %}
+                      <div class="ui label"><i class="globe icon"></i>
+                             <i class="de flag"></i>
+                      </div>
+                     {% endif %}
+
+                      {% if transfer.moneyCurrency == 'dollar' %}
+                          <div class="ui label">
+                             <i class="dollar sign icon"></i>
+                          </div>
+                      {% elif transfer.moneyCurrency == 'euro' %}
+                          <div class="ui label">
+                             <i class="euro sign icon"></i>
+                          </div>
+                      {% elif transfer.moneyCurrency == 'som' %}
+                          <div class="ui label">
+                             <i class="money bill alternate icon"></i>
+                          </div>
+                      {% elif transfer.moneyCurrency == 'euroordollar' %}
+                          <div class="ui label">
+                             <i class="euro sign icon"></i>
+                             <i class="dollar sign icon"></i>
+                          </div>
+                      {% elif transfer.moneyCurrency == 'euroorsom' %}
+                          <div class="ui label">
+                             <i class="euro sign icon"></i>
+                             <i class="money bill alternate icon"></i>
+                          </div>
+                      {% else %}
+                          <div class="ui label">
+                             <i class="money bill alternate icon"></i>
+                              <i class="dollar sign icon"></i>
+                          </div>
+                     {% endif %}
+                     <div class="meta my-3 text-white">
+                          <span>
+                              <i class="map pin icon inverted red"></i> LOCATION:
+                          </span>
+                            {% if transfer.location == 'Germany' %}
+                                Uzbekistan
+                            {% elif transfer.location == "Uzbekistan" %}
+                                Germany
+                            {% elif transfer.location == "England" %}
+                                England
+                            {% elif transfer.location == "USA" %}
+                                Amerika
+                            {% else %}
+                                None
+                            {% endif %}
+
+                            {% comment %} <form action="{% url 'like_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                {% if user.is_authenticated %}
+                                    {% if liked %}
+                                        <button type="submit" name="transfer_id" value="{{ object.id }}" class="ui red button likeButton">
+                                            <i class="thumbs down outline icon"></i>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                            <p class="item">
+                                                <i class="thumbs up outline icon"></i>
+                                            </p>
+                                        </button>
+                                    {% endif %}
+                                {% else %}
+                                  Login to like
+                                {% endif %}
+
+                                <span>Liked: {{ object.total_likes  }} {{ liked  }}</span>
+                            </form> {% endcomment %}
+
+                            {% comment %} like {% endcomment %}
+                        </div>
+                        <div class="meta my-3 text-white">
+                            <span><i class="flag icon inverted white"></i> TARGER:</span>
+                            <span>
+                                {% if transfer.location == "Germany" %}
+                                    Germany ({{ transfer.get_whichLocation_display }})
+                                {% elif transfer.location == "Uzbekistan" %}
+                                    Uzbekistan ({{ transfer.get_whichLocation_display }})
+                                {% elif transfer.location == "USA" %}
+                                    Amerika ({{ transfer.get_whichLocation_display }})
+                                {% elif transfer.location == "England" %}
+                                    England ({{ transfer.get_whichLocation_display }})
+                                {% else %}
+                                    None ({{ transfer.get_whichLocation_display }})
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="meta text-white">
+                            {% if user.is_authenticated %}
+                                {% if user.profile.id %}
+                                    <button class="btn text-dark p-0" type="submit" id="like-button" value="{{object.id}}">
+                                        {% if liked %}
+                                            <i class="heart icon big red like-button-icon"></i>
+                                        {% else %}
+                                            <i class="heart outline icon big red like-button-icon"></i>
+                                        {% endif %}
+                                    </button>
+                                    <span class="" id="like_count">Likes: {{object.like_count }}</span>
+                                {% else %}
+                                    <span>Create profile to Like</span> <span class="">Likes: {{object.like_count }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span>(Please, Login to like) </span>
+                                <span>Likes: {{object.like_count }}</span>
+                            {% endif %}
+                        </div>
+
+                      {% if user.id == transfer.author.profile.id %}
+                        <div class="meta mb-5 text-white">
+                            <button class="btn text-dark p-0 " id="status-transfer-button" value="{{transfer.id}}">
+                                {% if transfer.status_transfer %}
+                                    <i class="eye icon big green inverted transfer-status-button-icon"></i>
+                                {% else %}
+                                    <i class="eye icon big white inverted transfer-status-button-icon"></i>
+                                {% endif %}
+                            </button>
+                            <span id="status_transfer_display" >
+                                {% if transfer.status_transfer %}
+                                    Status: Aktiv
+                                {% else %}
+                                    Status: Inaktiv
+                                {% endif %}
+                            </span>
+                        </div>
+                      {% else %}
+
+                      {% comment %} reputation {% endcomment %}
+
+                      <div class="meta text-white">
+                          {% if user.is_authenticated %}
+                              {% if user.profile.id %}
+                                <button class="btn text-dark p-0" id="reputation-button" value="{{object.id}}">
+                                {% if reputation %}
+                                    <i class="arrow alternate circle up icon big inverted green reputation-button-icon"></i>
+                                {% else %}
+                                    <i class="arrow alternate circle up icon big inverted reputation-button-icon"></i>
+                                {% endif %}
+                                </button>
+                                <span id="reputation_count">Reputations: {{object.reputation_count }}</span>
+                              {% else %}
+                                <span>Create profile to give reputation</span> <span>Reputations: {{object.reputation_count }}</span>
+                                <div class="item mt-4">
+                                    <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                </div>
+                              {% endif %}
+                          {% else %}
+                            <span>(Please, Login to give reputation)</span>
+                            <span>Reputations: {{object.reputation_count }}</span>
+                          {% endif %}
+                      </div>
+
+                           {% comment %} <form action="{% url 'reputation_transfer' transfer.pk %}" method="post">{% csrf_token %}
+                                {% if user.is_authenticated %}
+                                    {% if reputation %}
+                                        <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui red button reputationButton">
+                                             <i class="arrow down icon"></i>
+                                        </button>
+                                    {% else %}
+                                        <button type="submit" name="transfer_id" value="{{ transfer.id }}" class="ui green button">
+                                            <p class="item">
+                                                 <i class="arrow up icon"></i>
+                                            </p>
+                                        </button>
+                                    {% endif %}
+                                {% else %}
+                                  Login to give reputation
+                                {% endif %}
+                                <span> Reputation: {{ object.total_reputations }}</span>
+                            </form> {% endcomment %}
+                       {% endif %}
+
+                      {% if user.is_authenticated %}
+                          <div class="ui right floated button red">
+                              Contact
+                          </div>
+                      {% else %}
+                          <div class="ui right floated button red">
+                              <a href="{% url 'login' %}">Login</a>
+                          </div>
+                          <div class="ui right floated button red">
+                              Login to contact this user
+                          </div>
+                      {% endif %}
+                  </div>
                 </div>
-            </div>
-        {% endif %}
-        <br/>
-    </div>
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
-        <div class="ui text container">
-         <div class="ui text container ">
-            <h1 class="ui inverted header text-dark text-center mb-2">Profile</h1>
-        </div>
-        <div class="ui divided items">
-
-          <div class="item">
-            <div class="image">
-              <img src="{% static '' %}" alt="{{transfer.author.profile.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
-            </div>
-            <div class="content">
-              <a class="header" href="{% url 'user_profile' transfer.author.profile.pk %}">Username: {{ transfer.author.username }}</a>
-              <div class="meta">
-                <span class="cinema">Profile created: {{ transfer.author.profile.date }}</span>
               </div>
-               <div class="meta">
-                <span class="cinema">Firstname: {{ transfer.author.first_name }}</span>
-              </div>
-                <div class="meta">
-                <span class="cinema">Lastname: {{ transfer.author.last_name }} </span>
-              </div>
-              <div class="extra">
-                <div class="ui label">IMAX</div>
-                <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
-                {% if transfer.author.profile.telegram_url %}
-                    <div class="ui label"><a href="{{ transfer.author.profile.telegram_url}}"> Telegram</a></div>
+                {% if user.id == transfer.author.id %}
+                    <div class="row text-center pb-3">
+                        <div class="col-12">
+                            <button class="ui yellow button"><a class="item text-white" href="{% url 'transfer_edit' transfer.pk %}">Edit</a></button>
+                            <button class="ui red button"><a class="item text-white" href="{% url 'transfer_delete' transfer.pk %}">Delete</a></button>
+                            <button class="ui green button"><a class="item text-white" href="{% url 'transfer_list' %}">All Transfers</a></button>
+                        </div>
+                    </div>
                 {% endif %}
-
-                {% if transfer.author.profile.instagram_url %}
-                  <div class="ui label"><a href="{{ transfer.author.profile.instagram_url}}"> Instagram</a></div>
-                {% endif %}
-
-                {% if transfer.author.profile.facebook_url %}
-                  <div class="ui label"><a href="{{ transfer.author.profile.facebook_url}}"> Facebook</a></div>
-                {% endif %}
-              </div>
             </div>
+            <br/>
           </div>
-        </div>
-        <div class="ui labeled button mb-2" tabindex="0">
-          <div class="ui primary button create_btn" id="show_transfers">
-            <i class="exchange icon"></i>Transfers
-          </div>
-          <a class="ui basic left pointing blue label">
-            {{ page_user_transfer.count }}
-          </a>
-        </div>
-         <div class="ui labeled button mb-2" tabindex="0">
-          <div class="ui green button create_btn" id="new_test">
-            <i class="chart line icon"></i> Reputations
-          </div>
-          <a class="ui basic left pointing blue label">
-            {% if total_reputations > 0 %}
-                {{total_reputations}}
-             {% else %}
-                0
-             {% endif %}
-          </a>
-        </div>
-        <div class="ui labeled button mb-2" tabindex="0">
-          <div class="ui red button create_btn" id="test">
-            <i class="heart icon"></i> Likes
-          </div>
-          <a class="ui basic red left pointing label">
-            {% if total_likes > 0%}
-                {{total_likes}}
-            {% else %}
-                0
-            {% endif %}
-          </a>
-        </div>
-        <div class="ui labeled button mb-2" tabindex="0">
-          <div class="ui grey button">
-            <i class="comments icon"></i> Comments
-          </div>
-          <a class="ui basic left pointing blue label">
-            {{ page_user_comment.count }}
-          </a>
-        </div>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6">
+              <div class="row">
+                  <div class="col-xl-8 col-sm-12">
+                      <div class="ui items card-detail-color mx-md-3">
+                            <h1 class="ui text-center mb-2">Profile</h1>
+                            <div class="ui divided items">
+                              <div class="item">
+                                <div class="image">
+                                  <img src="{% static '' %}" alt="{{transfer.author.profile.username}}" class="profileImageShow" id="{{transfer.author.profile.user_image}}">
+                                </div>
+                                <div class="content">
+                                  <a class="header text-white" href="{% url 'user_profile' transfer.author.profile.pk %}">Username: {{ transfer.author.username }}</a>
+                                  <div class="meta text-white">
+                                    <span class="cinema">Profile created: {{ transfer.author.profile.date }}</span>
+                                  </div>
+                                   <div class="meta text-white">
+                                    <span class="cinema">Firstname: {{ transfer.author.first_name }}</span>
+                                  </div>
+                                    <div class="meta text-white">
+                                    <span class="cinema">Lastname: {{ transfer.author.last_name }} </span>
+                                  </div>
+                                  <div class="extra">
+                                    <div class="ui label">IMAX</div>
+                                    <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+                                    {% if transfer.author.profile.telegram_url %}
+                                        <div class="ui label"><a href="{{ transfer.author.profile.telegram_url}}"> Telegram</a></div>
+                                    {% endif %}
 
+                                    {% if transfer.author.profile.instagram_url %}
+                                      <div class="ui label"><a href="{{ transfer.author.profile.instagram_url}}"> Instagram</a></div>
+                                    {% endif %}
 
-<!--         <div class="ui special cards justify-content-center flex-lg-nowrap">-->
-<!--            <div class="card">-->
-<!--            <div class="blurring dimmable image">-->
-<!--              <div class="ui dimmer">-->
-<!--                <div class="content">-->
-<!--                  <div class="center">-->
-<!--                    <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <img src="{% static '/assets/img/transfers.png' %}" >-->
-<!--            </div>-->
-<!--          </div>-->
-<!--            <div class="card">-->
-<!--            <div class="blurring dimmable image">-->
-<!--              <div class="ui dimmer">-->
-<!--                <div class="content">-->
-<!--                  <div class="center">-->
-<!--                    <div class="ui inverted button">-->
-<!--                        {% if total_reputations > 0 %}-->
-<!--                            <h1>{{total_reputations}}</h1>-->
-<!--                        {% else %}-->
-<!--                            <h1>0</h1>-->
-<!--                        {% endif %}-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <img src="{% static '/assets/img/reputations.png' %}">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--            <div class="card">-->
-<!--                <div class="blurring dimmable image">-->
-<!--                  <div class="ui dimmer">-->
-<!--                    <div class="content">-->
-<!--                      <div class="center">-->
-<!--                        <div class="ui inverted button">-->
-<!--                            {% if total_likes > 0%}-->
-<!--                                <h1>{{total_likes}}</h1>-->
-<!--                            {% else %}-->
-<!--                                <h1>0</h1>-->
-<!--                            {% endif %}-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <img src="{% static '/assets/img/likes.png' %}">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="card">-->
-<!--                <div class="blurring dimmable image">-->
-<!--                  <div class="ui dimmer">-->
-<!--                    <div class="content">-->
-<!--                      <div class="center">-->
-<!--                        <div class="ui inverted button"><h1>{{ page_user_comment.count }}</h1></div>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <img src="{% static '/assets/img/comments.png' %}" >-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-    </div>
-      </div>
-  </div>
-
-<!--    comments section begin-->
-
-    <div class="ui threaded comments">
-        <h3 class="ui dividing header">Comments {{ transfer.page_obj }}</h3>
-        {% if not object.transfer_comments.all %}
-            NO comments yet..
-        {% else %}
-
-        <!--comments-->
-
-            {% for comment in object.transfer_comments.all %}
-                {% if comment.reply.id %}
-                {% else %}
-                    <div class="comment">
-                        <a class="avatar" style="height: 3rem">
-                            <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
-                        </a>
-                        <div class="content">
-                            <a class="author" href="{% url 'user_profile' comment.author.profile.pk %}">{{ comment.author }}</a>
-                            <div class="metadata">
-                                <span class="date">{{ comment.date }}</span>
+                                    {% if transfer.author.profile.facebook_url %}
+                                      <div class="ui label"><a href="{{ transfer.author.profile.facebook_url}}"> Facebook</a></div>
+                                    {% endif %}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div class="text">
+                        </div>
+                  </div>
+                  <div class="col-xl-4 col-sm-12 mt-md-5 mt-xl-0 mt-4">
+                      <div class="card-detail-color mx-md-3 h-100">
+                        <div class="ui labeled button my-3" tabindex="0">
+                          <div class="ui primary button create_btn" id="show_transfers">
+                            <i class="exchange icon"></i>Transfers
+                          </div>
+                          <a class="ui basic left pointing blue label">
+                            {{ page_user_transfer.count }}
+                          </a>
+                        </div>
+                         <div class="ui labeled button my-3" tabindex="0">
+                          <div class="ui green button create_btn" id="new_test">
+                            <i class="chart line icon"></i> Reputations
+                          </div>
+                          <a class="ui basic left pointing blue label">
+                            {% if total_reputations > 0 %}
+                                {{total_reputations}}
+                             {% else %}
+                                0
+                             {% endif %}
+                          </a>
+                        </div>
+                        <div class="ui labeled button my-3" tabindex="0">
+                          <div class="ui red button create_btn" id="test">
+                            <i class="heart icon"></i> Likes
+                          </div>
+                          <a class="ui basic red left pointing label">
+                            {% if total_likes > 0%}
+                                {{total_likes}}
+                            {% else %}
+                                0
+                            {% endif %}
+                          </a>
+                        </div>
+                        <div class="ui labeled button my-3" tabindex="0">
+                          <div class="ui grey button">
+                            <i class="comments icon"></i> Comments
+                          </div>
+                          <a class="ui basic left pointing blue label">
+                            {{ page_user_comment.count }}
+                          </a>
+                        </div>
 
-                                <div class="row">
-                                    <div class="col-8">
-                                        <p class="mb-3">{{ comment.transfer_comment }} {{ user.id }}</p>
+
+                <!--         <div class="ui special cards justify-content-center flex-lg-nowrap">-->
+                <!--            <div class="card">-->
+                <!--            <div class="blurring dimmable image">-->
+                <!--              <div class="ui dimmer">-->
+                <!--                <div class="content">-->
+                <!--                  <div class="center">-->
+                <!--                    <div class="ui inverted button"><h1>{{ page_user_transfer.count }}</h1></div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!--              </div>-->
+                <!--              <img src="{% static '/assets/img/transfers.png' %}" >-->
+                <!--            </div>-->
+                <!--          </div>-->
+                <!--            <div class="card">-->
+                <!--            <div class="blurring dimmable image">-->
+                <!--              <div class="ui dimmer">-->
+                <!--                <div class="content">-->
+                <!--                  <div class="center">-->
+                <!--                    <div class="ui inverted button">-->
+                <!--                        {% if total_reputations > 0 %}-->
+                <!--                            <h1>{{total_reputations}}</h1>-->
+                <!--                        {% else %}-->
+                <!--                            <h1>0</h1>-->
+                <!--                        {% endif %}-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!--              </div>-->
+                <!--              <img src="{% static '/assets/img/reputations.png' %}">-->
+                <!--            </div>-->
+                <!--          </div>-->
+                <!--            <div class="card">-->
+                <!--                <div class="blurring dimmable image">-->
+                <!--                  <div class="ui dimmer">-->
+                <!--                    <div class="content">-->
+                <!--                      <div class="center">-->
+                <!--                        <div class="ui inverted button">-->
+                <!--                            {% if total_likes > 0%}-->
+                <!--                                <h1>{{total_likes}}</h1>-->
+                <!--                            {% else %}-->
+                <!--                                <h1>0</h1>-->
+                <!--                            {% endif %}-->
+                <!--                        </div>-->
+                <!--                      </div>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                  <img src="{% static '/assets/img/likes.png' %}">-->
+                <!--                </div>-->
+                <!--            </div>-->
+                <!--            <div class="card">-->
+                <!--                <div class="blurring dimmable image">-->
+                <!--                  <div class="ui dimmer">-->
+                <!--                    <div class="content">-->
+                <!--                      <div class="center">-->
+                <!--                        <div class="ui inverted button"><h1>{{ page_user_comment.count }}</h1></div>-->
+                <!--                      </div>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                  <img src="{% static '/assets/img/comments.png' %}" >-->
+                <!--                </div>-->
+                <!--            </div>-->
+                <!--        </div>-->
+                      </div>
+                  </div>
+              </div>
+
+
+          </div>
+      </div>
+    </div>
+
+    <div class="background-color-specific p-5">
+        <div class="card-detail-color mx-3">
+            <!--    comments section begin-->
+            <div class="ui threaded comments">
+                <h3 class="ui dividing header text-white">Comments {{ transfer.page_obj }}</h3>
+                {% if not object.transfer_comments.all %}
+                    NO comments yet..
+                {% else %}
+
+                <!--comments-->
+
+                    {% for comment in object.transfer_comments.all %}
+                        {% if comment.reply.id %}
+                        {% else %}
+                            <div class="comment">
+                                <a class="avatar" style="height: 3rem">
+                                    <img src="{% static '' %}" alt="{{page_user.username}}" class="profileImageShow" id="{{comment.author.profile.user_image}}">
+                                </a>
+                                <div class="content">
+                                    <a class="author text-white" href="{% url 'user_profile' comment.author.profile.pk %}">{{ comment.author }}</a>
+                                    <div class="metadata text-white">
+                                        <span class="date">{{ comment.date }}</span>
                                     </div>
-                                    <div class="col-4" style="text-align: right;">
-                                        {% if user.is_authenticated %}
-                                            {% if user.id == comment.author.id %}
-                                                <form class="ui reply" method="post" action="{% url 'delete_comment' object.id %}">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                                    <button class="ui red button"><a class="item text-white"><i class="trash alternate icon"></i></a></button>
-                                                </form>
-                                            {% endif %}
+                                    <div class="text">
+
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <p class="mb-3 text-white">{{ comment.transfer_comment }}</p>
+                                            </div>
+                                            <div class="col-4" style="text-align: right;">
+                                                {% if user.is_authenticated %}
+                                                    {% if user.id == comment.author.id %}
+                                                        <form class="ui reply" method="post" action="{% url 'delete_comment' object.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                            <button class="ui red button"><a class="item text-white"><i class="trash alternate icon"></i></a></button>
+                                                        </form>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="actions">
+                                        {% if comment.transfer_replies.all %}
+                                            <a class="reply text-white">Replies</a>
+                                        {% else %}
+                                            <a class="reply text-white">No replies yet</a>
                                         {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            <div class="actions">
-                                {% if comment.transfer_replies.all %}
-                                    <a class="reply">Replies</a>
-                                {% else %}
-                                    <a class="reply">No replies yet</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
 
-                {% endif %}
-                <!--show all comments end -->
+                        {% endif %}
+                        <!--show all comments end -->
 
-                <!--transfer_comment-->
-                    {% if comment.reply.id %}
-                    {% else %}
-                        <div class="comment">
+                        <!--transfer_comment-->
+                            {% if comment.reply.id %}
+                            {% else %}
+                                <div class="comment">
 
-                            <!--comment with replies-->
+                                    <!--comment with replies-->
 
-                            <!--replies-->
-                            <div class="comments mb-4">
-                                {% for reply in comment.transfer_replies.all %}
-                                    <div class="comment">
-                                        <a class="avatar" style="height: 3rem">
-                                            <img src="{% static '' %}" class="profileImageShowReply" id="{{reply.author.profile.user_image}}">
-                                        </a>
-                                        <div class="content">
-                                            <a class="author" href="{% url 'user_profile' reply.author.profile.pk %}">{{ reply.author }}</a>
-                                            <div class="metadata">
-                                                <span class="date">{{ reply.date }}</span>
-                                            </div>
-                                            <div class="text">
-                                                {{ reply.transfer_comment }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-
-                                <!--add replies beginn -->
-                                {% if transfer_comment.reply.id %}
-
-                                {% else %}
-                                    {% if user.is_authenticated %}
-                                        {% if user.profile.id %}
-                                            <div class="action ui accordion" style="text-align: right;">
-                                                <a class="reply title">Reply <i class="reply icon"></i></a>
+                                    <!--replies-->
+                                    <div class="comments mb-4">
+                                        {% for reply in comment.transfer_replies.all %}
+                                            <div class="comment">
+                                                <a class="avatar" style="height: 3rem">
+                                                    <img src="{% static '' %}" class="profileImageShowReply" id="{{reply.author.profile.user_image}}">
+                                                </a>
                                                 <div class="content">
-                                                    <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="comment_id" value="{{ comment.id }}">
-                                                        <div class="field">
-                                                            {{ form|crispy }}
-                                                        </div>
-                                                        <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
-                                                    </form>
+                                                    <a class="author text-white" href="{% url 'user_profile' reply.author.profile.pk %}">{{ reply.author }}</a>
+                                                    <div class="metadata">
+                                                        <span class="date text-white">{{ reply.date }}</span>
+                                                    </div>
+                                                    <div class="text text-white">
+                                                        {{ reply.transfer_comment }}
+                                                    </div>
                                                 </div>
                                             </div>
+                                        {% endfor %}
+
+                                        <!--add replies beginn -->
+                                        {% if transfer_comment.reply.id %}
+
                                         {% else %}
-                                            <p>Please, create a profile to add some comments</p>
-                                            <div class="item">
-                                                <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
-                                            </div>
+                                            {% if user.is_authenticated %}
+                                                {% if user.profile.id %}
+                                                    <div class="action ui accordion" style="text-align: right;">
+                                                        <a class="reply title text-white">Reply <i class="reply icon inverted white"></i></a>
+                                                        <div class="content">
+                                                            <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                                                                <div class="field">
+                                                                    {{ form|crispy }}
+                                                                </div>
+                                                                <input type="submit" value="Reply" name="comment_reply" class="ui green button mt-3">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <p>Please, create a profile to add some comments</p>
+                                                    <div class="item">
+                                                        <a class="ui inverted primary button" href="{% url 'create_profile_page' %}">Create a profile</a>
+                                                    </div>
+                                                {% endif %}
+                                            {% else %}
+                                                <p>Please, Login to add some comments</p>
+                                                <div class="item">
+                                                    <a class="ui inverted primary button" href="{% url 'login' %}">Login</a>
+                                                </div>
+                                            {% endif %}
                                         {% endif %}
-                                    {% else %}
-                                        <p>Please, Login to add some comments</p>
-                                        <div class="item">
-                                            <a class="ui inverted primary button" href="{% url 'login' %}">Login</a>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                                <!--add replies end -->
-                            </div>
+                                        <!--add replies end -->
+                                    </div>
+                                </div>
+                            {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <!-- comment end -->
+                <p>Leave Comment</p>
+                {% if user.is_authenticated %}
+                    {% if user.profile.id %}
+                          <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
+                                {% csrf_token %}
+                                <div class="field">
+                                    {{ form|crispy }}
+                                </div>
+                                <button name="comment_add" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send comment</button>
+                            </form>
+                    {% else %}
+                        <h1>Please, create a profile page to add some comments </h1>
+                        <div class="item">
+                            <a class="ui inverted secondary button" href="{% url 'create_profile_page' %}">Create Profile</a>
                         </div>
                     {% endif %}
-            {% endfor %}
-        {% endif %}
-        <!-- comment end -->
-        <p>Leave Comment</p>
-        {% if user.is_authenticated %}
-            {% if user.profile.id %}
-                  <form class="ui reply form" method="post" action="{% url 'transfer_detail_comment' object.pk %}">
-                        {% csrf_token %}
-                        <div class="field">
-                            {{ form|crispy }}
-                        </div>
-                        <button name="comment_add" value="{{ object.id }}"  class="ui red button mt-3" type="submit">Send comment</button>
-                    </form>
-            {% else %}
-                <h1>Please, create a profile page to add some comments </h1>
-                <div class="item">
-                    <a class="ui inverted secondary button" href="{% url 'create_profile_page' %}">Create Profile</a>
-                </div>
-            {% endif %}
 
-        <!--add comments end -->
+                <!--add comments end -->
 
-        {% else %}
-            <br>
-            <p class="mt-2">
-                Please, Sign up and create a profile or login to add a comment
-            </p>
-            <div class="item">
-                <a class="ui inverted green button mb-4" href="{% url 'login' %}">Login</a>
-                <a class="ui inverted red button mb-4" href="{% url 'signup' %}">Signup</a>
+                {% else %}
+                    <br>
+                    <p class="mt-2">
+                        Please, Sign up and create a profile or login to add a comment
+                    </p>
+                    <div class="item">
+                        <a class="ui inverted green button mb-4" href="{% url 'login' %}">Login</a>
+                        <a class="ui inverted red button mb-4" href="{% url 'signup' %}">Signup</a>
+                    </div>
+                {% endif %}
+
+                       <!--Pagination-->
+        <!--        <div class="container my-5">-->
+        <!--            <div class="row text-center">-->
+        <!--                 <div class="ui large horizontal divided list">-->
+        <!--                     {% if page_obj.has_previous %}-->
+        <!--                         <div class="item">-->
+        <!--                           <div class="content">-->
+        <!--                               <a href="?page=1" class="header">&laquo; first</a>-->
+        <!--                           </div>-->
+        <!--                         </div>-->
+        <!--                         <div class="item">-->
+        <!--                           <div class="content">-->
+        <!--                               <a href="?page={{ page_obj.previous_page_number }}" class="header">previous</a>-->
+        <!--                           </div>-->
+        <!--                         </div>-->
+        <!--                     {% endif %}-->
+
+        <!--                    <div class="item">-->
+        <!--                       <div class="content">-->
+        <!--                           <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>-->
+        <!--                       </div>-->
+        <!--                    </div>-->
+        <!--                     {% if page_obj.has_next %}-->
+        <!--                        <div class="item">-->
+        <!--                           <div class="content">-->
+        <!--                                <a href="?page={{ page_obj.next_page_number }}" class="header">next</a>-->
+        <!--                           </div>-->
+        <!--                        </div>-->
+        <!--                         <div class="item">-->
+        <!--                            <div class="content">-->
+        <!--                                <a href="?page={{ page_obj.paginator.num_pages }}" class="header">last &raquo;</a>-->
+        <!--                           </div>-->
+        <!--                         </div>-->
+        <!--                     {% endif %}-->
+        <!--                    </div>-->
+        <!--                 </div>-->
+        <!--            </div>-->
+
             </div>
-        {% endif %}
-
-               <!--Pagination-->
-<!--        <div class="container my-5">-->
-<!--            <div class="row text-center">-->
-<!--                 <div class="ui large horizontal divided list">-->
-<!--                     {% if page_obj.has_previous %}-->
-<!--                         <div class="item">-->
-<!--                           <div class="content">-->
-<!--                               <a href="?page=1" class="header">&laquo; first</a>-->
-<!--                           </div>-->
-<!--                         </div>-->
-<!--                         <div class="item">-->
-<!--                           <div class="content">-->
-<!--                               <a href="?page={{ page_obj.previous_page_number }}" class="header">previous</a>-->
-<!--                           </div>-->
-<!--                         </div>-->
-<!--                     {% endif %}-->
-
-<!--                    <div class="item">-->
-<!--                       <div class="content">-->
-<!--                           <div class="header">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</div>-->
-<!--                       </div>-->
-<!--                    </div>-->
-<!--                     {% if page_obj.has_next %}-->
-<!--                        <div class="item">-->
-<!--                           <div class="content">-->
-<!--                                <a href="?page={{ page_obj.next_page_number }}" class="header">next</a>-->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                         <div class="item">-->
-<!--                            <div class="content">-->
-<!--                                <a href="?page={{ page_obj.paginator.num_pages }}" class="header">last &raquo;</a>-->
-<!--                           </div>-->
-<!--                         </div>-->
-<!--                     {% endif %}-->
-<!--                    </div>-->
-<!--                 </div>-->
-<!--            </div>-->
-        <h1 class="ui inverted header">
-        </h1>
+            <!--    comments section end-->
+        </div>
     </div>
 
-<!--    comments section end-->
 </div>
 
-<!--    Modals -->
+<!-- Modals -->
 
     <!-- show transfers -->
     <div class="ui modal show_transfers">
@@ -784,7 +795,9 @@
                 reputation_button = document.querySelector(".reputation-button-icon")
                 if (reputation_button.classList.contains('green')) {
                     reputation_button.classList.remove('green')
+                    reputation_button.classList.add('white')
                 } else {
+                    reputation_button.classList.remove('white')
                     reputation_button.classList.add('green')
                 }
 
@@ -809,12 +822,14 @@
                 action: 'post'
               },
               success: function (json) {
-                reputation_button = document.querySelector(".transfer-status-button-icon")
-                if (reputation_button.classList.contains('green')) {
-                    reputation_button.classList.remove('green')
+                change_status_button = document.querySelector(".transfer-status-button-icon")
+                if (change_status_button.classList.contains('green')) {
+                    change_status_button.classList.remove('green')
+                    change_status_button.classList.add('white')
                     document.getElementById("status_transfer_display").innerHTML = 'Status:' + ' ' + 'Inaktiv'
                 } else {
-                    reputation_button.classList.add('green')
+                    change_status_button.classList.remove('white')
+                    change_status_button.classList.add('green')
                     document.getElementById("status_transfer_display").innerHTML = 'Status:' + ' ' + 'Aktiv'
                 }
                 

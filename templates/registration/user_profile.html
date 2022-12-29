@@ -9,7 +9,7 @@
 
 <div class="ui inverted vertical masthead segment profile-container-fluid">
     <div class="ui text background-color-specific ">
-        <div class="profile-container">
+        <div class="profile-container card-detail-color mx-lg-4">
             <div class="ui divided items">
                 <h1 class="ui inverted profile-header">Profile</h1>
                 <div class="item">
@@ -109,7 +109,7 @@
             <h1 class="text-center mb-5">All active Transfers</h1>
             {% if transfers_status_active.count != 0 %}
                 {% for active_transfer in transfers_status_active %}
-                    <div class="ui message text-white">
+                    <div class="ui message text-white p-5" style="border-radius: 20px">
                       <div class="header">
                             <a class="header a-transfer-header" href="{% url 'transfer_detail' active_transfer.id %}">
                                 {{ active_transfer.title }}
@@ -134,7 +134,6 @@
             {% endif %}
         </div>
     </div>
-
     <div class="container-fluid my-5 background-color-specific">
         <h1 class="my-4 text-center">User activities</h1>
         <div class="ui special cards justify-content-center flex-lg-nowrap mt-2 px-4">
